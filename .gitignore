@@ -12,6 +12,7 @@
 *.cb2
 .*.lb
 *.equ
+.DS_Store
 latex
 
 ##Avoid DNI
