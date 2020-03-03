@@ -1,0 +1,718 @@
+\documentclass[12pt, a4paper, titlepage]{article}
+
+%INFORMACIÓN
+\title{\textbf {Instrumentación Electrónica: Medición de circuitos de corriente continua y corriente alterna}}
+\author{{\Large Pazos Pérez, José}\\***DNI***}
+\date{}
+
+%PAQUETES
+%\usepackage[utf8]{inputenc} %Añadir acentos y caracteres (Windows y Linux)
+
+\usepackage[dvipsnames]{xcolor} %Colorear texto y colores estándar
+\usepackage{colortbl} %Colorear celdas de tablas
+%COLOR
+\definecolor{Black}{RGB}{31, 31, 31}
+\definecolor{Brown}{RGB}{179, 131, 55}
+\definecolor{Red}{RGB}{222, 94, 80}
+\definecolor{Orange}{RGB}{245, 149, 76}
+\definecolor{Yellow}{RGB}{247, 192, 62}
+\definecolor{Green}{RGB}{122, 217, 119}
+\definecolor{Blue}{RGB}{110, 176, 230}
+\definecolor{Violet}{RGB}{176, 110, 230}
+\definecolor{Grey}{RGB}{189, 189, 189}
+\definecolor{White}{RGB}{245, 245, 245}
+\definecolor{Golden}{RGB}{207, 194, 97}
+\definecolor{Silver}{RGB}{179, 193, 196}
+\definecolor{LinkBlue}{RGB}{20, 88, 224}
+
+\usepackage[centertags]{amsmath} %Excluir ecuaciones de la enumeración automática
+\usepackage{csvsimple} %Tablas desde archivos .csv
+\usepackage{pgfplots} %Gráficas desde matplotlib con .pgf
+\usepackage{graphicx} %Imágenes
+\usepackage[siunitx]{circuitikz} %Circuitos
+\usepackage{pythonhighlight} %Código de python
+\pgfplotsset{compat=1.16}
+
+\usepackage{tocloft} %Crear listas (por ejemplo, de ecuaciones)
+\usepackage{enumitem} %Cambiar los estilos de las listas
+\usepackage{verbatim} %Comentarios de varias lineas
+\usepackage[margin=1.0in]{geometry} %Márgenes
+\usepackage[skip=12pt]{parskip} %Añadir espacio tras los párrafos
+\usepackage{float} %Controlar el posicionamiento de gráficas y tablas con H
+\usepackage[toc,page]{appendix} %Anexos
+\usepackage{chngcntr} %Numeración de capítulos por partes
+\usepackage{hyperref} %Añadir vínculos
+\hypersetup{
+    colorlinks=true,
+    linkcolor=LinkBlue,
+    filecolor=Red,
+    urlcolor=Blue,
+}
+
+%CONFIGURACIÓN
+\renewcommand{\contentsname}{Índice}
+\renewcommand{\partname}{Experiencia}
+\renewcommand{\listtablename}{Lista de Tablas}
+\renewcommand{\listfigurename}{Lista de Figuras}
+\renewcommand{\appendixpagename}{Anexos}
+\renewcommand{\appendixtocname}{\large Anexos}
+\renewcommand{\appendixname}{Anexo}
+\renewcommand{\figurename}{Figura}
+\renewcommand{\tablename}{Tabla}
+
+\newcommand{\listecuacionesname}{\Large Lista de Ecuaciones}
+\newlistof{ecuaciones}{equ}{\listecuacionesname}
+\newcommand{\ecuaciones}[1]{\addcontentsline{equ}{ecuaciones}{\protect\numberline{\theequation}#1}\par}
+
+\linespread{1.3}
+\counterwithin*{section}{part}
+
+\newcommand{\code}[1]{\texttt{#1}} %Formatear texto como código
+
+
+
+
+%DOCUMENTO
+\begin{document}
+  \maketitle
+
+  \tableofcontents
+
+  \newpage
+  \part*{Introducción}
+  \addcontentsline{toc}{part}{Introducción}
+
+  El objetivo de esta memoria es ofrecer un informe detallado de las prácticas de instrumentación, detallando las distintas experiencias llevadas a cabo con circuitos de \textbf{corriente continua} y \textbf{corriente alterna}.
+
+  \section{Material}
+
+  \subsection{Corriente Continua (Experiencia I)}
+
+  \begin{itemize}[label=$-$]
+    \item Polímetro
+    \item Fuente de alimentación (CC)
+    \item Resistencias de $180k\Omega$, $220k\Omega$, $390k\Omega$ y $1M\Omega$
+    \item Tablero de conexiones
+    \item Cables
+  \end{itemize}
+
+  \subsection{Corriente Alterna (Experiencia II)}
+  \begin{itemize}[label=$-$]
+    \item Osciloscopio
+    \item Fuente de alimentación (CA, senosoidal)
+    \item Resistencia de $10k\Omega$
+    \item Condensador de $12nF$
+    \item Tablero de conexiones
+    \item Cables
+  \end{itemize}
+
+
+  \section{Tratamiento de datos}
+
+  Para una correcta interpretación de los resultados expuestos en las próximas páginas, explicaremos las distintas metodologías y convenciones sobre el tratamiento de los datos de las mismas. En este apartado se incluyen la explicación de los métodos de \textbf{regresión lineal} y \textbf{propagación de incertidumbres}.
+
+  \subsection{Reglas de redondeo}
+  \label{sec:redondeo}
+
+  En todas las mediciones expuestas utilizaremos los siguientes métodos de redondeo, aquellos convenidos en las jornadas de introducción:
+
+  \begin{enumerate}
+    \item Si la cifra en la posición n+1 es mayor que 5, la cifra n se incrementa en una unidad.
+    \item Si la cifra en la posición n+1 es menor que 5, la cifra n se mantiene igual.
+    \item Si la cifra en la posición n+1 es igual a 5, y alguna de las otras cifras suprimidas es distinta de 0, la cifra n se incrementa en una unidad.
+    \item Si la cifra en la posición n+1 es igual a 5, y el resto de cifras suprimidas son iguales a 0, la cifra n se mantiene igual si es par y se incrementa en una unidad si es impar.
+  \end{enumerate}
+
+  \subsection{Incertidumbre de medidas directas}
+  \label{sec:incert}
+
+  En la práctica de corriente continua debemos indicar las incertidumbres de las mediciones realizadas. Como el polímetro utilizado es un aparato digital, consideraremos que una estimación de la incertidumbre sobre el valor real será la resolución ($\Delta x$) del mismo. Por lo tanto, tomaremos una unidad de la última cifra que muestre el aparato cómo $s_B (x)$.
+
+  Como en estas medidas no existe otro tipo de incertidumbre a la que podamos aplicar un tratamiento estadístico, consideraremos $s_B (x)$ la incertidumbre final de la medida.
+
+  \subsection{Múltiples medidas directas}
+
+  Si realizamos una serie de medidas directas, la desviación típica de la media ($s_A (\bar{x})$) representa la incertidumbre de cualquier medida realizada con el mismo instrumento bajo las mismas condiciones. Con ambos datos podemos calcular la incertidumbre combinada:
+  \begin{equation} \label{ec:scx}
+    s_C (\bar{x}) = \sqrt{\left[ s_A (\bar{x}) \right]^2 + \left[ s_B (x) \right]^2}
+  \end{equation}
+
+  \subsection{Regresión lineal simple}
+  \label{sec:reglin}
+
+  Para ajustar los una serie de datos que parezcan seguir una relación lineal podemos utilizar el método de \textbf{ajuste por mínimos cuadrados}. Al ser \textit{lineal}, podemos ajustarla por una recta general de la forma $y = \alpha + \beta x$. El problema a resolver es conseguir la mejor aproximación \textit{a}, \textit{b} de los parámetros $\alpha, \beta$ y sus incertidumbres utilizando nuestra serie de parámetros $\left\{ x_i, y_i \right\}$.
+
+  Para ello minimizaremos la suma de los productos del peso estadístico de cada punto, $w_i$, por el cuadrado de la desviación de los datos, $[y_i - (a + bx_i)]^2$. Por lo tanto, las derivadas parciales respecto a \textit{a} y \textit{b} deben de ser 0.
+  \begin{equation} \label{ec:chi2}
+    \chi^2 = \sum^{n}_{i=1} w_i[y_i - (a + bx_i)]^2
+  \end{equation}
+  \begin{equation} \label{ec:deriv}
+    \frac{\partial \chi^2}{\partial a}=0, \frac{\partial \chi^2}{\partial b}=0
+  \end{equation}
+
+  De aquí resultan dos posibles casos:
+
+  \begin{enumerate}
+    \item Si las incertidumbres de $x_i$ no son despreciables respecto a las de $y_i$. Obtenemos la siguiente ecuación: $\omega_i=\frac{1}{s^2(y_i)+b^2s^2(x_i)}$, que excede el nivel de este curso.
+    \item Si por el contrario podemos despreciar las incertidumbres de $x_i$ respecto a $y_i$, podemos simplificar la ecuación anterior a $\omega_i=[s(y_i)]^{-2}$.
+  \end{enumerate}
+
+  En nuestro caso, tanto en la estimación de una resistencia mediante la ley de Ohm como en el circuito en serie se pueden despreciar las incertidumbres. En ambos representaremos intensidad (I) frente a voltaje (V). La incertidumbre de la intensidad es del orden de $10^{-7}$, mientras que la del voltaje es del orden de $10^{-2}$, por lo que podremos aplicar el segundo método.
+
+  Además, podemos considerar que las incertidumbres de $y_i$ permanecen constantes entre las diferentes medidas, por lo que también lo hará el peso estadístico $w = cte$. Podemos sustituír en la fórmula \ref{ec:chi2} y derivar respecto a \textit{a} y \textit{b} para obtener:
+  \begin{gather}
+    \chi^2 = w\sum^{n}_{i=1}[y_i - (a + bx_i)]^2 \nonumber \\
+    a n + b\sum_{i}x_i = \sum_{i}y_i \quad \quad \sum_{i}x_i + b\sum_{i}x_i^2 = \sum_{i}x_i y_i \label{ec:dchi}
+  \end{gather}
+
+  Finalmente, conseguimos las expresiones matemáticas de \textit{a} y \textit{b} en base a la serie de medidas $\left\{ x_i, y_i \right\}$:
+  \begin{gather}
+    a = \frac{\left ( \sum_i y_i \right )\left ( \sum_i x_i^2 \right ) - \left ( \sum_i x_i \right )\left ( \sum_i x_i y_i \right )}{n\left ( \sum_i x_i^2 \right ) - \left ( \sum_i x_i \right )^2} \label{ec:a} \\
+    b = \frac{n\left ( \sum_i x_i y_i \right ) - \left ( \sum_i x_i \right )\left ( \sum_i y_i \right )}{n\left ( \sum_i x_i^2 \right )-\left ( \sum_i x_i \right )^2} \label{ec:b}
+  \end{gather}
+
+  Además de los coeficientes para ajustar la recta, también podemos obtener otras magnitudes de interés sobre nuestra muestra:
+  \begin{figure}[H]
+    \begin{equation} \label{ec:s}
+      s = \sqrt{\frac{\sum_i \left ( y_i - a - bx_i \right )^2}{1}}
+    \end{equation}
+    \caption{Desviación típica del ajuste para la muestra}
+  \end{figure}
+  \begin{figure}[H]
+    \begin{equation} \label{ec:sab}
+      s(a) = s\sqrt{\frac{\sum_i x_i^2}{n\left ( \sum_i x_i^2 \right ) - \left ( \sum_i x_i \right )^2}} \quad \quad s(b) = s\sqrt{\frac{n}{n\left ( \sum_i x_i^2 \right ) - \left ( \sum_i x_i \right )^2}}
+    \end{equation}
+    \caption{Incertidumbres de los parámetros \textit{a} y \textit{b}}
+  \end{figure}
+  \begin{figure}[H]
+    \begin{equation} \label{ec:r}
+      r = \frac{n\left ( \sum_i x_i y_i \right ) - \left ( \sum_i x_i \right )\left ( \sum_i y_i \right )}{\sqrt{\left [ n\left ( \sum_i x_i^2 \right ) - \left ( \sum_i x_i \right ) ^2\right ]\left [ n\left ( \sum_i y_i^2 \right ) - \left ( \sum_i y_i \right ) ^2 \right ]}}
+    \end{equation}
+    \caption{Coeficiente de regresión lineal}
+  \end{figure}
+
+  \subsection{Propagación de incertidumbres}
+  \label{sec:propinc}
+
+  Hay que hayar la incertidumbre correcta para aquellas medidas que sean indirectas (no se miden experimentalmente, si no que se aplican fórmulas a mediciones experimentales). Para ello empleamos el método de propagación de incertidumbres, que nos da la desviación estándar combinada:
+  \begin{equation} \label{ec:propinc}
+    s(y) = \sqrt{\sum_i\left ( \frac{\partial y}{\partial x_i} \right )^2 s^2(x_i)}
+  \end{equation}
+
+  Las magnitudes $x_i$ son aquellas medidas experimentalmente de las que depende la magnitud indirecta $y$. Todas las magnitudes $x_i$ han de ser independientes entre si.
+
+
+
+  \newpage
+  \part{Corriente Continua}
+
+  \section{Objetivos}
+  \begin{itemize}[label=$-$]
+    \item Comprobar que el código de colores de las resistencias se corresponde con su valor real.
+    \item Verificar el cumplimiento de la ley de Ohm ($V = I\cdot R$) en un circuito simple.
+    \item Verificar las leyes de asociación de resistencias en circuitos en serie, paralelo y mixto.
+    \item Perfeccionar el manejo del polímetro y demás utensilios del laboratorio.
+  \end{itemize}
+
+
+  \section{Resultados}
+
+
+  \subsection{Medida de resistencias}
+  El material de la práctica incluye cuatro resistencias. Para conocer sus valores utilizaremos dos métodos distintos, uno teórico y uno experimental, y luego contrastaremos los resultados.
+
+  \subsubsection{Código de colores}
+  Las resistencias tienen cuatro bandas de colores que indican su \textbf{valor nominal}. Estos colores se rigen por el siguiente código de resistencias estándar para cuatro bandas.
+
+  \begin{figure}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|}
+      \hline
+      Color & 1º & 2º & Multiplicador & Tolerancia \\
+      \hline
+      \rowcolor{Black}
+      \color{White} Negro & \color{White} 0 & \color{White} 0 & \color{White} 1$\Omega$ & \color{White} - \\
+      \hline
+      \rowcolor{Brown}
+      Marrón & 1 & 1 & 10$\Omega$ & $\pm$1\% \\
+      \hline
+      \rowcolor{Red}
+      Rojo & 2 & 2 & 100$\Omega$ & $\pm$2\% \\
+      \hline
+      \rowcolor{Orange}
+      Naranja & 3 & 3 & 1k$\Omega$ & - \\
+      \hline
+      \rowcolor{Yellow}
+      Amarillo & 4 & 4 & 10k$\Omega$ & - \\
+      \hline
+      \rowcolor{Green}
+      Verde & 5 & 5 & 100k$\Omega$ & $\pm$0,5\% \\
+      \hline
+      \rowcolor{Blue}
+      Azul & 6 & 6 & 1M$\Omega$ & $\pm$0,25\% \\
+      \hline
+      \rowcolor{Violet}
+      Violeta & 7 & 7 & 10M$\Omega$ & $\pm$0,1\% \\
+      \hline
+      \rowcolor{Grey}
+      Gris & 8 & 8 & 100M$\Omega$ & $\pm$0,05\% \\
+      \hline
+      \rowcolor{White}
+      Blanco & 9 & 9 & 1G$\Omega$ & - \\
+      \hline
+      \rowcolor{Golden}
+      Dorado & - & - & 0,1$\Omega$ & $\pm$5\% \\
+      \hline
+      \rowcolor{Silver}
+      Plateado & - & - & 0,01$\Omega$ & $\pm$10\% \\
+      \hline
+    \end{tabular}
+    \caption{Código de colores para resistencias}
+  \end{figure}
+
+  En base a esta tabla podemos calcular el valor teórico de la resistencia y su indeterminación (La tolerancia por el valor nominal). La primera banda indicará la primera cifra (A), la segunda banda será la segunda cifra (B), y la tercera banda la potencia de diez a la que está elevado ($C = 10^n$). Por lo tanto, el número resultante será de la forma $AB\cdot C$. La última banda representa la toleracia de acuerdo a la tabla anterior. Así tenemos los siguientes resultados, ordenados de menor a mayor.
+
+  \begin{table}[H]
+  \centering
+  \csvreader[
+    tabular=|c|c|c|c|c|,
+    table head=\hline Resistencia & Color & V.~Nominal~($\Omega$) & Tolerancia~(\%) & s(R)~($\Omega$) \\ \hline,
+    late after last line=\\\hline,
+    separator=semicolon
+    ]{CC51.csv}
+    {r=\r, color=\rescolor, vn=\vn, t=\t, sr=\sr}
+    {\r & \rescolor & \vn & \t & \sr}
+  \caption{Medida del valor nominal de las resistencias}
+  \end{table}
+
+  \subsubsection{Medida directa}
+  \label{sec:medidaresist}
+  Ahora utilizaremos el polímetro para determinar el valor experimental de cada resistencia y comprobar si se corresponde al valor teórico. Configuramos el polímetro para la medición de resistencias, y obtenemos los siguientes resultados:
+
+  \begin{table}[H]
+  \centering
+  \csvreader[
+    tabular=|c|c|c|c|,
+    table head=\hline Resistencia & Lectura~($\Omega$) & Resolución~($\Omega$) & $R \pm s(R)~(\Omega)$ \\ \hline,
+    late after last line=\\\hline,
+    separator=semicolon
+    ]{CC52.csv}
+    {r=\r, lectura=\lectura, resolucion=\resolucion, sr=\sr}
+    {\r & \lectura & \resolucion & \lectura \hspace{4pt}$\pm$ \sr}
+  \caption{Medida del valor experimental de las resistencias}
+  \end{table}
+
+  Podemos observar que los resultados experimentales entran dentro del umbral de confianza del 5\% de los obtenidos teóricamente, por lo que asumiremos que son correctos.
+
+
+  \subsection{Ley de Ohm}
+
+  \subsubsection{Explicación teórica}
+  Si tomamos un circuito eléctrico de corriente continua, podemos derivar la siguiente relación entre la diferencia de potencial del circuito (\textit{V}), la intensidad que circula por él (\textit{I}) y la resitencia eléctrica del material (\textit{R}). A esta relación la llamamos \textbf{Ley de Ohm}.
+  \begin{equation} \label{ec:ohm}
+    V = I \cdot R
+  \end{equation}
+  Siguiendo el sistema internacional (SI), \textit{V} se expresa en Voltios (\textit{V}), \textit{I} en Amperios (\textit{A}) y \textit{R} en Ohmios ($\Omega$).
+
+  \subsubsection{Estimación indirecta}
+  Ahora comprobaremos experimentalmente el cumplimiento de la Ley de Ohm. Para ello construiremos un circuito simple, utilizando una fuente de corriente continua y una resistencia ($R_1$: 180k$\Omega$). Lo dispondremos de la siguiente manera:
+
+  \begin{figure}[H]
+    \centering
+    \begin{circuitikz}[european]
+      \draw (0,0) to[voltage source] (0,3) -- (3,3)
+      to[R=$R_1$] (3,0) -- (0,0);
+    \end{circuitikz}
+    \caption{Circuito simple}
+  \end{figure}
+
+  Colocaremos el polímetro en dos posiciones: Para medir la intensidad, en serie; para medir el potencial, en paralelo alrededor de la resistencia. Podemos verlo en el diagrama mostrado a continuación.
+
+  \begin{figure}[H]
+    \centering
+    \begin{circuitikz}[european]
+      \draw (0,0) to[voltage source] (0,3) -- (2,3)
+      to[R=$R_1$] (2,0) -- (0,0);
+      \draw (2,3) -- (4,3)
+      to[voltmeter] (4,0) -- (2,0);
+    \end{circuitikz}
+    \quad \quad
+    \begin{circuitikz}[european]
+      \draw (0,0) to[voltage source] (0,3)
+      to[ammeter](3,3)
+      to[R=$R_1$] (3,0) -- (0,0);
+    \end{circuitikz}
+    \caption{Medición de potenciales y intensidades}
+  \end{figure}
+
+  Ahora configuramos la fuente de corriente continua para un voltaje $V_1$, y medimos con el polímetro primero el voltaje (Porque la medida de la fuente no siempre es fiable) y luego la intensidad asociada a ese voltaje, $I_1$. Realizamos sucesivas mediciones aumentando progresivamente el voltaje, y obtendremos unos datos, por ejemplo:
+
+  \begin{table}[H]
+  \centering
+  \csvreader[
+    tabular=|c|c|c|,
+    table head=\hline Medida & $V \pm s(V)~(V)$ & $I \pm s(I)~(I)$ \\ \hline,
+    late after last line=\\\hline,
+    filter test=\ifnumless{\thecsvrow}{2},
+    separator=semicolon
+    ]{CC53.csv}
+    {v=\v, sv=\sv, i=\int, si=\si}
+    {\thecsvrow & \v \hspace{4pt}$\pm$ \sv & \int \hspace{4pt}$\pm$ \si}
+  \caption{Ejemplo de las mediciones de voltaje e intensidad}
+  \end{table}
+
+  Sim embargo, nuestro objetivo es comprobar si se cumple la Ley de Ohm, y para eso debemos de calcular el valor de las resistencias de manera indirecta. Para eso utilizaremos la ecuación \ref{ec:ohm} y despejaremos para \textit{R}.
+  \begin{equation*}
+    R = \frac{V}{I}
+  \end{equation*}
+  Ahora debemos de calcular la incertidumbre de \textit{R}, \textit{s(R)}. Para ello utilizamos el método de propagación de incertidumbres descrito en la sección \ref{sec:propinc}, y utilizaremos la ecuación \ref{ec:propinc}. Tomaremos \textit{V} como $x_1$, \textit{I} como $x_2$ y \textit{R} como \textit{y}.
+  \begin{gather}
+    s(R)) = \sqrt{\left(\frac{\partial R}{\partial V}\right)^2 s^2(V) + \left(\frac{\partial R}{\partial I}\right)^2 s^2(I)} \quad \quad
+    \frac{\partial R}{\partial V} = \frac{1}{I} \quad \quad
+    \frac{\partial R}{\partial I} = -\frac{V}{I^2} \nonumber \\
+    s(R) = \sqrt{\left(\frac{1}{I}\right)^2 s^2(V) + \left(-\frac{V}{I^2}\right)^2 s^2(I)} \label{ec:propincohm}
+  \end{gather}
+  Aplicamos la fórmula anterior para calcular las incertidumbres de \textit{R}. Redondeamos \textit{s(R)} para que tenga dos cifras significativas (\textit{Por ejemplo: De 2641 a $2,6 \cdot 10^3$}) y ajustamos \textit{R} para que su última cifra significativa coincida con la posición decimal de la última cifra significativa de \textit{s(R)}. (\textit{Por ejemplo: con s(R) = $2,6 \cdot 10^3$, R se redondearía a las centenas ($10^2$)}). Utilizamos las técnicas de redondeo del apartado \ref{sec:redondeo}.
+
+  \begin{table}[H]
+  \centering
+  \csvreader[
+    tabular=|c|c|c|c|,
+    table head=\hline Medida & $V \pm s(V)~(V)$ & $I \pm s(I)~(I)$ & $R \pm s(R)~(\Omega)$ \\ \hline,
+    late after last line=\\\hline,
+    separator=semicolon
+    ]{CC53.csv}
+    {v=\v, sv=\sv, i=\int, si=\si, r=\r, sr=\sr}
+    {\thecsvrow & \v \hspace{4pt}$\pm$ \sv & \int \hspace{4pt}$\pm$ \si & \r \hspace{4pt}$\pm$ \sr}
+  \caption{Potenciales e intensidades de un circuito simple con la resistencia $R_1$}
+  \label{tb:ohm}
+  \end{table}
+
+  Podemos observar que el valor de \textit{R} es prácticamente constanete para cualquier combinación de voltajes e intensidades que escojamos. Además, se adecua mucho al valor experimental que obtuvimos en el apartado \ref{sec:medidaresist} (175500 $\pm$ 100 $\Omega$), por lo que podemos concluir que se cumple la \textbf{Ley de Ohm}.
+
+  \subsubsection{Representación gráfica de V frente a I}
+
+  Hagamos ahora una representación gráfica de los valores del potencial (\textit{V}) frente a los de la intensidad (\textit{I}). Para hacer la gráfica utilizaremos el paquete \code{matplotlib} y para cargar los datos desde un .csv en el que tabulamos los datos (que también usamos para generar las tablas en \LaTeX) añadiremos \code{pandas} (una extensión de \code{numpy}).
+
+  \begin{python}
+    import matplotlib.pyplot as plt
+    import pandas as pd
+
+    d = pd.read_csv(name + ".csv", sep=';', decimal=',')
+    x = d["i"] ; y = d["v"]
+    n = d.shape[0]
+
+    def plot(x, y):
+        plt.scatter(x, y)
+        plt.xlabel('I($\mu$A)')
+        plt.ylabel('V(V)', rotation=0, labelpad=20)
+        plt.show()
+
+    plot(x, y)
+  \end{python}
+
+  Vamos a crear una gráfica \textit{scatter} (de dispersión) para no unir los puntos de manera automática, ya que los valores medidos en el laboratorio son discretos. También cambiaremos la escala del eje x a $\mu$A para una leyenda más compacta. La exportamos a .pgf para poder cargarla en \LaTeX\  sin pérdida de calidad, y la representamos a continuación:
+
+  \begin{figure}[H]
+    %\centering
+    \hspace{2.5em} \input{CC53NoReg.pgf}
+    \caption{Voltaje (V) frente a intensidad (I)}
+  \end{figure}
+
+  \subsubsection{Ajuste por mínimos cuadrados}
+  \label{sec:ajusteminres}
+
+  Como podemos observar, parece que existe una relación lineal entre las dos magnitudes. Procedemos entonces a hacer un ajuste de regresión lineal por mínimos cuadrados. Como explicamos en la sección \ref{sec:reglin}, tenemos que calcular los coeficientes \textit{a} y \textit{b} de la recta $a + bx$. Para ello utilizamos las ecuaciones \ref{ec:a} y \ref{ec:b}. Como vemos, hay que calcular los siguientes términos:
+  \begin{gather}
+    \sum_i x_i \nonumber \qquad \sum_i y_i \nonumber \qquad \sum_i x_iy_i \nonumber \qquad \sum_i x_i^2 \nonumber
+  \end{gather}
+
+  Para ello, utilizaremos la tabla en .csv en la que tenemos los datos, y la cargaremos en python. Ahora definiremos una función \code{reg\_lin()} que calcule estas sumas a partir de las columnas de nuestra tabla y las almacene en variables separadas. Posteriormente, aplicaremos las fórmulas \ref{ec:a} y \ref{ec:b} y calcularemos así los términos \textit{a} y \textit{b}.
+
+  \begin{python}
+    def reg_lin(x, y, n):
+        sx = x.sum()
+        sy = y.sum()
+        sxy = (x*y).sum()
+        sx2 = (x**2).sum()
+
+        a = (sy*sx2 - sx*sxy) / (n*sx2 - sx**2)
+        b = (n*sxy - sx*sy) / (n*sx2 - sx**2)
+
+        return a, b
+
+    a, b = reg_lin(x, y, n)
+  \end{python}
+
+  El comando \code{.sum()} de la tabla de cargamos en \code{pandas} simplemente suma todos los términos de la columna que especificamos. En este caso, tomamos la columna x como la intensidad (\textit{I}) y la columna y como el potencial (\textit{V}) de la tabla \ref{tb:ohm}, que cargamos directamente en \code{python}. También podemos realizar operaciones con las columnas antes de sumar sus términos, como multiplicar una por otra o elevar sus términos al cuadrado. Así podemos crear los sumatorios necesarios para resolver las fórmulas de a y b. Obtenemos los siguientes resultados:
+  \begin{gather}
+    \sum_i x_i = 3,18\cdot10^{-4} \nonumber \qquad \sum_i y_i = 56,0 \nonumber \qquad \sum_i x_iy_i = 2,25\cdot10^{-3} \nonumber \qquad \sum_i x_i^2 = 1,28\cdot10^{-8} \nonumber \\
+    a = 9,19\cdot10^{-3} \nonumber \qquad b = 175000 \nonumber
+  \end{gather}
+  Podemos utilizar ahora estos valores para crear la gráfica con la recta que mejor se ajuste a los datos, añadiendo el siguiente código a nuestra función \code{plot()}:
+
+  \begin{python}
+    def plot(x, y, a, b):
+      #Codigo anterior
+      xr = np.linspace(5, 60, 10)
+      yr = (a + b*xr) / (10**6)
+      plt.plot(xr, yr, color="skyblue", zorder=1)
+  \end{python}
+
+  Y, ahora sí, podemos ver nuestra gráfica completa.
+
+  \begin{figure}[H]
+    %\centering
+    \hspace{2.5em} \input{CC53.pgf}
+    \caption{Voltaje (V) frente a intensidad (I) con regresión lineal}
+  \end{figure}
+
+  A simple vista se puede observar que el ajuste es razonablemente preciso. Sin embargo, podemos obtener una medida fiable de cúan preciso es. Para ello utilizamos el coeficiente de regresión lineal (Ecuación \ref{ec:r}). En este caso, obtenemos que es $r = 0.999997$, un ajuste con cinco nueves, lo cual muestra una precision notable.
+
+
+  \subsection{Circuito en Serie}
+
+  La siguiente experiencia consiste en crear un circuito con tres resistencias ($R_1$, $R_2$ y $R_3$) en serie con el objetivo de medir la instensidad del circuito, y el potencial total y en cada resistencia. Para ello colocaremos los componentes de la siguiente manera:
+
+  \begin{figure}[H]
+    \centering
+    \begin{circuitikz}[european]
+      \draw (0,0) to[voltage source] (0,3)
+      to[R=$R_1$] (3,3)
+      to[R=$R_2$] (3,0)
+      to[R=$R_3$] (0,0);
+    \end{circuitikz}
+    \caption{Circuito con tres resistencias en serie}
+    \label{circuito:serie}
+  \end{figure}
+
+  \subsubsection{Procedimiento de medición}
+
+  Para medir las diferentes magnitudes, colocaremos el polímetro en serie para las intensidades y en paralelo para los voltajes.
+
+  \begin{figure}[H]
+    \centering
+    \begin{circuitikz}[european]
+      \draw (0,0) to[voltage source] (0,2)
+      to[R=$R_1$] (2,2)
+      to[R=$R_2$] (2,0)
+      to[R=$R_3$] (0,0);
+      \draw (0,2) -- (0,3.5)
+      to[voltmeter, l=$V_1$] (2,3.5) -- (2,2);
+    \end{circuitikz}
+    \raisebox{0.28in}{
+    \begin{circuitikz}[european]
+      \draw (0,0) to[voltage source] (0,2)
+      to[R=$R_1$] (2,2)
+      to[R=$R_2$] (2,0)
+      to[R=$R_3$] (0,0);
+      \draw (2,2) -- (3.5,2)
+      to[voltmeter, l=$V_2$] (3.5,0) -- (2,0);
+    \end{circuitikz}}
+    \begin{circuitikz}[european]
+      \draw (0,0) to[voltage source] (0,2)
+      to[R=$R_1$] (2,2)
+      to[R=$R_2$] (2,0)
+      to[R=$R_3$] (0,0);
+      \draw (2,2) -- (2,-1.5)
+      to[voltmeter, l=$V_3$] (0,-1.5) -- (0,0);
+    \end{circuitikz}
+    \caption{Medición de potenciales de $R_1$, $R_2$ y $R_3$ respectivamente}
+  \end{figure}
+
+  \begin{figure}[H]
+    \centering
+    \begin{circuitikz}[european]
+      \draw (0,0) to[voltage source] (0,2)
+      to[R=$R_1$] (2,2)
+      to[R=$R_2$] (4,2) -- (4,0)
+      to[R=$R_3$] (2,0)
+      to[ammeter] (0,0);
+    \end{circuitikz}
+    \caption{Medición de la intensidad total del circuito}
+  \end{figure}
+
+  \subsubsection{Resistencia equivalente}
+
+  Primero debemos de averiguar cual es la resistencia equivalente de todo el circuito. Para ello utilizamos la siguiente fórmula, que se aplica a resistencias en serie:
+  \begin{equation} \label{eq:reseq}
+    R_S = \sum_{k=1}^N R_k \qquad R = R_1 + R_2 + R_3
+  \end{equation}
+  De aquí podemos deducir que la diferencia de potencial para cada resistencia será distinta, y que su suma ha de resultar en la total del circuito. En este caso:
+  \begin{equation}
+    V = \sum_{k=1}^N V_k \qquad V = V_1 + V_2 + V_3
+  \end{equation}
+  Por lo tanto, calculamos la resistencia equivalente del circuito aplicando la fórmula \ref{eq:reseq}:
+  \begin{gather}
+    R_S = 175500 + 216000 + 394000 = 785500 \Omega \qquad s(R_S) = \pm(100 + 1000 + 1000) = \pm2100 \Omega \nonumber \\ R_S = 785500 \pm 2100 \Omega \nonumber
+  \end{gather}
+
+  \subsubsection{Medición experimental}
+
+  Siguiendo el procedimiento anterior, realizamos una serie de medidas en el circuito \ref{circuito:serie}. Iremos variando el potencial (\textit{V}) de la fuente y anotando los cambios del resto de magnitudes. Como especificamos en el apartado \ref{sec:incert} tomaremos la resolución de la medida como su incertidumbre.
+
+  \begin{table}[H]
+  \centering
+  \resizebox{\columnwidth}{!}{
+  \csvreader[
+    tabular=|c|c|c|c|c|c|,
+    table head=\hline Medida & $V~(V) \pm s(V)$ & $V_1~(V) \pm s(V_1)$ & $V_2~(V) \pm s(V_2)$ & $V_3~(V) \pm s(V_3)$ & $I~(A) \pm s(I)$ \\ \hline,
+    late after last line=\\\hline,
+    separator=semicolon
+    ]{CC6.csv}
+    {v=\v, v1=\va, v2=\vb, v3=\vc, i=\int, sv=\sv, sv1=\sva, sv2=\svb, sv3=\svc, si=\si}
+    {\thecsvrow & \v \hspace{4pt}$\pm$ \sv & \va \hspace{4pt}$\pm$ \sva & \vb \hspace{4pt}$\pm$ \svb & \vc \hspace{4pt}$\pm$ \svc & \int \hspace{4pt}$\pm$ \si}
+  }
+  \caption{Potenciales e intensidades del circuito en serie}
+  \end{table}
+
+  \subsubsection{Representación gráfica de V frente a I}
+
+  Utilizaremos el mismo programa de \code{python} que en el apartado anterior para representar nuestro voltaje (\textit{V}) frente a la intensidad (\textit{I}).
+
+  \begin{figure}[H]
+    %\centering
+    \hspace{2.5em} \input{CC6NoReg.pgf}
+    \caption{Voltaje (V) frente a intensidad (I)}
+  \end{figure}
+
+  También podemos comparar la diferencia entre los potenciales de las distintas resistencias en serie añadiendo las gráficas de $V_1$, $V_2$ y $V_3$ frente a I.
+
+  \begin{figure}[H]
+    %\centering
+    \hspace{2.5em} \input{CC6NoRegMulti.pgf}
+    \caption{Voltajes (\textcolor{Blue}{$V$}, \textcolor{Red}{$V_1$}, \textcolor{Yellow}{$V_2$}, \textcolor{Green}{$V_3$}) frente a intensidad (I)}
+  \end{figure}
+
+  \subsubsection{Ajuste por mínimos cuadrados}
+
+  Vuelve a aparecer lo que parece una relación lineal en la gráfica, por lo que pasaremos a hacer un ajuste por mínimos cuadrados. Cómo explicamos en el apartado inicial \ref{sec:reglin} y cómo ya aplicamos en la sección anterior, \ref{sec:ajusteminres}, calcularemos los parámetros \textit{a} y \textit{b} utilizando las ecuaciones \ref{ec:a} y \ref{ec:b}, para ello calculando diversos sumatorios utilizando el programa de \code{python} que describimos, cargando la tabla en .csv con nuestros datos y aplicando las fórmulas de los sumatorias, con lo que obtenemos los siguientes resultados:
+  \begin{gather}
+    \sum_i x_i = 6,98\cdot10^{-5} \nonumber \qquad \sum_i y_i = 55,6 \nonumber \qquad \sum_i x_iy_i = 4,93\cdot10^{-4} \nonumber \qquad \sum_i x_i^2 = 6,20\cdot10^{-10} \nonumber \\
+    a = 4,71\cdot10^{-2} \nonumber \qquad b = 790000 \nonumber
+  \end{gather}
+  El proceso sería el mismo para obtener los datos de las rectas de $V_1$, $V_2$ y $V_3$. Finalmente podríamos dibujar las gráficas, ahora con una recta creada por regresión lineal que se ajusta a los datos que obtuvimos.
+
+  \begin{figure}[H]
+    %\centering
+    \hspace{2.5em} \input{CC6.pgf}
+    \caption{Voltajes (\textcolor{Blue}{$V$}, \textcolor{Red}{$V_1$}, \textcolor{Yellow}{$V_2$}, \textcolor{Green}{$V_3$}) frente a intensidad (I) con regresión lineal}
+  \end{figure}
+
+  En cuanto a los coeficientes de regresión lineal, de nuevo obtenemos resultados satisfactorios: $r = 0,99997$, $r_1 = 0,99998$, $r_2 = 0,99997$ y $r_3 = 0,99997$, un ajuste de cuatro nueves en ambos casos.
+
+
+  \subsection{Circuito en Paralelo}
+
+  En este apartado construiremos un circuito utilizando tres resistencias ($R_1$, $R_2$ y $R_3$) colocadas en paralelo. Ahora mediremos la intensidad en cada resistencia y total, además del voltaje del circuito. Colocamos los componentes siguiendo el diagrama:
+
+  \begin{figure}[H]
+    \centering
+    \begin{circuitikz}[european]
+      \draw (0,0) to[voltage source] (0,3) -- (3.25,3)
+      to[R=$R_2$] (3.25,0) -- (0,0);
+      \draw (3.25, 2.75) -- (2, 2.75)
+      to[R=$R_1$] (2, 0.25) -- (4, 0.25);
+      \draw (3.25, 2.75) -- (4.5, 2.75)
+      to[R=$R_3$] (4.5, 0.25) -- (4, 0.25);
+    \end{circuitikz}
+    \caption{Circuito con tres resistencias en paralelo}
+    \label{circuito:paralelo}
+  \end{figure}
+
+  \subsubsection{Procedimiento de medición}
+
+  Con el objetivo de medir las distintas magnitudes, conectaremos el polímetro en serie para las itensidades y en paralelo para los voltajes.
+
+  \begin{figure}[H]
+    \centering
+    \raisebox{0.53in}{
+    \begin{circuitikz}[european]
+      \draw (0,0) to[voltage source] (0,3) -- (3.25,3)
+      to[R=$R_2$] (3.25,0) -- (0,0);
+      \draw (3.25, 2.75) -- (2, 2.75)
+      to[R=$R_1$] (2, 0.25) -- (4, 0.25);
+      \draw (3.25, 2.75) -- (4.5, 2.75)
+      to[R=$R_3$] (4.5, 0.25) -- (4, 0.25);
+      \draw (3.25, 3) -- (6.5, 3)
+      to[voltmeter] (6.5, 0) -- (3.25, 0);
+    \end{circuitikz}} \qquad
+    \begin{circuitikz}[european]
+      \draw (0,0) to[voltage source] (0,5) -- (4.5,5) -- (4.5, 4.75)
+      to[R=$R_2$] (4.5, 2.25) to[ammeter, l=$I_2$] (4.5,0.25) -- (4.5, 0)
+      to[ammeter] (0,0);
+      \draw (4.5, 4.75) -- (3, 4.75)
+      to[R=$R_1$] (3, 2.25) to[ammeter, l=$I_1$] (3, 0.25) -- (4.5, 0.25);
+      \draw (4.5, 4.75) -- (6, 4.75)
+      to[R=$R_3$] (6, 2.25) to[ammeter, l=$I_3$] (6, 0.25) -- (4.5, 0.25);
+    \end{circuitikz}
+    \caption{Medición de potencial del circuito ($V$) y de intensidades, total ($I$) y de cada resistencia ($I_1$, $I_2$ y $I_3$ respectivamente)}
+  \end{figure}
+
+  \subsubsection{Resistencia equivalente}
+
+  Calculemos la resistencia equivalente al circuito aplicando la fórmula para resistencias en paralelo:
+  \begin{equation}
+      \label{eq:resparalelo}
+      \frac{1}{R_P} = \sum^N_{k=1} \frac{1}{R_k} \qquad \frac{1}{R_P} = \frac{1}{R_1} + \frac{1}{R_2} + \frac{1}{R_3}
+  \end{equation}
+  Además de esto sabemos que la intensidad total del circuito se distribuirá entre las tres resistencias, verificándose que:
+  \begin{equation}
+      I = \sum^N_{k=1} I_k \qquad I = I_1 + I_2 + I_3
+  \end{equation}
+  Con esta información podemos calcular la resistencia equivalente al circuito aplicando la fórmula \ref{eq:resparalelo}:
+  \begin{gather}
+      \frac{1}{R_P} = \frac{1}{175500} + \frac{1}{216000} + \frac{1}{394000} \qquad R_P = \frac{1}{\frac{1}{175500} + \frac{1}{216000} + \frac{1}{394000}} = 7,77 \cdot 10^4 \Omega \nonumber \\
+      s(R_P) = \frac{1}{\frac{1}{\pm100} + \frac{1}{\pm1000} + \frac{1}{\pm1000}} = \pm83,3 \Omega \qquad R_P = 7,77 \cdot 10^4 \pm 83,3 \Omega \nonumber
+  \end{gather}
+
+  \subsubsection{Medición experimental}
+
+  Utilizando el procedimiento descrito con anterioridad, realizamos una serie de mediciones en el circuito \ref{circuito:paralelo}. Variaremos el voltaje para obtener diferentes medidas de los voltajes (\textit{V}) e intensidades (\textit{I}). El resultado se expone en la siguiente tabla (Por cuestiones de presentación se omitirá $\pm s(I)$ en las columnas correspondientes, ya que quedaría redundante y sólo dificultaría la lectura sin aportar información. $s(I) = s(I_1) = s(I_2) = s(I_3) = 1 \cdot 10^-7 A$):
+
+  \begin{table}[H]
+  \centering
+  \csvreader[
+    tabular=|c|c|c|c|c|c|,
+    table head=\hline Medida & $V~(V) \pm s(V)$ & $I_1~(V)$ & $I_2~(V)$ & $I_3~(V)$ & $I~(A)$ \\ \hline,
+    late after last line=\\\hline,
+    separator=semicolon
+    ]{CC7.csv}
+    {v=\v, i1=\ia, i2=\ib, i3=\ic, i=\int, sv=\sv}
+    {\thecsvrow & \v \hspace{4pt}$\pm$ \sv & \ia & \ib & \ic & \int }
+  \caption{Potenciales e intensidades del circuito en paralelo}
+  \end{table}
+
+
+
+
+
+
+
+
+
+  \section{Conclusiones}
+
+
+  \newpage
+  \part{Corriente Alterna}
+
+  \newpage
+  \begin{appendices}
+    \addtocontents{toc}{\protect\setcounter{tocdepth}{2}}
+    \makeatletter
+    \addtocontents{toc}{%
+    \begingroup
+    \let\protect\l@chapter\protect\l@section
+    \let\protect\l@section\protect\l@subsection
+    }
+
+    \section{Bibliografía}
+
+    (All the info)
+
+    \addtocontents{toc}{\endgroup}
+  \end{appendices}
+
+
+\end{document}
