@@ -12,7 +12,7 @@ matplotlib.rcParams.update({
     'pgf.rcfonts': False,
 })
 
-name = "CC6"
+name = "CC53"
 
 #Read from CSV to pandas dataframe
 d = pd.read_csv(name + ".csv", sep=';', decimal=',')
@@ -22,9 +22,9 @@ y = d["v"]
 n = d.shape[0]
 a, b = 0, 0
 
-y1 = d["v1"]
-y2 = d["v2"]
-y3 = d["v3"]
+#y1 = d["v1"]
+#y2 = d["v2"]
+#y3 = d["v3"]
 
 regresionLineal = True;
 
@@ -55,23 +55,25 @@ def reg_lin(x, y, n):
 fig = plt.figure()
 fig.set_size_inches(w=5, h=3.5)
 
-def plot(x, y, n, cc="#1f77b4", cr="skyblue"):
-    a, b, s, sa, sb, r = reg_lin(x, y, n)
+def plot(x, y, n, reg = True, cc="#1f77b4", cr="skyblue"):
+    if reg:
+        a, b, s, sa, sb, r = reg_lin(x, y, n)
 
-    print("a=", a,"b=", b)
-    print("s=", s,"sa=", sa, "sb=", sb)
-    print("r=", r)
+        print("a=", a,"b=", b)
+        print("s=", s,"sa=", sa, "sb=", sb)
+        print("r=", r)
 
-    xr = np.linspace(1, 13, 10)
-    yr = (a + b*xr) / (10**6)
+        xr = np.linspace(min(x) * (10**6), max(x) * (10**6), 10)
+        yr = (a + b*xr) / (10**6)
 
-    plt.plot(xr, yr, color=cr, zorder=1)
+        plt.plot(xr, yr, color=cr, zorder=1)
+
     plt.scatter(x * (10**6), y, color=cc, zorder=2)
 
-plot(x, y, n)
-plot(x, y1, n, "tomato", "lightsalmon")
-plot(x, y2, n, "gold", "moccasin")
-plot(x, y3, n, "limegreen", "lightgreen")
+plot(x, y, n, regresionLineal)
+#plot(x, y1, n, regresionLineal, "tomato", "lightsalmon")
+#plot(x, y2, n, regresionLineal, "gold", "moccasin")
+#plot(x, y3, n, regresionLineal, "limegreen", "lightgreen")
 
 plt.ylabel('V(V)', rotation=0, labelpad=20)
 plt.xlabel('I($\mu$A)')
