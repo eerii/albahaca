@@ -1,0 +1,5 @@
+r;vn;t;sr;color
+$R_1$;180000;5;9000;\raisebox{-0.07in}{\includegraphics[width=0.85in]{R1.png}}
+$R_2$;220000;5;11000;\raisebox{-0.07in}{\includegraphics[width=0.85in]{R2.png}}
+$R_3$;390000;5;19500;\raisebox{-0.07in}{\includegraphics[width=0.85in]{R3.png}}
+$R_4$;1000000;5;50000;\raisebox{-0.07in}{\includegraphics[width=0.85in]{R4.png}}
