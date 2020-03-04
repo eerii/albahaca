@@ -2,7 +2,7 @@
 
 %INFORMACIÓN
 \title{\textbf {Instrumentación Electrónica: Medición de circuitos de corriente continua y corriente alterna}}
-\author{{\Large Pazos Pérez, José}\\ DNI}
+\author{{\Large Pazos Pérez, José}\\DNI}
 \date{}
 
 %PAQUETES
@@ -20,6 +20,7 @@
 \definecolor{Blue}{RGB}{110, 176, 230}
 \definecolor{Violet}{RGB}{176, 110, 230}
 \definecolor{Grey}{RGB}{189, 189, 189}
+\definecolor{DarkGrey}{RGB}{100, 100, 100}
 \definecolor{White}{RGB}{245, 245, 245}
 \definecolor{Golden}{RGB}{207, 194, 97}
 \definecolor{Silver}{RGB}{179, 193, 196}
@@ -210,7 +211,7 @@
   \begin{itemize}[label=$-$]
     \item Comprobar que el código de colores de las resistencias se corresponde con su valor real.
     \item Verificar el cumplimiento de la ley de Ohm ($V = I\cdot R$) en un circuito simple.
-    \item Verificar las leyes de asociación de resistencias en circuitos en serie, paralelo y mixto.
+    \item Verificar las leyes de asociación de resistencias (ley de Kirchhoff) en circuitos en serie, paralelo y mixto.
     \item Perfeccionar el manejo del polímetro y demás utensilios del laboratorio.
   \end{itemize}
 
@@ -283,6 +284,7 @@
     {r=\r, color=\rescolor, vn=\vn, t=\t, sr=\sr}
     {\r & \rescolor & \vn & \t & \sr}
   \caption{Medida del valor nominal de las resistencias}
+  \label{tb:valnomres}
   \end{table}
 
   \subsubsection{Medida directa}
@@ -300,11 +302,13 @@
     {r=\r, lectura=\lectura, resolucion=\resolucion, sr=\sr}
     {\r & \lectura & \resolucion & \lectura \hspace{4pt}$\pm$ \sr}
   \caption{Medida del valor experimental de las resistencias}
+  \label{tab:res}
   \end{table}
 
   Podemos observar que los resultados experimentales entran dentro del umbral de confianza del 5\% de los obtenidos teóricamente, por lo que asumiremos que son correctos.
 
 
+  \newpage
   \subsection{Ley de Ohm}
 
   \subsubsection{Explicación teórica}
@@ -388,7 +392,7 @@
   \label{tb:ohm}
   \end{table}
 
-  Podemos observar que el valor de \textit{R} es prácticamente constanete para cualquier combinación de voltajes e intensidades que escojamos. Además, se adecua mucho al valor experimental que obtuvimos en el apartado \ref{sec:medidaresist} (175500 $\pm$ 100 $\Omega$), por lo que podemos concluir que se cumple la \textbf{Ley de Ohm}.
+  Podemos observar que el valor de \textit{R} es prácticamente constante para cualquier combinación de voltajes e intensidades que escojamos. Además, se adecua mucho al valor experimental que obtuvimos en el apartado \ref{sec:medidaresist} ($1,755 \cdot 10^5 \pm 10^2 \Omega$), por lo que podemos concluir que se cumple la \textbf{Ley de Ohm}.
 
   \subsubsection{Representación gráfica de V frente a I}
 
@@ -402,13 +406,9 @@
     x = d["i"] ; y = d["v"]
     n = d.shape[0]
 
-    def plot(x, y):
-        plt.scatter(x, y)
-        plt.xlabel('I($\mu$A)')
-        plt.ylabel('V(V)', rotation=0, labelpad=20)
-        plt.show()
-
-    plot(x, y)
+    plt.scatter(x * (10**6), y)
+    plt.xlabel('I($\mu$A)')
+    plt.ylabel('V(V)', rotation=0, labelpad=20)
   \end{python}
 
   Vamos a crear una gráfica \textit{scatter} (de dispersión) para no unir los puntos de manera automática, ya que los valores medidos en el laboratorio son discretos. También cambiaremos la escala del eje x a $\mu$A para una leyenda más compacta. La exportamos a .pgf para poder cargarla en \LaTeX\  sin pérdida de calidad, y la representamos a continuación:
@@ -439,24 +439,31 @@
         a = (sy*sx2 - sx*sxy) / (n*sx2 - sx**2)
         b = (n*sxy - sx*sy) / (n*sx2 - sx**2)
 
-        return a, b
+        sy2 = (y**2).sum()
+        r = (n*sxy - sx*sy)/(((n*sx2 - sx**2)*(n*sy2 - sy**2))**0.5)
 
-    a, b = reg_lin(x, y, n)
+        return a, b, r
+
+    a, b, r = reg_lin(x, y, n)
   \end{python}
 
   El comando \code{.sum()} de la tabla de cargamos en \code{pandas} simplemente suma todos los términos de la columna que especificamos. En este caso, tomamos la columna x como la intensidad (\textit{I}) y la columna y como el potencial (\textit{V}) de la tabla \ref{tb:ohm}, que cargamos directamente en \code{python}. También podemos realizar operaciones con las columnas antes de sumar sus términos, como multiplicar una por otra o elevar sus términos al cuadrado. Así podemos crear los sumatorios necesarios para resolver las fórmulas de a y b. Obtenemos los siguientes resultados:
   \begin{gather}
     \sum_i x_i = 3,18\cdot10^{-4} \nonumber \qquad \sum_i y_i = 56,0 \nonumber \qquad \sum_i x_iy_i = 2,25\cdot10^{-3} \nonumber \qquad \sum_i x_i^2 = 1,28\cdot10^{-8} \nonumber \\
-    a = 9,19\cdot10^{-3} \nonumber \qquad b = 175000 \nonumber
+    a = 9,19\cdot10^{-3} \nonumber \qquad b = 1,75 \cdot 10^5 \label{v:ohm}
   \end{gather}
-  Podemos utilizar ahora estos valores para crear la gráfica con la recta que mejor se ajuste a los datos, añadiendo el siguiente código a nuestra función \code{plot()}:
+  Podemos utilizar ahora estos valores para crear la gráfica con la recta que mejor se ajuste a los datos, creando una función \code{plot()} que permita crear gráficas con y sin regresión lineal:
 
   \begin{python}
-    def plot(x, y, a, b):
-      #Codigo anterior
-      xr = np.linspace(5, 60, 10)
-      yr = (a + b*xr) / (10**6)
-      plt.plot(xr, yr, color="skyblue", zorder=1)
+    def plot(x, y, n, reg, cc, cr):
+      if reg:
+          a, b, r = reg_lin(x, y, n)
+          xr = np.linspace(min(x) * (10**6), max(x) * (10**6), 10)
+          yr = (a + b*xr) / (10**6)
+          plt.plot(xr, yr, color=cr, zorder=1)
+      plt.scatter(x * (10**6), y, color=cc, zorder=2)
+
+    plot(x, y, n, True, "color1", "color2")
   \end{python}
 
   Y, ahora sí, podemos ver nuestra gráfica completa.
@@ -469,7 +476,10 @@
 
   A simple vista se puede observar que el ajuste es razonablemente preciso. Sin embargo, podemos obtener una medida fiable de cúan preciso es. Para ello utilizamos el coeficiente de regresión lineal (Ecuación \ref{ec:r}). En este caso, obtenemos que es $r = 0.999997$, un ajuste con cinco nueves, lo cual muestra una precision notable.
 
+  Una propiedad interesante de esta gráfica se puede derivar de la Ley de Ohm \ref{ec:ohm}. Si despejamos \textit{R} en función de \textit{I} y \textit{V}, obtenemos $R = \frac{V}{I}$. De esto se puede deducir que la pendiente de la gráfica ($\frac{\Delta V}{\Delta I}$) será constante e igual a la resistencia. Este término no es otro que nuestra constante de regresión lineal $b = 1,75 \cdot 10^5$. Si nos fijamos, es prácticamente igual al valor experimental que obtuvimos al medir las resistencias (\ref{tab:res}) y del que conseguimos al aplicar la Ley de Ohm (\ref{tb:ohm}).
 
+
+  \newpage
   \subsection{Circuito en Serie}
 
   La siguiente experiencia consiste en crear un circuito con tres resistencias ($R_1$, $R_2$ y $R_3$) en serie con el objetivo de medir la instensidad del circuito, y el potencial total y en cada resistencia. Para ello colocaremos los componentes de la siguiente manera:
@@ -527,25 +537,29 @@
       to[R=$R_1$] (2,2)
       to[R=$R_2$] (4,2) -- (4,0)
       to[R=$R_3$] (2,0)
-      to[ammeter] (0,0);
+      to[ammeter, l=$I$] (0,0);
     \end{circuitikz}
     \caption{Medición de la intensidad total del circuito}
   \end{figure}
 
   \subsubsection{Resistencia equivalente}
+  \label{sec:reseqserie}
 
   Primero debemos de averiguar cual es la resistencia equivalente de todo el circuito. Para ello utilizamos la siguiente fórmula, que se aplica a resistencias en serie:
-  \begin{equation} \label{eq:reseq}
+  \begin{equation} \label{ec:reseq}
     R_S = \sum_{k=1}^N R_k \qquad R = R_1 + R_2 + R_3
   \end{equation}
-  De aquí podemos deducir que la diferencia de potencial para cada resistencia será distinta, y que su suma ha de resultar en la total del circuito. En este caso:
-  \begin{equation}
-    V = \sum_{k=1}^N V_k \qquad V = V_1 + V_2 + V_3
-  \end{equation}
-  Por lo tanto, calculamos la resistencia equivalente del circuito aplicando la fórmula \ref{eq:reseq}:
+  De aquí podemos deducir que la diferencia de potencial para cada resistencia será distinta, y que su suma ha de resultar en la total del circuito, y que la intensidad será la misma para todas las resistencias (\textbf{Leyes de Kirchhoff}) En este caso:
   \begin{gather}
-    R_S = 175500 + 216000 + 394000 = 785500 \Omega \qquad s(R_S) = \pm(100 + 1000 + 1000) = \pm2100 \Omega \nonumber \\ R_S = 785500 \pm 2100 \Omega \nonumber
+    V = \sum_{k=1}^N V_k \qquad V = V_1 + V_2 + V_3 \nonumber \\
+    I = I_k \qquad I = I_1 = I_2 = I_3 \label{ec:kriser}
   \end{gather}
+  Por lo tanto, calculamos la resistencia equivalente del circuito aplicando la fórmula \ref{ec:reseq}:
+  \begin{gather}
+    R_S = 175500 + 216000 + 394000 = 7,855 \cdot 10^5 \Omega \nonumber \\ s(R_S) = \pm(100 + 1000 + 1000) = \pm2100 \Omega \nonumber \\ R_S = 7,855 \cdot 10^5 \pm 2,1 \cdot 10^3 \Omega \nonumber
+  \end{gather}
+
+  Si medimos experimentalmente el valor de la resistencia total del cirtuito obtenemos un valor $R_E = 7,89 \cdot 10^5 \pm 10^3$. No entra por completo dentro de nuestro intervalo de confianza ($R_T + 2,1 \cdot 10^3 = 7,876 \cdot 10^5$ y $R_E - 10^3 = 7,88 \cdot 10^5$), pero queda razonablemente cerca, difieren en una cantidad del orden de $10^2$, por lo que podemos considerar que se debe a condiciones del experimento (Humedad, temperatura...).
 
   \subsubsection{Medición experimental}
 
@@ -585,11 +599,12 @@
   \end{figure}
 
   \subsubsection{Ajuste por mínimos cuadrados}
+  \label{sec:ajusteminimoscuadradosserie}
 
   Vuelve a aparecer lo que parece una relación lineal en la gráfica, por lo que pasaremos a hacer un ajuste por mínimos cuadrados. Cómo explicamos en el apartado inicial \ref{sec:reglin} y cómo ya aplicamos en la sección anterior, \ref{sec:ajusteminres}, calcularemos los parámetros \textit{a} y \textit{b} utilizando las ecuaciones \ref{ec:a} y \ref{ec:b}, para ello calculando diversos sumatorios utilizando el programa de \code{python} que describimos, cargando la tabla en .csv con nuestros datos y aplicando las fórmulas de los sumatorias, con lo que obtenemos los siguientes resultados:
   \begin{gather}
     \sum_i x_i = 6,98\cdot10^{-5} \nonumber \qquad \sum_i y_i = 55,6 \nonumber \qquad \sum_i x_iy_i = 4,93\cdot10^{-4} \nonumber \qquad \sum_i x_i^2 = 6,20\cdot10^{-10} \nonumber \\
-    a = 4,71\cdot10^{-2} \nonumber \qquad b = 790000 \nonumber
+    a = 4,71\cdot10^{-2} \nonumber \qquad b = 790000 \label{v:serie}
   \end{gather}
   El proceso sería el mismo para obtener los datos de las rectas de $V_1$, $V_2$ y $V_3$. Finalmente podríamos dibujar las gráficas, ahora con una recta creada por regresión lineal que se ajusta a los datos que obtuvimos.
 
@@ -599,9 +614,12 @@
     \caption{Voltajes (\textcolor{Blue}{$V$}, \textcolor{Red}{$V_1$}, \textcolor{Yellow}{$V_2$}, \textcolor{Green}{$V_3$}) frente a intensidad (I) con regresión lineal}
   \end{figure}
 
-  En cuanto a los coeficientes de regresión lineal, de nuevo obtenemos resultados satisfactorios: $r = 0,99997$, $r_1 = 0,99998$, $r_2 = 0,99997$ y $r_3 = 0,99997$, un ajuste de cuatro nueves en ambos casos.
+  En cuanto a los coeficientes de regresión lineal, calculados con la fórmula \ref{ec:r}, de nuevo obtenemos resultados satisfactorios: $r = 0,99997$, $r_1 = 0,99998$, $r_2 = 0,99997$ y $r_3 = 0,99997$, un ajuste de cuatro nueves en ambos casos.
+
+  También podemos comprobar si el valor de la resistencia equivalente calculado en \ref{sec:reseqserie} ($R_S = 7,855 \cdot 10^5$) se corresponde con la pendiente de la gráfica ($b = 7,90 \cdot 10^5$), y podemos ver que se adecuan. Pasa lo mismo si tomamos cualquiera de las otras rectas con respecto a $V_1$, $V_2$ y $V_3$, cada una tiene una pendiente similar a la resistencia de ese tramo. Se puede observar a simple vista viendo que la recta roja corresponde a $R_1$, la resistencia más pequeña, y también la que menor pendiente tiene, mientras que la recta verde es de $R_3$, la más grande y la de mayor pendiente. La recta azul tiene más pendiente que todas ya que es la suma de las tres resistencias en serie.
 
 
+  \newpage
   \subsection{Circuito en Paralelo}
 
   En este apartado construiremos un circuito utilizando tres resistencias ($R_1$, $R_2$ y $R_3$) colocadas en paralelo. Ahora mediremos la intensidad en cada resistencia y total, además del voltaje del circuito. Colocamos los componentes siguiendo el diagrama:
@@ -635,12 +653,12 @@
       \draw (3.25, 2.75) -- (4.5, 2.75)
       to[R=$R_3$] (4.5, 0.25) -- (4, 0.25);
       \draw (3.25, 3) -- (6.5, 3)
-      to[voltmeter] (6.5, 0) -- (3.25, 0);
+      to[voltmeter, l_=$V$] (6.5, 0) -- (3.25, 0);
     \end{circuitikz}} \qquad
     \begin{circuitikz}[european]
       \draw (0,0) to[voltage source] (0,5) -- (4.5,5) -- (4.5, 4.75)
-      to[R=$R_2$] (4.5, 2.25) to[ammeter, l=$I_2$] (4.5,0.25) -- (4.5, 0)
-      to[ammeter] (0,0);
+      to[R=$R_2$] (4.5, 2.25) to[ammeter, l=$I_2$] (4.5,0.25) -- (4.5, 0) -- (3, 0)
+      to[ammeter, l_=$I$] (0,0);
       \draw (4.5, 4.75) -- (3, 4.75)
       to[R=$R_1$] (3, 2.25) to[ammeter, l=$I_1$] (3, 0.25) -- (4.5, 0.25);
       \draw (4.5, 4.75) -- (6, 4.75)
@@ -650,21 +668,25 @@
   \end{figure}
 
   \subsubsection{Resistencia equivalente}
+  \label{sec:reseqparalelo}
 
   Calculemos la resistencia equivalente al circuito aplicando la fórmula para resistencias en paralelo:
   \begin{equation}
-      \label{eq:resparalelo}
+      \label{ec:resparalelo}
       \frac{1}{R_P} = \sum^N_{k=1} \frac{1}{R_k} \qquad \frac{1}{R_P} = \frac{1}{R_1} + \frac{1}{R_2} + \frac{1}{R_3}
   \end{equation}
-  Además de esto sabemos que la intensidad total del circuito se distribuirá entre las tres resistencias, verificándose que:
-  \begin{equation}
-      I = \sum^N_{k=1} I_k \qquad I = I_1 + I_2 + I_3
-  \end{equation}
-  Con esta información podemos calcular la resistencia equivalente al circuito aplicando la fórmula \ref{eq:resparalelo}:
+  Además de esto sabemos que la intensidad total del circuito se distribuirá entre las tres resistencias, mientras que el potencial permanecerá constante (\textbf{Leyes de Kirchhoff}), verificándose que:
   \begin{gather}
-      \frac{1}{R_P} = \frac{1}{175500} + \frac{1}{216000} + \frac{1}{394000} \qquad R_P = \frac{1}{\frac{1}{175500} + \frac{1}{216000} + \frac{1}{394000}} = 7,77 \cdot 10^4 \Omega \nonumber \\
-      s(R_P) = \frac{1}{\frac{1}{\pm100} + \frac{1}{\pm1000} + \frac{1}{\pm1000}} = \pm83,3 \Omega \qquad R_P = 7,77 \cdot 10^4 \pm 83,3 \Omega \nonumber
+      I = \sum^N_{k=1} I_k \qquad I = I_1 + I_2 + I_3 \nonumber \\
+      V = V_k \qquad V = V_1 = V_2 = V_3 \label{ec:kripar}
   \end{gather}
+  Con esta información podemos calcular la resistencia equivalente al circuito aplicando la fórmula \ref{ec:resparalelo}:
+  \begin{gather}
+      \frac{1}{R_P} = \frac{1}{175500} + \frac{1}{216000} + \frac{1}{394000} \qquad R_P = \frac{1}{\frac{1}{175500} + \frac{1}{216000} + \frac{1}{394000}} = 7,7726 \cdot 10^4 \Omega \nonumber \\
+      s(R_P) = \frac{1}{\frac{1}{\pm100} + \frac{1}{\pm1000} + \frac{1}{\pm1000}} = \pm83 \Omega \qquad R_P = 7,7726 \cdot 10^4 \pm 83 \Omega \nonumber
+  \end{gather}
+
+  Si tomamos el valor de la resistencia total del circuito de manera experimental obenemos un valor de $R_E = 7,8 \cdot 10^4 \pm 10^3$. En este caso si que entra dentro de nuestro intervalo de confianza, por lo que consideramos que el cálculo teórico es correcto.
 
   \subsubsection{Medición experimental}
 
@@ -683,15 +705,222 @@
   \caption{Potenciales e intensidades del circuito en paralelo}
   \end{table}
 
+  \subsubsection{Representación gráfica de V frente a I}
+
+  Cargamos estos datos en nuestro programa de \code{python} y representamos la gráfica correspondiente.
+
+  \begin{figure}[H]
+    %\centering
+    \hspace{2.5em} \input{CC7NoReg.pgf}
+    \caption{Voltaje (V) frente a intensidad (I)}
+  \end{figure}
+
+  Así mismo, también podemos comparar la diferencia de las intensidades para un potencial fijo en cada resistencia en paralelo, añadiendo a la anterior las gráficas de \textit{V} frente a $I_1$, $I_2$ e $I_3$.
+
+  \begin{figure}[H]
+    %\centering
+    \hspace{2.5em} \input{CC7NoRegMulti.pgf}
+    \caption{Voltajes (V) frente a intensidades (\textcolor{Blue}{$I$}, \textcolor{Red}{$I_1$}, \textcolor{Yellow}{$I_2$}, \textcolor{Green}{$I_3$})}
+  \end{figure}
+
+  \subsubsection{Ajuste por mínimos cuadrados}
+  \label{v:paralelo}
+
+  De nuevo parece que nos encontramos ante una relación lineal de las magnitudes, por lo que aplicaremos los métodos que ya describimos (\ref{sec:reglin}) para ajustar las rectas y representarlas gráficamente. Para la intensidad total (I), los parámetros son $a = -2,84 \cdot 10^-3$ y $b~=~78300$. El resto se pueden calcular análogamente con las fórmulas \ref{ec:a} y \ref{ec:b}.
+
+  \begin{figure}[H]
+    %\centering
+    \hspace{2.5em} \input{CC7.pgf}
+    \caption{Voltajes (V) frente a intensidades (\textcolor{Blue}{$I$}, \textcolor{Red}{$I_1$}, \textcolor{Yellow}{$I_2$}, \textcolor{Green}{$I_3$}) con regresión lineal}
+  \end{figure}
+
+  Calculamos los coeficientes de regresión lineal con la fórmula \ref{ec:r} y los resultados son adecuados: $r = 0,999992$, $r_1 = 0,999997$, $r_2 = 0,999998$ y $r_3 = 0,99997$. Excepto $r_3$, los resultados tienen un ajuste excelente de cinco nueves. En el caso de $r_3$ son cuatro nueves, lo cual también es satisfactorio.
+
+  Comprobamos también si el valor de la resistencia equivalente calculado en \ref{sec:reseqparalelo} ($R_P = 7,7726 \cdot 10^4$) se corresponde con la pendiente de la gráfica ($b = 7,83 \cdot 10^4$), y vemos que son muy similares.
 
 
+  \newpage
+  \subsection{Circuito Mixto}
+
+  La última práctica de corriente continua comprende la construcción de un circuito mixto utilizando las cuatro resistencias ($R_1$, $R_2$, $R_3$ y $R_4$). Colocaremos $R_2$ y $R_3$ en paralelo entre sí, en un grupo llamado $R_{23}$, y luego conectaremos en serie $R_1$, $R_{23}$ y $R_4$. Podemos ver la disposición en el siguiente diagrama:
+
+  \begin{figure}[H]
+    \centering
+    \begin{circuitikz}[european]
+      \draw (0,0) to[voltage source] (0,4)
+      to[R=$R_1$] (4,4) -- (4,3.5);
+      \draw (4,0.5) -- (4,0)
+      to[R=$R_4$] (0,0);
+      \draw (4,3.5) -- (3.25,3.5)
+      to[R=$R_2$] (3.25,0.5) -- (4,0.5);
+      \draw (4,3.5) -- (4.75,3.5)
+      to[R=$R_3$] (4.75,0.5) -- (4,0.5);
+    \end{circuitikz}
+    \caption{Circuito mixto}
+    \label{circuito:mixto}
+  \end{figure}
+
+  \subsubsection{Procedimiento de medición}
+
+  Para medir los diferentes valores que se piden, tenemos que utilizar ambas técnicas que aprendimos en los circuitos anteriores. Primero, trataremos a las dos resistencias $R_2$ y $R_3$ como un circuito aislado en paralelo, y así determinaremos su voltaje total ($V_{23}$) y cada una de sus intensidades ($I_1$ y $I_2$).
+
+  \begin{figure}[H]
+    \centering
+    \begin{circuitikz}[european]
+      \draw (0,0) to[voltage source] (0,4)
+      to[R=$R_1$] (4,4) -- (4,3.5);
+      \draw (4,0.5) -- (4,0)
+      to[R=$R_4$] (0,0);
+      \draw (4,3.5) -- (3.25,3.5)
+      to[R=$R_2$] (3.25,0.5) -- (4,0.5);
+      \draw (4,3.5) -- (4.75,3.5)
+      to[R=$R_3$] (4.75,0.5) -- (4,0.5);
+      \draw (4,4) -- (6.5,4)
+      to[voltmeter, label=$V_{23}$] (6.5,0) -- (4,0);
+    \end{circuitikz} \qquad
+    \begin{circuitikz}[european]
+      \draw (0,0) to[voltage source] (0,4)
+      to[R=$R_1$] (4,4) -- (4,3.5);
+      \draw (4,0.5) -- (4,0)
+      to[R=$R_4$] (0,0);
+      \draw (4,3.5) -- (3.25,3.5)
+      to[R=$R_2$] (3.25,2.25)
+      to[ammeter, label=$I_1$] (3.25,0.5) -- (4,0.5);
+      \draw (4,3.5) -- (4.75,3.5)
+      to[R=$R_3$] (4.75,2.25)
+      to[ammeter, label=$I_2$] (4.75,0.5) -- (4,0.5);
+    \end{circuitikz}
+    \caption{Medición de potencial ($V_{23}$) y intensidades ($I_1$ y $I_2$) de las resistencias $R_2$ y $R_3$ en paralelo dentro del circuito mixto}
+  \end{figure}
+
+  Ahora que tenemos esos datos, trataremos a la unión de las resistencias $R_2$ y $R_3$ como un componente más de un circuito en serie, en conjunto con las otras resistencias, $R_1$ y $R_4$. Mediremos los voltajes de estas últimas resitencias en paralelo ($V_1$ y $V_4$). Luego tomaremos el voltaje de todo el circuito también en paralelo ($V$) y la intensidad del mismo, en serie ($I$).
+
+  \begin{figure}[H]
+    \centering
+    \begin{circuitikz}[european]
+      \draw (0,0) to[ammeter,label=$I$] (0,2) to[voltage source] (0,4)
+      to[R=$R_1$] (4,4) -- (4,3.5);
+      \draw (4,0.5) -- (4,0)
+      to[R, l_=$R_4$] (0,0);
+      \draw (4,3.5) -- (3.25,3.5)
+      to[R=$R_2$] (3.25,0.5) -- (4,0.5);
+      \draw (4,3.5) -- (4.75,3.5)
+      to[R=$R_3$] (4.75,0.5) -- (4,0.5);
+      \draw (0,4) -- (0,5.5)
+      to[voltmeter,label=$V_1$] (4,5.5) -- (4,4);
+      \draw (0,0) -- (0,-1.5)
+      to[voltmeter, label=$V_4$] (4,-1.5) -- (4,0);
+      \draw (0,0) -- (-1.5,0)
+      to[voltmeter, label=$V$] (-1.5,4) -- (0,4);
+    \end{circuitikz}
+    \caption{Medición de potenciales ($V_1$ y $V_4$) de las resistencias $R_1$ y $R_4$ en serie y del pontencial ($V$) e intensidad ($I$) total del circuito mixto}
+  \end{figure}
+
+  \subsubsection{Reistencia equivalente}
+  \label{sec:reseqmixto}
+
+  Para calcular la resistencia equivalente del circuito, primero utilizaremos la ecuación \ref{ec:resparalelo} para calcular la de las dos resistencias en paralelo $R_2$ y $R_3$, a la que llamaremos $R_{23}$. Posteriormente, aplicamos la ecuación \ref{ec:reseq} a $R_1$, $R_{23}$ y $R_4$, que están en serie. Así obtenemos la reistencia total.
+  \begin{gather}
+    R_{23} = \frac{1}{\frac{1}{216000} + \frac{1}{394000}} = 1,395\cdot10^5\Omega \nonumber \qquad s(R_{23}) = \frac{1}{\frac{1}{1000} + \frac{1}{1000}} = 500\Omega \nonumber \\
+    R = 175500 + 139500 + 1006000 = 1,3210\cdot10^6\Omega \nonumber \quad s(R) = 100 + 500 + 1000 = 1600\Omega \nonumber \\
+    R = 1,3210\cdot10^6 \pm 1,6\cdot10^3\Omega
+  \end{gather}
+
+  Si calculamos experimentalmente el valor de la resistencia total del circuito obtenemos $R_E = 1,324 \cdot 10^6 \pm 10^3$, lo cual entra en nuestro intervalo de confianza, así que consideraremos ambas medidas correctas.
+
+  \subsubsection{Medición experimental}
+
+  Construímos el circuito \ref{circuito:mixto} y tomamos las medidas descritas con anterioridad. Variaremos el voltaje (V) desde la fuente de alimentación para obtener distintos valores a medir. Exponemos el resultado en la siguiente tabla dónde, como en la sección anterior, omitiremos las incertidubres de las intensidades ($s(I)$) por ser todas iguales $s(I) = s(I_1) = s(I_2) = 1 \cdot 10^-7 A$, con el objetivo de hacer la tabla más compacta.
+
+  \begin{table}[H]
+  \centering
+  \resizebox{\columnwidth}{!}{
+  \csvreader[
+    tabular=|c|c|c|c|c|c|c|c|,
+    table head=\hline Medida & $V~(V) \pm s(V)$ & $V_1~(V) \pm s(V_1)$ & $V_{s3}~(V) \pm s(V_{23})$ & $V_4~(V) \pm s(V_4)$ & $I_1~(V)$ & $I_2~(V)$ & $I~(A)$ \\ \hline,
+    late after last line=\\\hline,
+    separator=semicolon
+    ]{CC8.csv}
+    {v=\v, sv=\sv, v1=\va, sv1=\sva, v23=\vb, sv23=\svb, v4=\vc, sv4=\svc, i1=\ia, i2=\ib, i=\int}
+    {\thecsvrow & \v \hspace{4pt}$\pm$ \sv & \va \hspace{4pt}$\pm$ \sva & \vb \hspace{4pt}$\pm$ \svb & \vc \hspace{4pt}$\pm$ \svc & \ia & \ib & \int }}
+  \caption{Potenciales e intensidades del circuito mixto}
+  \end{table}
+
+  \subsubsection{Representación gráfica de V frente a I}
+
+  Cargamos los datos de la tabla anterior en el programa de \code{python} para obtener la representación de la gráfica del voltaje total (V) frente a la intensidad total (I).
+
+  \begin{figure}[H]
+    %\centering
+    \hspace{2.5em} \input{CC8NoReg.pgf}
+    \caption{Voltaje (V) frente a intensidad (I)}
+    \label{graf:cmixinttotal}
+  \end{figure}
+
+  También podemos probar a hacer gráficas más interesantes. Aquí no hay una relación tan clara como en los anteriores ejemplos, ya que existen varias magnitudes tanto en el eje x (I) como en el eje y (V). Podríamos probar a representar los diferentes valores de V ($V$, $V_1$, $V_{23}$ y $V_4$) frente a la intensidad total ($I$), como en la primera gráfica. También podemos hacer lo contrario, y representar el potencial total ($V$) frente a distintas intensidades ($I$, $I_1$ e $I_2$), como en la segunda gráfica. Como curiosidad más que como experimento, podemos mezclar ambas gráficas, y representar todas las combinaciones entre \textcolor{Blue}{$V$},~\textcolor{Red}{$V_1$},~\textcolor{Yellow}{$V_{23}$},~\textcolor{Green}{$V_4$} (\textit{color}) y \textcolor{Black}{$I$},~\textcolor{DarkGrey}{$I_1$},~\textcolor{Grey}{$I_2$} (\textit{luminosidad}).
+
+  \begin{figure}[H]
+    \centering
+    \input{CC8NoRegVMultMini.pgf}
+    \input{CC8NoRegIMultMini.pgf}
+    \input{CC8NoRegMultMini.pgf}
+    \caption{Voltajes (\textcolor{Blue}{$V$}, \textcolor{Red}{$V_1$}, \textcolor{Yellow}{$V_{23}$}, \textcolor{Green}{$V_4$}) frente a intensidades (\textcolor{Black}{$I$}, \textcolor{DarkGrey}{$I_1$}, \textcolor{Grey}{$I_2$})}
+    \label{graf:cmixmulti}
+  \end{figure}
+
+  \subsubsection{Ajuste por mínimos cuadrados}
+  \label{v:mixto}
+
+  Procedemos a aplicar el método de regresión lineal con el ajuste por mínimos cuadrados (\ref{sec:reglin}). Ajustamos las rectas y las representamos gráficamente. Para la gráfica \ref{graf:cmixinttotal} (voltaje frente intensidad total) los parámetros son $a = 8,47 \cdot 10^-2$ y $b = 1,32 \cdot 10^6$. El resto se pueden calcular análogamente con las fórmulas \ref{ec:a} y \ref{ec:b}. Para este ajuste obtenemos un coeficiente de regresión lineal utilizando la fórmula \ref{ec:r} de $r = 0,99993$ que, pese a ser el más bajo de las prácticas realizadas sigue teniendo cuatro nueves, lo cual hace que sea satisfactorio.
+
+  \begin{figure}[H]
+    %\centering
+    \hspace{2.5em} \input{CC8.pgf}
+    \caption{Voltaje (V) frente a intensidad (I) con regresión lineal}
+  \end{figure}
+
+  Si comprobamos el valor de la resistencia equivalente calculado en \ref{sec:reseqmixto} ($R = 1,3210 \cdot 10^6$) y lo comparamos con la pendiente de la recta ($b = 1,32 \cdot 10^6$) vemos que son prácticamente la misma.
+
+  Podemos probar a hacer la regresión de las diferentes gráficas de la figura \ref{graf:cmixmulti} simplemente cómo curiosidad, y para verificar que todos los datos siguen patrones lineales.
+
+  \begin{figure}[H]
+    \centering
+    \input{CC8VMult.pgf}
+    \input{CC8IMult.pgf}
+    \input{CC8Mult.pgf}
+    \caption{Voltajes (\textcolor{Blue}{$V$}, \textcolor{Red}{$V_1$}, \textcolor{Yellow}{$V_{23}$}, \textcolor{Green}{$V_4$}) frente a intensidades (\textcolor{Black}{$I$}, \textcolor{DarkGrey}{$I_1$}, \textcolor{Grey}{$I_2$}) con regresión lineal}
+  \end{figure}
+
+  En esta última regresión nos encontramos problemas que hasta ahora no habían aparecido. Pese a que alguna de las rectas tiene coeficientes de regresión de hasta $r = 0,99998$ ($V$ frente a $I_1$ y $V_4$ frente a $I_1$), otras no se encuentran tan próximas. Son varias las que sólo tienen un ajuste de dos nueves, cómo $V_1$ frente a $I$ ($r = 0,997$) o $V_{23}$ frente a $I_2$ ($r = 0,997$). Discutiremos esto en el apartado de conclusiones.
 
 
-
-
-
-
+  \newpage
   \section{Conclusiones}
+
+  \subsection{Ley de Ohm}
+
+  Comprobamos que los valores nominales de las resistencias (\ref{tb:valnomres}) y las mediciones experimentales de las mismas (\ref{tab:res}) se encuentran dentro de la incertidumbre marcada por el fabricante.
+
+  Hemos verificado la Ley de Ohm (\ref{ec:ohm}) en múltiples ocasiones, ya que en nuestras gráficas de Voltaje (\textit{V}) frente a Intensidad (\textit{I}) la linea obtenida mediante ajuste por mínimos cuadrados cumplía varias condiciones:
+
+  \begin{itemize}[label=$-$]
+    \item Es una recta que prácticamente pasa por el origen. Los términos \textit{a} (Ordenada en el origen) son despreciables frente a las magnitudes de \textit{V}. Lo calculamos manualmente en \ref{v:ohm} y \ref{v:serie} para los dos primeros circuitos, y en los apartados \ref{v:paralelo} y \ref{v:mixto} para los segundos. En todos los casos utilizamos la ecuación \ref{ec:a} para calcular el valor de \textit{a}.
+    \item La pendiente de esta recta, \textit{b}, coincide con el valor teórico de la resistencia equivalente (\ref{ec:reseq} en serie y \ref{ec:resparalelo} en paralelo) y del valor de la medida del polímetro dentro del márgen de incertidumbre. El caso del circuito en serie (\ref{sec:reseqserie}) es una excepción, ya que el valor de la resistencia equivalente y la medida del polímetro no entran dentro del márgen de error, pero por un orden de magnitud de $10^2$, mientras que la medida es del orden de $10^5$. Consideraremos que se trata de un error en las condiciones del experimento, por ejemplo, a causa de la humedad, la temperatura, etc... En el resto de secciones se verifica perfectamente, y podemos ver los ajustes y valores de \textit{b} en las secciones \ref{sec:ajusteminres}, \ref{sec:ajusteminimoscuadradosserie}, \ref{v:paralelo} y \ref{v:mixto}.
+  \end{itemize}
+
+  También hemos verificados las Leyes de Kirchhoff (\ref{ec:kriser} en serie y \ref{ec:kripar} en paralelo) en los distintos circuitos:
+
+  \begin{itemize}[label=$-$]
+    \item En el circuito en serie, la suma de los voltajes en bornes de cada resistencia fue aproximadamente igual al voltaje total del circuito para cada medición, con incertidumbres atribuibles a los aparatos de medición o a los cables de conexión.
+    \item En el circuito en paralelo, la suma de las intensidades en bornes de cada resistencia se aproximó a la intensidad total del circuito para cada medición, de nuevo con incertidumbres atribuibles a las técnicas de medición.
+    \item En el circuito mixto, la suma de los voltajes en bornes de $R_1$, $R_{23}$ y $R_4$ coincide con el voltaje total, mientras que las intensidades en bornes de las resistencias $R_2$ y $R_3$ suman el valor de la intensidad total del circuito.
+  \end{itemize}
+
+  Por último, es necesario discutir una menor precisión de ajuste en el apartado \ref{v:mixto}. Mientras que el resto de regresiones lineales tenían un coeficiente (\ref{ec:r}) de al menos cuatro nueves, en algunas de las rectas que ajustamos en la última sección la precisión disminuyó a dos. Si bien la recta principal (V total frente a I total) cuenta con un $r = 0,99993$ que es bastante decente, otras cómo $V_1$ frente a $I$ o $V_{23}$ frente a $I_2$ tan solo llegan a $r = 0,997$. Esto se puede deber tanto a errores causados por las condiciones del laboratorio tras un periodo de tiempo prolongado (Mayor temperatura por la agrupación de tantos cuerpos, sudoración en las manos...), y también a algún error humano debido a la repetición de mediciones, pese a que tratamos de evitarlos en la medida de lo posible. De todas maneras, la desviación sobre el resultado no es crítica, y los datos siguen siendo coherentes (excepto el valor tres de $V_1$ que es menor que el de $V_23$ cuando debería de ser al revés), pero queríamos dejar constancia de esta disminución en la precisión del último experimento.
+
+  En general, consideraríamos la práctica exitosa, ya que comprobamos tanto la \textbf{Ley de Ohm} cómo la \textbf{Ley de Kirchhoff} para la asociación de resistencias, y los resultados fueron satisfactorios.
+
+
 
 
   \newpage

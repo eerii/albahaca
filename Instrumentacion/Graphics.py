@@ -12,7 +12,7 @@ matplotlib.rcParams.update({
     'pgf.rcfonts': False,
 })
 
-name = "CC53"
+name = "CC8"
 
 #Read from CSV to pandas dataframe
 d = pd.read_csv(name + ".csv", sep=';', decimal=',')
@@ -22,9 +22,12 @@ y = d["v"]
 n = d.shape[0]
 a, b = 0, 0
 
-#y1 = d["v1"]
-#y2 = d["v2"]
-#y3 = d["v3"]
+y1 = d["v1"]
+y2 = d["v23"]
+y3 = d["v4"]
+
+x1 = d["i1"]
+x2 = d["i2"]
 
 regresionLineal = True;
 
@@ -53,7 +56,7 @@ def reg_lin(x, y, n):
 
 #Scatter Plot
 fig = plt.figure()
-fig.set_size_inches(w=5, h=3.5)
+fig.set_size_inches(w=2.5, h=1.75)
 
 def plot(x, y, n, reg = True, cc="#1f77b4", cr="skyblue"):
     if reg:
@@ -71,11 +74,21 @@ def plot(x, y, n, reg = True, cc="#1f77b4", cr="skyblue"):
     plt.scatter(x * (10**6), y, color=cc, zorder=2)
 
 plot(x, y, n, regresionLineal)
-#plot(x, y1, n, regresionLineal, "tomato", "lightsalmon")
-#plot(x, y2, n, regresionLineal, "gold", "moccasin")
-#plot(x, y3, n, regresionLineal, "limegreen", "lightgreen")
+plot(x, y1, n, regresionLineal, "tomato", "lightsalmon")
+plot(x, y2, n, regresionLineal, "gold", "moccasin")
+plot(x, y3, n, regresionLineal, "limegreen", "lightgreen")
+
+plot(x1, y, n, regresionLineal, "dodgerblue")
+plot(x2, y, n, regresionLineal, "skyblue")
+
+plot(x1, y1, n, regresionLineal, "lightsalmon", "lightsalmon")
+plot(x1, y2, n, regresionLineal, "khaki", "moccasin")
+plot(x1, y3, n, regresionLineal, "lightgreen", "lightgreen")
+plot(x2, y1, n, regresionLineal, "peachpuff", "lightsalmon")
+plot(x2, y2, n, regresionLineal, "lemonchiffon", "moccasin")
+plot(x2, y3, n, regresionLineal, "palegreen", "lightgreen")
 
 plt.ylabel('V(V)', rotation=0, labelpad=20)
 plt.xlabel('I($\mu$A)')
 #plt.title('Voltaje (V) frente a intensidad (I)')
-plt.savefig(name + ".pgf", bbox_inches = "tight")
+plt.savefig(name + "Mult.pgf", bbox_inches = "tight")
