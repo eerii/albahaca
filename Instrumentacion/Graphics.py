@@ -67,7 +67,7 @@ def plot(x, y, n, reg = True, cc="#1f77b4", cr="skyblue"):
         print("r=", r)
 
         xr = np.linspace(min(x) * (10**6), max(x) * (10**6), 10)
-        yr = (a + b*xr) / (10**6)
+        yr = a + ((b*xr) / (10**6))
 
         plt.plot(xr, yr, color=cr, zorder=1)
 
