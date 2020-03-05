@@ -459,7 +459,7 @@
       if reg:
           a, b, r = reg_lin(x, y, n)
           xr = np.linspace(min(x) * (10**6), max(x) * (10**6), 10)
-          yr = (a + b*xr) / (10**6)
+          yr = a + ((b*xr) / (10**6))
           plt.plot(xr, yr, color=cr, zorder=1)
       plt.scatter(x * (10**6), y, color=cc, zorder=2)
 
