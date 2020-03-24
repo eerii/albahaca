@@ -30,8 +30,11 @@ plt.scatter(x,y, zorder=2)
 
 m, b = np.polyfit(x, y, 1)
 plt.plot(x, m*x + b, zorder=1, color="skyblue")
+x2 = (1 - b)/m
+plt.scatter(x2, 1, zorder=3, color="tomato")
+print("Frecuencia corte:", x2)
 
-plt.ylabel('VmR/VmC', rotation=0, labelpad=20)
+plt.ylabel('VmR/VmC', rotation=0, labelpad=25)
 plt.xlabel('f (Hz)')
 #plt.title('Voltaje (V) frente a intensidad (I)')
 plt.savefig(name + "V.pgf", bbox_inches = "tight")
