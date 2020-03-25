@@ -63,6 +63,22 @@ popt, pcov = curve_fit(fsigmoid, x3, y3, method='dogbox')
 xs = np.arange(-3., +3., 0.01)
 ys = (fsigmoid(xs, *popt) * 100) - 100
 xs += 3.1226
+#plt.plot(xs, ys, color="gold")
+
+
+#Ajuste a arctan
+def farctan(x, a, b, c):
+    xrad = np.deg2rad(x)
+    return a * np.rad2deg(np.arctan(b * xrad)) + c
+
+y3 = (y2 + 45)
+x3 = x2 - 3.1226
+
+popt, pcov = curve_fit(farctan, x3, y3)
+
+xs = np.arange(-2.5, +2., 0.01)
+ys = (farctan(xs, *popt)) - 45
+xs += 3.1226
 plt.plot(xs, ys, color="gold")
 
 for i in range(len(ys)):
@@ -76,4 +92,4 @@ for i in range(len(ys)):
 plt.ylabel('$\\phi$ \\textit{(º)}', rotation=0, labelpad=25)
 plt.xlabel('log f')
 #plt.title('Voltaje (V) frente a intensidad (I)')
-plt.savefig(name + "All.pgf", bbox_inches = "tight")
+plt.savefig(name + "Arctan.pgf", bbox_inches = "tight")

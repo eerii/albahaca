@@ -37,7 +37,7 @@
 \usepackage{tocloft} %Crear listas (por ejemplo, de ecuaciones)
 \usepackage{enumitem} %Cambiar los estilos de las listas
 \usepackage{verbatim} %Comentarios de varias lineas
-\usepackage[margin=1.0in]{geometry} %Márgenes
+\usepackage[margin=0.8in]{geometry} %Márgenes
 \usepackage[skip=12pt]{parskip} %Añadir espacio tras los párrafos
 \usepackage{float} %Controlar el posicionamiento de gráficas y tablas con H
 \usepackage[toc,page]{appendix} %Anexos
@@ -158,7 +158,7 @@
     \item Si por el contrario podemos despreciar las incertidumbres de $x_i$ respecto a $y_i$, podemos simplificar la ecuación anterior a $\omega_i=[s(y_i)]^{-2}$.
   \end{enumerate}
 
-  En nuestro caso, tanto en la estimación de una resistencia mediante la ley de Ohm como en el circuito en serie se pueden despreciar las incertidumbres. En ambos representaremos intensidad (I) frente a voltaje (V). La incertidumbre de la intensidad es del orden de $10^{-7}$, mientras que la del voltaje es del orden de $10^{-2}$, por lo que podremos aplicar el segundo método.
+  En nuestro caso, tanto en la estimación de una resistencia mediante la ley de Ohm como en el circuito en serie se pueden despreciar las incertidumbres. En ambos representaremos voltaje (V) frente a intensidad (I). La incertidumbre de la intensidad es del orden de $s(x_i)=10^{-7}$, mientras que la del voltaje es del orden de $s(y_i)=10^{-2}$, por lo que podremos aplicar el segundo método.
 
   Además, podemos considerar que las incertidumbres de $y_i$ permanecen constantes entre las diferentes medidas, por lo que también lo hará el peso estadístico $w = cte$. Podemos sustituír en la fórmula \ref{ec:chi2} y derivar respecto a \textit{a} y \textit{b} para obtener:
   \begin{gather}
@@ -423,7 +423,7 @@
     \sum_i x_i \nonumber \qquad \sum_i y_i \nonumber \qquad \sum_i x_iy_i \nonumber \qquad \sum_i x_i^2 \nonumber
   \end{gather}
 
-  Para ello, utilizaremos la tabla en .csv en la que tenemos los datos, y la cargaremos en python. Ahora definiremos una función \code{reg\_lin()} que calcule estas sumas a partir de las columnas de nuestra tabla y las almacene en variables separadas. Posteriormente, aplicaremos las fórmulas \ref{ec:a} y \ref{ec:b} y calcularemos así los términos \textit{a} y \textit{b}.
+  Para ello, utilizaremos la tabla en .csv en la que tenemos los datos, y la cargaremos en python. Ahora definiremos una función \code{reg\_lin()} que calcule estas sumas a partir de las columnas de nuestra tabla y las almacene en variables separadas. Posteriormente, aplicaremos las fórmulas \ref{ec:a} y \ref{ec:b} y calcularemos así los términos \textit{a} y \textit{b}. Tenemos que decir que en estos casos, el término \textit{a} tiene que aproximarse mucho a 0 para ser despreciables, ya que sabemos que la recta tiene que pasar por el origen. Calcularemos \textit{a} para comprobar que es pequeño y que no influye en el ajuste. Al final será cómo sumar "0" en la fórmula $y = a + bx$.
 
   \begin{python}
     def reg_lin(x, y, n):
@@ -966,11 +966,11 @@
   \end{equation}
   Mientras tanto, la intensidad viene dada por una fórmula distinta:
   \begin{equation}
-    I(t) = I_m sen(wt + \varphi) \label{ec:faseimp}
+    I(t) = I_m sen(wt + \varphi)
   \end{equation}
   En esta ecuación la fase ($\varphi$), la amplitud de la intensidad ($I_m$) y el módulo de la magnitud compleja, también llamado Impedancia ($Z$), están definidas de la siguiente manera:
   \begin{gather}
-    \varphi = arctg\left(-\frac{X_C}{R}\right) = arctg\left(-\frac{1}{\omega RC}\right) \\
+    \varphi = arctg\left(-\frac{X_C}{R}\right) = arctg\left(-\frac{1}{\omega RC}\right) \label{ec:faseimp} \\
     I_m = \frac{V_m}{Z} \\
     \hat{Z} = R + \frac{1}{j\omega C} \label{ec:zhat} \\
     Z = \sqrt{R^2+X_C^2} = \sqrt{R^2+\frac{1}{w^2C^2}} \label{ec:moduloimp1}
@@ -1065,6 +1065,7 @@
     {f=\f, logf=\logf, Vm=\vm, VmR=\vmr, VmC=\vmc, Z=\z, 20logZ=\logz, VmRVmC=\vmbyvm}
     {\thecsvrow & \f & \logf & \vm & \vmr & \vmc & \z & \logz & \vmbyvm}}
   \caption{Medición de potenciales frente a frecuencia}
+  \label{tb:ac1}
   \end{table}
 
   Como podemos observar, y tal cómo se deduce de \ref{ec:moduloimp1}, el módulo de la impedancia ($Z$) decrece a medida que aumenta la frecuencia (ya que $f = \frac{w}{2\pi}$ y $\frac{1}{w^2C^2} = \frac{1}{4\pi^2f^2C^2}$).
@@ -1207,10 +1208,10 @@
     \caption{Visualización de $V_G$ y $V_R$ en el osciloscopio}
   \end{figure}
 
-  Podemos observar en la figura que las curvas $V_G$ y $V_R$ intersecan al eje horizontal en diversos puntos. Tomaremos dos puntos contiguos en los que la distancia entre ambas curvas sea la mínima, y nombraremos los cursores \textit{t1} para $V_G$ y \textit{t2} para $V_R$. Utilizando estos dos datos, podemos calcular la diferencia de fase entre ambas señales, $\phi$.
+  Podemos observar en la figura que las curvas $V_G$ y $V_R$ intersecan al eje horizontal en diversos puntos. Tomaremos dos puntos contiguos en los que la distancia entre ambas curvas sea la mínima, y nombraremos los cursores \textit{t1} para $V_G$ y \textit{t2} para $V_R$. Utilizando estos dos datos, podemos calcular la diferencia de fase entre ambas señales, $\varphi$.
 
   \begin{equation}
-    \phi = -2\pi f (t_2 - t_1) = -2\pi f \Delta t
+    \varphi = -2\pi f (t_2 - t_1) = -2\pi f \Delta t
     \label{ec:desfase}
   \end{equation}
 
@@ -1234,13 +1235,13 @@
   \caption{Ejemplo de las mediciones de $\Delta t$ según la frecuencia}
   \end{table}
 
-  Antes de completar todos los resultados añadiremos tres columnas adicionales a la tabla. Estas serán el $\log f$ y el desfase ($\phi$), tanto en radianes como en grados sexagesimales. Así podremos representar la gráfica de la próxima sección. Ahora si, presentamos los resultados obtenidos:
+  Antes de completar todos los resultados añadiremos tres columnas adicionales a la tabla. Estas serán el $\log f$ y el desfase ($\varphi$), tanto en radianes como en grados sexagesimales. Así podremos representar la gráfica de la próxima sección. Ahora si, presentamos los resultados obtenidos:
 
   \begin{table}[H]
   \centering
   \csvreader[
     tabular=|c|c|c|c|c|c|,
-    table head=\hline Medida & $f (Hz)$ & $\log f$ & $\Delta t (s)$ & $\phi (rad)$ & $\phi$ \textit{(º)} \\ \hline,
+    table head=\hline Medida & $f (Hz)$ & $\log f$ & $\Delta t (s)$ & $\varphi (rad)$ & $\varphi$ \textit{(º)} \\ \hline,
     late after last line=\\\hline,
     separator=semicolon
     ]{CA5.csv}
@@ -1258,14 +1259,14 @@
     \caption{Problemas en mediciones de frecuencias muy altas (superior) y muy bajas (inferior)}
   \end{figure}
 
-  \subsection{Representación gráfica de $\phi$ frente a f}
+  \subsection{Representación gráfica de $\varphi$ frente a f}
 
-  En la siguiente gráfica veremos la relación entre los valores del desfase $\phi$ representado frente a la escala logarítmica de la frecuencia. Utilizaremos un programa muy similar al descrito en el apartado \ref{sec:vmf}. Si simplemente tomamos los 20 valores de la tabla superior, y tratamos de justar a una recta, podemos ver que el ajuste no es demasiado perfecto.
+  En la siguiente gráfica veremos la relación entre los valores del desfase $\varphi$ representado frente a la escala logarítmica de la frecuencia. Utilizaremos un programa muy similar al descrito en el apartado \ref{sec:vmf}. Si simplemente tomamos los 20 valores de la tabla superior, y tratamos de justar a una recta, podemos ver que el ajuste no es demasiado perfecto.
 
   \begin{figure}[H]
     %\centering
     \hspace{2.5em} \input{CA5.pgf}
-    \caption{Primer intento de representación de $\phi$ frente a f}
+    \caption{Primer intento de representación de $\varphi$ frente a f (escala logarítmica)}
   \end{figure}
 
   Probemos ahora a representar todos los puntos obtenidos, incluyendo aquellos que se aproximan más a los extremos.
@@ -1273,8 +1274,10 @@
   \begin{figure}[H]
     %\centering
     \hspace{2.5em} \input{CA5NoSigAll.pgf}
-    \caption{Segundo intento de representación de $\phi$ frente a f, ampliando los puntos seleccionados hacia los extremos}
+    \caption{Segundo intento de representación de $\varphi$ frente a f (escala logarítmica), ampliando los puntos seleccionados hacia los extremos}
   \end{figure}
+
+  ACTUALIZACIÓN: (Saltar a sección \ref{sec:arctg} para el ajuste final, evitando este razonamiento que resultó ser erróneo.)
 
   Podemos observar que hacia los lados la gráfica ya no se comporta cómo una recta. También vemos que parece tener un punto de inflexión alrededor del 3, y que parece (mirando desde arriba) cóncava hasta ese valor y convexa después. Podría tratarse de una gráfica polinómica, aunque no parece ajustarse a ninguna de sus definiciones. Probamos a ajustar a diversos polinomios para comprobar que efectivamente ninguno termina de cuadrar.
 
@@ -1287,7 +1290,7 @@
   \begin{figure}[H]
     %\centering
     \hspace{2.5em} \input{CA5PolyAll.pgf}
-    \caption{Tercer intento de representación de $\phi$ frente a f, ajustando a polinomios de grado \textcolor{Red}{2}, \textcolor{Golden}{3}, \textcolor{Green}{4} y \textcolor{Blue}{5}}
+    \caption{Tercer intento de representación de $\varphi$ frente a f (escala logarítmica), ajustando a polinomios de grado \textcolor{Red}{2}, \textcolor{Golden}{3}, \textcolor{Green}{4} y \textcolor{Blue}{5}}
   \end{figure}
 
   Alguno se acerca, pero parece excesivamente complicado para representar estos valores. Entonces pensamos en una función sigmoide. Por ejemplo, la función logística, generalmente definida cómo $S(x) = \frac{1}{1+e^{-x}}$, es una curva con centro en (0, 0,5) que tiene asíntotas en 0 y en 1. Nuestra función no cumple estas propiedades, sin embargo, su forma parece aproximarse a una sigmoide.
@@ -1323,10 +1326,44 @@
   \begin{figure}[H]
     %\centering
     \hspace{2.5em} \input{CA5All.pgf}
-    \caption{Representación de $\phi$ frente a f con un ajuste a una curva sigmoide}
+    \caption{Representación de $\varphi$ frente a f (escala logarítmica) con un ajuste a una curva sigmoide}
   \end{figure}
 
-  Se puede observar que el ajuste se acerca mucho a los datos. No podemos asegurar que la curva sigmoide sea la apropiada para ajustar estos datos, y hemos hecho muchas aproximaciones y asunciones que podrían hacer que esta representación sea errónea. Sin embargo, creemos que cabe la posibilidad de que sea esta curva la que relacione estos valores.
+  Se puede observar que el ajuste se acerca mucho a los datos. No podemos asegurar que la curva sigmoide sea la apropiada para ajustar estos datos, y hemos hecho muchas aproximaciones y asunciones que podrían hacer que esta representación sea errónea.
+
+  \subsection{Ajuste correcto}
+  \label{sec:arctg}
+
+  Revisando la práctica nos dimos cuenta de un error en este razonamiento. Decidimos mantenerlo porque muestra el camino que seguimos hasta llegar a este punto, pero procederemos a explicar el nuevo camino al que arrivamos.
+
+  En este sección hemos utilizado la ecuación \ref{ec:desfase}, pero no hemos vuelto al origen, la ecuación \ref{ec:faseimp}. Allí se describe la impedancia como un arcotangente. Esto tiene mucho sentido, ya que la función sigmoide y la arcotangente tienen una forma muy similar pese a ser distitnas. Por ejemplo, ambas se utilizan en redes neuronales para la misma función. Esta similaridad nos llevó a la confusión, pese a que la respuesta estaba todo el rato en la ecuación \ref{ec:faseimp}. Podemos adaptar el código anterior para una arcotangente y representarla, primero normalizando nuestros datos. En esta ocasión no hace falta dividir la y por 100 ya que añadiremos ese parámetro a nuestro ajuste por arcotangente como un parámetro a.
+
+  \begin{python}
+    def farctan(x, a, b, c):
+        xrad = np.deg2rad(x)
+        return a * np.rad2deg(np.arctan(b * xrad)) + c
+
+    y3 = (y2 + 45)
+    x3 = x2 - 3.1226
+
+    popt, pcov = curve_fit(farctan, x3, y3)
+
+    xs = np.arange(-1.8, +2., 0.01)
+    ys = (farctan(xs, *popt)) - 45
+    xs += 3.1226
+    plt.plot(xs, ys, color="gold")
+
+    for i in range(len(ys)):
+        if ys[i] < -44.5 and ys[i] > -45.5:
+            plt.scatter(xs[i], ys[i], color="tomato", zorder=4)
+            print("Frecuencia de corte:", xs[i], 10**xs[i])
+  \end{python}
+
+  \begin{figure}[H]
+    %\centering
+    \hspace{2.5em} \input{CA5Arctan.pgf}
+    \caption{Representación de $\varphi$ frente a f (escala logarítmica) con un ajuste a una curva arcotangente}
+  \end{figure}
 
   Un problema que tuvimos con nuestros datos que evitamos comentar hasta ahora fue que para los valores cercanos a la frecuencia de corte obtivimos ángulos no centrados en 45º. Para 1300 Hz obtuvimos un ángulo de 48,6º, mientras que para 1360 Hz obtuvimos 47º. Comentamos este detalle con el profesor de la práctica, y repetimos estas mediciones para asegurar que no las habíamos tomado mal, pero el resultado apenas varió. Discutiremos esto más en profundidad en las conclusiones, sin embargo, esto afecta directamente a este apartado ya que utilizando este método aproximamos la frecuencia de corte a 1487.99 Hz, dónde la curva vale 45º. Esto difiere mucho de nuestra estimación, pero es un problema de los ángulos obtenidos para los datos que tomamos, no necesariamente del ajuste que hicimos de ellos.
 
@@ -1338,17 +1375,33 @@
 
   Tras mediciones de voltajes ($V_m$, $V_{mR}$ y $V_{mC}$) variando la resistencia, representamos el módulo de la impedancia (Z) frente a la frecuencia (f) en una escala logarítmica. Observamos que forman una hipérbola cuyas asíntotas son las rectas R (horizontal) y C (oblicua). Estas se cortan en la frecuencia de corte, que coincidía con la calculada teóricamente ($1326, 29 Hz$).
 
-  \subsection{$V_{mR}/V_{mC}$ frente a frecuencia (f)}
+  \subsection{$\frac{V_{mR}}{V_{mC}}$ frente a frecuencia (f)}
 
   Representamos el cociente entre los voltajes en bornes de la resistencia y el condensador ($V_{mR}/V_{mC}$) frente a la frecuencia. Cúando los primeros resultaban 1 obteníamos la frecuencia de corte, en este caso de $1308.90 Hz$, razonablemente próxima a la teórica y a la averiguada por el método anterior.
 
-  \subsection{Desfase ($\phi$) frente a frecuencia (f)}
+  \subsection{Desfase ($\varphi$) frente a frecuencia (f)}
 
-  Utilizamos el método de las dos trazas para estudiar la variación del argumento de la impedancia ($\phi$) al variar la frecuencia, entre las señales del potencial total $V_m$ y el potencial en bornes de la resistencia $V_{mR}$. Añadimos mediciones de frecuencias muy altas y muy bajas, aunque su incertidumbre sería bastante elevada.
+  Utilizamos el método de las dos trazas para estudiar la variación del argumento de la impedancia ($\varphi$) al variar la frecuencia, entre las señales del potencial total $V_m$ y el potencial en bornes de la resistencia $V_{mR}$. Añadimos mediciones de frecuencias muy altas y muy bajas, aunque su incertidumbre sería bastante elevada.
 
-  Representamos $\phi$ frente a la escala logarítmica de la frecuencia, y tras varios intentos de ajuste concluímos que se podía tratar de una función sigmoide. Tuvimos un problema con los valores del ángulo que medimos, ya que en la frecuencia de corte este valía en torno a 47-49º, cúando tenía que ser 45º. Repetimos las mediciones pero obtuvimos resultados muy similares. El resto de datos coinciden con la función que aproximamos y las relaciones entre los valores relativos parecen tener sentido. Concluimos por tanto que lo más probable es que se debiera a un error sistemático, o bien por parte de las herramientas de medida o por nuestra cuenta, ya que todos los valores parecen influenciados en la misma dirección. Solucionar este problema requeriría una inspección más próxima y una repetición completa de la práctica, con el mismo osciloscopio y con otro distinto, para discernir el origen del error.
+  Representamos $\varphi$ frente a la escala logarítmica de la frecuencia, y tras varios intentos de ajuste concluímos que se trataba de una función arcotangente. Tuvimos un problema con los valores del ángulo que medimos, ya que en la frecuencia de corte este valía en torno a 47-49º, cúando tenía que ser 45º. Repetimos las mediciones pero obtuvimos resultados muy similares. El resto de datos coinciden con la función que aproximamos y las relaciones entre los valores relativos parecen tener sentido. Concluimos por tanto que lo más probable es que se debiera a un \textbf{error sistemático}, o bien por parte de las herramientas de medida o por nuestra cuenta, ya que todos los valores parecen influenciados en la misma dirección. Solucionar este problema requeriría una inspección más próxima y una repetición completa de la práctica, con el mismo osciloscopio y con otro distinto, para discernir el origen del error.
 
-  Por lo general, consideramos la primera parte de la práctica exitosa, ya que aproximamos muy bien el valor de la frecuencia de corte, mientras que esta segunda parte sólo parcialmente, ya que no pudimos acercarnos todo lo deseado a ella.
+  Sin embargo, podemos comprobar que el desfase es de 45º para la frecuencia de corte si utilizamos los datos de la primera sección, que no están influenciados por este error sistemático. Utilizando las ecuaciones \ref{ec:faseimp} y \ref{ec:fcorte} podemos deducir que:
+
+  \begin{equation}
+    \varphi = arctg\left(-\frac{1}{wRC}\right) \qquad \frac{V_{mC}}{V_{mR}} = 1 = \frac{1}{wRC} \qquad \varphi = arctg\left(-\frac{V_{mC}}{{V_{mR}}}\right) \nonumber
+  \end{equation}
+
+  Por lo tanto, podemos utilizar los datos de $\frac{V_{mC}}{V_{mR}}$ de la tabla \ref{tb:ac1} y representar los desfases ($\varphi$) de esos datos:
+
+  \begin{figure}[H]
+    %\centering
+    \hspace{2.5em} \input{CA4AltArctan.pgf}
+    \caption{Representación de $\varphi$ frente a f (escala logarítmica) con un ajuste a una curva arcotangente}
+  \end{figure}
+
+  De este modo obtenemos una frecuencia de corte de 1307,98 Hz, mucho más razonable en base a nuestras estimaciones. Vuelvo a reiterar que estos no son los mismos datos que la segunda parte, esos siguen teniendo un error sistemático que nos impedirá realizar el cálculo con precisión. Sin embargo, de esta manera, podemos probar de otro modo que para la frecuencia de corte la fase es de 45º.
+
+  Por lo general, consideramos la primera parte de la práctica exitosa, ya que aproximamos muy bien el valor de la frecuencia de corte, mientras que esta segunda parte sólo parcialmente, ya que no pudimos acercarnos todo lo deseado a ella con los datos que obtuvimos.
 
 
 
@@ -1386,10 +1439,10 @@
 
     \begin{table}[H]
     \centering
-    \resizebox{!}{4.5in}{
+    \resizebox{!}{4.8in}{
     \csvreader[
       tabular=|c|c|c|c|c|c|,
-      table head=\hline Medida & $f (Hz)$ & $\log f$ & $\Delta t (s)$ & $\phi (rad)$ & $\phi$ \textit{(º)} \\ \hline,
+      table head=\hline Medida & $f (Hz)$ & $\log f$ & $\Delta t (s)$ & $\varphi (rad)$ & $\varphi$ \textit{(º)} \\ \hline,
       late after last line=\\\hline,
       separator=semicolon
       ]{CA5All.csv}
@@ -1404,18 +1457,22 @@
     \subsection{Facultad de física}
 
     Amigo, Alfredo. \textit{Análisis de incertidumbres.} Apuntes de Técnicas Experimentales I, Facultad de Física, 2019-20.
+
     \textit{Práctica 1. Circuitos de Corriente Continua.} Apuntes de Técnicas Experimentales I, Facultad de Física, 2019-20.
+
     \textit{Práctica 2. Circuitos de Corriente Alterna.} Apuntes de Técnicas Experimentales I, Facultad de Física, 2019-20.
+
     \textit{Anexo Práctica 1. El Polímetro.} Apuntes de Técnicas Experimentales I, Facultad de Física, 2019-20.
+
     \textit{Anexo Práctica 2. El Osciloscopio.} Apuntes de Técnicas Experimentales I, Facultad de Física, 2019-20.
 
     \subsection{Otras fuentes}
 
     Wikipedia. \textit{Función sigmoide.} \url{https://en.wikipedia.org/wiki/Sigmoid_function}
 
-    SciPy. \textit{Scypy -> Optimize -> Curve Fit.} \url{https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html}
+    SciPy. \textit{Scypy - Optimize - Curve Fit.} \url{https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html}
 
-    SciPy. \textit{Numpy -> Polynomial -> Fit.} \url{https://docs.scipy.org/doc/numpy/reference/generated/numpy.polynomial.polynomial.Polynomial.fit.html}
+    SciPy. \textit{Numpy - Polynomial - Fit.} \url{https://docs.scipy.org/doc/numpy/reference/generated/numpy.polynomial.polynomial.Polynomial.fit.html}
 
     \subsection{LaTeX}
 
