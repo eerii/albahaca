@@ -8,7 +8,7 @@ sys.path.insert(1, '../Base')
 from reg_lin import reg_lin_b as rl
 import mpl_config as mpl
 
-mpl.inicio()
+#mpl.inicio()
 
 #Leer datos
 d1 = pd.read_csv("BH-4.csv", sep=';', decimal=',')
