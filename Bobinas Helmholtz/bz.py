@@ -43,4 +43,6 @@ s1 = s(Be1, B(pm, i, n, r, r, z1))
 s2 = s(Be2, B(pm, i, n, r, r, z2))
 s3 = s(Be3, B(pm, i, n, r, r, z3))
 
+print("Desviaciones - s1: {}, s2: {}, s3: {}".format(s1, s2, s3))
+
 plt.show()

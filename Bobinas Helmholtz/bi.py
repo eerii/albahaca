@@ -6,6 +6,9 @@ import sympy as sy
 import sys
 sys.path.insert(1, '../Base')
 from reg_lin import reg_lin_b as rl
+import mpl_config as mpl
+
+mpl.inicio()
 
 #Leer datos
 d1 = pd.read_csv("BH-4.csv", sep=';', decimal=',')
@@ -48,5 +51,8 @@ fmu = sy.lambdify([a, r, n, m], mu, "numpy")
 mu1 = fmu(R, R, N, b1)
 mu2 = fmu(R/2, R, N, b2)
 mu3 = fmu(2*R, R, N, b3)
+
+#fig = mpl.figure()
+#mpl.guardar("Test", "X", "Y")
 
 print("Permeabilidad orginal: {}, P1: {}, P2: {} P3:{}".format(4 * np.pi * 10**(-7), mu1, mu2, mu3))
