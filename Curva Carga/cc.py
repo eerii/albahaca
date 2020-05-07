@@ -17,19 +17,18 @@ sLnI = np.asarray([[D[j]["sLnI{}".format(i)].to_numpy() for i in range(1,5)] for
 #Selector de experimento
 exp = 1 #Número de experiencia (0-2)
 rep = 3 #Número de repetición (0-3)
-for exp in range(0, 3):
-    for rep in range(0, 4):
-        #Regresión lineal ponderada
-        x = T[exp,rep][~np.isnan(T[exp,rep])]
-        y = LnI[exp,rep][~np.isnan(LnI[exp,rep])]
 
-        sy = sLnI[exp,rep][~np.isnan(sLnI[exp,rep])]
+#Regresión lineal ponderada
+x = T[exp,rep][~np.isnan(T[exp,rep])]
+y = LnI[exp,rep][~np.isnan(LnI[exp,rep])]
 
-        a, b = rl(x,y,sy)[0:2]
+sy = sLnI[exp,rep][~np.isnan(sLnI[exp,rep])]
 
-        xr = np.linspace(min(x), max(x), 20)
-        yr = a + b*xr
+a, b = rl(x,y,sy)[0:2]
 
-        #Gráficas
-        plt.scatter(T[exp,rep], np.log(I[exp,rep]))
-        plt.plot(xr, yr)
+xr = np.linspace(min(x), max(x), 20)
+yr = a + b*xr
+
+#Gráficas
+plt.scatter(T[exp,rep], np.log(I[exp,rep]))
+plt.plot(xr, yr)
