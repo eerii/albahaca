@@ -31,4 +31,4 @@ def tratamiento_datos(x, sb=0):
         print("Eliminados: {}".format(x[e]))
         print("Indices: {}\n---".format(e))
 
-    return nx, med, sc, e
+    return med, sc

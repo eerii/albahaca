@@ -9,22 +9,20 @@ from varias_medidas import tratamiento_datos as tdatos
 import mpl_config as mpl
 
 #Datos
-sb = 0.001
-D = 0.02167 #IMPORTANTE: CAMBIAR!!!!
+sb = 0.001 * 2
+D = 0.02167
 sD = 0.00048
 
 d = pd.read_csv("MI2_Cuerpos.csv", sep=';', decimal=',')
-td = d["TDisco"].to_numpy()
-xd, md, scd, ed = tdatos(td, sb)
-tc = d["TCil"].to_numpy()
-xc, mc, scc, ec = tdatos(tc, sb)
+td = d["TDisco"].to_numpy() * 2
+Td, sTd = tdatos(td, sb)
+tc = d["TCil"].to_numpy() * 2
+Tc, sTc = tdatos(tc, sb)
 
 #DISCO
 print("---\nDisco\n---")
 
 #Momento Inercia Experimental
-Td = 2*md
-sTd = 2*scd
 Id = (Td**2 * D) / (4*np.pi**2)
 
 #Propagación Incertidumbres
@@ -50,8 +48,6 @@ print("I(teo) = {} +/- {}".format(Idt, sIdt))
 print("---\nCilindro\n---")
 
 #Momento Inercia Experimental
-Tc = 2*mc
-sTc = 2*scc
 Ic = (Tc**2 * D) / (4*np.pi**2)
 
 #Propagación Incertidumbres
