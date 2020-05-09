@@ -35,17 +35,17 @@ yr = b*xr
 plt.plot(xr, yr)
 
 #Tratamiento Datos
-T1, sT1 = tdatos(T1[0], st)
-T2, sT2 = tdatos(T2[0], st)
+mT1, sT1 = tdatos(T1[0], st)
+mT2, sT2 = tdatos(T2[0], st)
 
 #Velocidades instantáneas
-V1 = L / T1
-V2 = L / T2
+V1 = L / mT1
+V2 = L / mT2
 
-sV1 = ((sl**2 / T1**2) + ((L**2 * st**2) / T1**4))**0.5
-sV2 = ((sl**2 / T2**2) + ((L**2 * st**2) / T2**4))**0.5
+sV1 = ((sl**2 / mT1**2) + ((L**2 * st**2) / mT1**4))**0.5
+sV2 = ((sl**2 / mT2**2) + ((L**2 * st**2) / mT2**4))**0.5
 
-Lu = unc.ufloat(L, sl); T1u = unc.ufloat(T1, st); T2u = unc.ufloat(T2, st)
+Lu = unc.ufloat(L, sl); T1u = unc.ufloat(mT1, st); T2u = unc.ufloat(mT2, st)
 V1u = Lu / T1u; V2u = Lu / T2u
 
 print("---\nPropEr V1 = {} +/- {}".format(V1, sV1))
