@@ -1,0 +1,534 @@
+\documentclass[12pt, a4paper, titlepage]{article}
+
+%INFORMACIÓN
+\title{\textbf {Electricidad: Bobinas de Helmholtz y Curva de Carga}}
+\author{{\Large Pazos Pérez, José}\\CAMBIAR DNI}
+\date{}
+
+%PAQUETES
+\usepackage[dvipsnames]{xcolor} %Colorear texto y colores estándar
+\usepackage{colortbl} %Colorear celdas de tablas
+\usepackage{css-colors}
+
+\definecolor{Red}{RGB}{222, 94, 80}
+\definecolor{Blue}{RGB}{110, 176, 230}
+\definecolor{LinkBlue}{RGB}{20, 88, 224}
+
+\usepackage[centertags]{amsmath} %Excluir ecuaciones de la enumeración automática
+\usepackage{csvsimple} %Tablas desde archivos .csv
+\usepackage{pgfplots} %Gráficas desde matplotlib con .pgf
+\usepackage{graphicx} %Imágenes
+\usepackage[siunitx]{circuitikz} %Circuitos
+\usepackage{pythonhighlight} %Código de python
+\pgfplotsset{compat=1.16}
+
+\usepackage{tocloft} %Crear listas (por ejemplo, de ecuaciones)
+\usepackage{enumitem} %Cambiar los estilos de las listas
+\usepackage[margin=0.8in]{geometry} %Márgenes
+\usepackage[skip=12pt]{parskip} %Añadir espacio tras los párrafos
+\usepackage{float} %Controlar el posicionamiento de gráficas y tablas con H
+\usepackage[toc,page]{appendix} %Anexos
+\usepackage{chngcntr} %Numeración de capítulos por partes
+\usepackage{hyperref} %Añadir vínculos
+\hypersetup{
+    colorlinks=true,
+    linkcolor=LinkBlue,
+    filecolor=Red,
+    urlcolor=Blue,
+}
+
+%CONFIGURACIÓN
+\renewcommand{\contentsname}{Índice}
+\renewcommand{\partname}{Experiencia}
+\renewcommand{\listtablename}{Lista de Tablas}
+\renewcommand{\listfigurename}{Lista de Figuras}
+\renewcommand{\appendixpagename}{Anexos}
+\renewcommand{\appendixtocname}{\large Anexos}
+\renewcommand{\appendixname}{Anexo}
+\renewcommand{\figurename}{Figura}
+\renewcommand{\tablename}{Tabla}
+
+\newcommand{\listecuacionesname}{\Large Lista de Ecuaciones}
+\newlistof{ecuaciones}{equ}{\listecuacionesname}
+\newcommand{\ecuaciones}[1]{\addcontentsline{equ}{ecuaciones}{\protect\numberline{\theequation}#1}\par}
+
+\linespread{1.3}
+\counterwithin*{section}{part}
+
+\newcommand{\code}[1]{\texttt{#1}} %Formatear texto como código
+
+%DOCUMENTO
+\begin{document}
+  \maketitle
+
+  \tableofcontents
+
+  \newpage
+  \part{Bobinas de Helmholtz}
+
+  \section{Objetivos}
+
+  En esta práctica exploraremos las \textbf{Bobinas de Helmholtz}, una distribución de dos bobinas enfrentadas por las que circula corriente eléctrica en el mismo sentido. A raíz de ello se generará un campo magnético con la peculiaridad de ser prácticamente uniforme entre ambos aparatos. Tendremos dos metas principales:
+
+  \begin{itemize}[label=$-$]
+    \item Comparar el campo magnético entre las dos espiras predicho por la teoría con el que mediremos de manera experimental, variando la distancia entre las bobinas.
+    \item Obtener el valor de la permeabilidad magnética del vacío mediante un ajuste de mínimos cuadrados realizado sobre datos tomados con la distancia entre las bobinas fija.
+  \end{itemize}
+
+  \subsection{Expresión para el campo magnético}
+
+  La siguiente expresión describe el campo magnético que ambas bobinas producirán en un punto en el eje entre las dos.
+  \begin{equation}
+    B = \frac{\mu_0 I N}{2R} \cdot \left[\frac{1}{\left(1 + \left(\frac{z - \frac{a}{2}}{R}\right)^2 \right)^{3/2}} + \frac{1}{\left(1 + \left(\frac{z + \frac{a}{2}}{R}\right)^2 \right)^{3/2}}\right]
+    \label{ec:B}
+  \end{equation}
+  En la que:
+  \begin{itemize}[label=$-$]
+    \item $\mu_0 = 4 \pi 10^{-7}$ - Permeabilidad magnética del vacío
+    \item $R = 0.20m$ - Radio de las bobinas
+    \item \textit{a} - Distancia entre las bobinas
+    \item \textit{I} - Intensidad que recorre las bobinas
+    \item $N = 154$ - Número de espiras
+    \item \textit{z} - Distancia entre el punto medio entre las boninas y otro punto de el eje que une sus centros
+  \end{itemize}
+
+  \newpage
+  \subsection{Diagrama}
+
+  Para verificar esta ley y comprender mejor el funcionamiento de este dispositivo, utilizaremos dos bobinas con 154 espiras enrolladas, y las enfrentaremos. Luego les sumistraremos corriente eléctrica y mediremos el campo magnético con un teslámetro. No entraremos en detalles sobre el montaje pormenorizado por no haber realizado esta práctica, pero en la próxima imágen se puede observar cómo las bobinas enfrentadas producen el campo que mediremos.
+
+  \begin{figure}[H]
+    \centering
+    \resizebox{9cm}{!}{\includegraphics{BH-Diagrama}}
+    \caption{Diagrama del campo generado por dos Bobinas de Helmholtz}
+  \end{figure}
+
+  En cada una de las dos partes de la práctica explicaremos más en detalle la clase de mediciones que tomaremos y las leyes que queremos demostrar.
+
+  \newpage
+  \section{Variación del campo en el eje central}
+
+  En esta primera experiecia colocaremos las bobinas de la manera descrita a tres distancias: Igual al radio, la mitad del radio y el doble del radio. Luego moveremos el teslamómetro desde el punto central hacia los lados, siempre siguiendo el eje central. De esta manera, obtendremos 50 medidas en las que lo único que variamos es la distancia, dejando la intensidad constante.
+
+  \subsection{Tablas de datos}
+
+  Procedemos a exponer las tablas que obtuvimos. En ellas se representa la distancia al centro (z) en metros (m) y el campo que medimos ($B_{exp}$) en teslas (T). La incertidumbre de ambas medidas es constante, por lo que la explicitaremos aquí y no en las tablas:
+  \begin{gather}
+    s(B_{exp}) = 0.01mT = 10^{-5}T \\
+    z = d - d_0 \qquad s(z) = \sqrt{s(d)^2 + s(d_0)^2} = \sqrt{2} \cdot s(d) = \sqrt{2} \cdot 0,001m = 0,0014m
+  \end{gather}
+  La intensidad también será constante y su valor e incertidumbre se fijarán en $I = 2,55 \pm 0,01 A$.
+
+  \subsubsection{Tabla 1: Separación a=R}
+
+  \begin{figure}[H]
+    \begin{table}[H]
+      \centering
+      \scalebox{.71}{
+      \csvreader[
+        tabular=|c|c|c|,
+        table head=\hline Medida & $z(m)$ & $B_{exp}(T)$ \\ \hline,
+        late after last line=\\\hline,
+        filter test= \ifnumless{\thecsvrow}{25},
+        separator=semicolon
+        ]{BH-1.csv}
+        {z=\z, Bexp=\be}
+        {\thecsvrow & \z & \be}} \quad
+      \scalebox{.71}{
+      \csvreader[
+        tabular=|c|c|c|,
+        table head=\hline Medida & $z(m)$ & $B_{exp}(T)$ \\ \hline,
+        late after last line=\\\hline,
+        separator=semicolon
+        ]{BH-1b.csv}
+        {z=\z, Bexp=\be}
+        {\the\numexpr25+\thecsvrow\relax & \z & \be}}
+    \end{table}
+    \caption{Variación de B con a=R}
+  \end{figure}
+
+  Para determinar la desviación cuadrática de los datos de la tabla anterior usaremos la siguiente fórmula:
+  \begin{equation}
+    s = \frac{1}{N} \sqrt{\sum{\left(B_{exp} - B_{teo}\right)^2}} \label{ec:s}
+  \end{equation}
+
+  Para nuestras medidas, obtenemos $s_1 = 1,1 \cdot 10^{-5} T$.
+
+  \vspace{1cm}
+
+  \begin{minipage}{0.49\textwidth}
+    \subsubsection{Tabla 2: Separación a=R/2}
+
+    \begin{figure}[H]
+      \begin{table}[H]
+        \scalebox{.71}{
+        \csvreader[
+          tabular=|c|c|c|,
+          table head=\hline Medida & $z(m)$ & $B_{exp}(T)$ \\ \hline,
+          late after last line=\\\hline,
+          filter test= \ifnumless{\thecsvrow}{25},
+          separator=semicolon
+          ]{BH-2.csv}
+          {z=\z, Bexp=\be}
+          {\thecsvrow & \z & \be}} \quad
+        \scalebox{.71}{
+        \csvreader[
+          tabular=|c|c|c|,
+          table head=\hline Medida & $z(m)$ & $B_{exp}(T)$ \\ \hline,
+          late after last line=\\\hline,
+          separator=semicolon
+          ]{BH-2b.csv}
+          {z=\z, Bexp=\be}
+          {\the\numexpr25+\thecsvrow\relax & \z & \be}}
+      \end{table}
+      \caption{Variación de B con a=R/2}
+    \end{figure}
+
+    Calculamos la desviación típica (\ref{ec:s}) con estos datos y obtenemos $s_2 = 3,3 \cdot 10^{-5} T$.
+  \end{minipage} \hfill
+  \begin{minipage}{0.49\textwidth}
+    \subsubsection{Tabla 3: Separación a=2R}
+
+    \begin{figure}[H]
+      \begin{table}[H]
+        \scalebox{.71}{
+        \csvreader[
+          tabular=|c|c|c|,
+          table head=\hline Medida & $z(m)$ & $B_{exp}(T)$ \\ \hline,
+          late after last line=\\\hline,
+          filter test= \ifnumless{\thecsvrow}{25},
+          separator=semicolon
+          ]{BH-3.csv}
+          {z=\z, Bexp=\be}
+          {\thecsvrow & \z & \be}} \quad
+        \scalebox{.71}{
+        \csvreader[
+          tabular=|c|c|c|,
+          table head=\hline Medida & $z(m)$ & $B_{exp}(T)$ \\ \hline,
+          late after last line=\\\hline,
+          separator=semicolon
+          ]{BH-3b.csv}
+          {z=\z, Bexp=\be}
+          {\the\numexpr25+\thecsvrow\relax & \z & \be}}
+      \end{table}
+      \caption{Variación de B con a=2R}
+    \end{figure}
+
+    Calculamos la desviación típica (\ref{ec:s}) con estos datos y obtenemos $s_3 = 7,5 \cdot 10^{-5} T$.
+  \end{minipage}
+
+  \newpage
+  \subsection{Campo teórico}
+
+  Ahora debemos calcular el campo magnético teórico para poder comprarlo con los datos que obtuvimos y poder crear la gráfica que contenga a ambos.
+
+  Utilizaremos la ecuación \ref{ec:B} y sustituiremos los valores de a=R, a=R/2 y a=2R.
+  \begin{gather*}
+    B1_{teo} = \frac{\mu_0 I N}{2R} \cdot \left[\frac{1}{\left(1 + \left(\frac{z - \frac{R}{2}}{R}\right)^2 \right)^{3/2}} + \frac{1}{\left(1 + \left(\frac{z + \frac{R}{2}}{R}\right)^2 \right)^{3/2}}\right] \nonumber \\
+    B2_{teo} = \frac{\mu_0 I N}{2R} \cdot \left[\frac{1}{\left(1 + \left(\frac{z - \frac{R}{4}}{R}\right)^2 \right)^{3/2}} + \frac{1}{\left(1 + \left(\frac{z + \frac{R}{4}}{R}\right)^2 \right)^{3/2}}\right] \nonumber \\
+    B3_{teo} = \frac{\mu_0 I N}{2R} \cdot \left[\frac{1}{\left(1 + \left(\frac{z - R}{R}\right)^2 \right)^{3/2}} + \frac{1}{\left(1 + \left(\frac{z + R}{R}\right)^2 \right)^{3/2}}\right] \nonumber
+  \end{gather*}
+
+  Ahora, con estas ecuaciones, sustituiremos el valor del radio R=0.20m, la permeabilidad magnética $\mu_0 = 4 \pi 10^{-7}$, el número de espiras N=154 y la intensidad I=2,55A. Esto nos dará una fórmula general para calcular los valores de B sustituyendo las distancias z correspondientes. Presentamos los resultados corresponiendtes en las siguientes tablas:
+
+  \textit{(En la siguiente página por comodidad de representación.)}
+
+  \begin{figure}[H]
+    \begin{table}[H]
+      \centering
+      \scalebox{.7}{
+      \csvreader[
+        tabular=|c|,
+        table head=\hline Medida \\ \hline,
+        late after last line=\\\hline,
+        separator=semicolon
+        ]{BH-1.csv}
+        {}
+        {\thecsvrow}} \quad
+      \scalebox{.7}{
+      \csvreader[
+        tabular=|c|c|c|,
+        table head=\hline $z1(m)$ & $B1_{exp}(T)$ & $B1_{teo}(T)$ \\ \hline,
+        late after last line=\\\hline,
+        separator=semicolon
+        ]{BH-1.csv}
+        {z=\z, Bteo=\bt, Bexp=\be}
+        {\z & \be & \bt}} \quad
+      \scalebox{.7}{
+      \csvreader[
+        tabular=|c|c|c|,
+        table head=\hline $z2(m)$ & $B2_{exp}(T)$ & $B2_{teo}(T)$ \\ \hline,
+        late after last line=\\\hline,
+        separator=semicolon
+        ]{BH-2.csv}
+        {z=\z, Bteo=\bt, Bexp=\be}
+        {\z & \be & \bt}} \quad
+      \scalebox{.7}{
+      \csvreader[
+        tabular=|c|c|c|,
+        table head=\hline $z3(m)$ & $B3_{exp}(T)$ & $B3_{teo}(T)$ \\ \hline,
+        late after last line=\\\hline,
+        separator=semicolon
+        ]{BH-3.csv}
+        {z=\z, Bteo=\bt, Bexp=\be}
+        {\z & \be & \bt}} \quad
+    \end{table}
+    \caption{Campo magnético experimental frente a teórico para a=R, a=R/2 y a=2R}
+  \end{figure}
+
+  \subsection{Representación gráfica}
+
+  Finalmente, teniendo los datos del campo magnético experimental y sabiendo calcular los del campo magnético teórico, representaremos ambos para poder compararlos. Cabe destacar que no utilizaremos los datos $B_{teo}$ de la tabla anterior, si no que computaremos la fórmula directamente en python para obtener una curva más suave. La tabla anterior era simplemente una demostración de cómo calcular el campo teórico.
+
+  Primero procesaremos los datos en \code{python}, y para ello haremos uso de la librería \code{pandas}, que nos permite importar directamente archivos .csv, el mismo formato que usamos para representar las tablas de \LaTeX.
+
+  \begin{python}
+    import pandas as pd
+
+    #Constantes
+    pm = 4 * np.pi * 10**(-7); i = 2.55; n = 154; r = 0.2
+
+    #Leer datos
+    d1 = pd.read_csv("BH-1.csv", sep=';', decimal=',')
+    z1 = d1["z"]; Be1 = d1["Bexp"] #Similarmente para las otras tablas
+  \end{python}
+
+  El siguiente paso es calcular las curvas teóricas, para las que utilizaremos una función por comodidad. Para ellas definiremos $z \subset [-0,450, 0,450]$ con medidas cada 0,02m, ya que nos dará una representación simétrica y que contenga todas las medidas experimentales.
+
+  \begin{python}
+    #Calculo campo magnetico
+    B = lambda pm, i, n, r, a, z: ((pm * i * n) / (2 * r)) *
+        ((1 / (1 + ((z - (a/2)) / (r))**2)**(3/2)) +
+        (1 / (1 + ((z + (a/2)) / (r))**2)**(3/2)))
+
+    #Curvas teoricas
+    z = np.linspace(-0.450, 0.450, 450)
+    Bt1 = B(pm, i, n, r, r, z)
+    Bt2 = B(pm, i, n, r, r/2, z)
+    Bt3 = B(pm, i, n, r, 2*r, z)
+  \end{python}
+
+  Por fin estamos listos para representar las gráficas, lo que haremos con ayuda de \code{matplotlib}. Las exportaremos utilizando un formato .pgf que \LaTeX puede leer de mandera vectorial.
+
+  \begin{python}
+    import matplotlib.pyplot as plt
+
+    #Graficas experimentales (puntos)
+    plt.scatter(z1,Be1);plt.scatter(z2,Be2);plt.scatter(z3,Be3)
+    #Graficas teoricas (curvas)
+    plt.plot(z,Bt1); plt.plot(z,Bt2); plt.plot(z,Bt2)
+  \end{python}
+
+  Además de nuestro programa original, utilizaremos un complemento común para todas las memorias que define el estilo de las gráficas y configura \code{matplotlib} para exportar .pgf y utilizar nuestra paleta de colores.
+
+  Al ejecutar el código, obtenemos la siguiente gráfica:
+
+  \begin{figure}[H]
+    %\centering
+    \hspace{2.5em} \input{BH.pgf}
+    \caption{Campo magnético (B) frente a distancia del punto medio (z) para tres separaciones de bobinas (\textcolor{RoyalBlue}{a=R}, \textcolor{MediumSeaGreen}{a=R/2}, \textcolor{IndianRed}{a=2R})}
+  \end{figure}
+
+  Podemos observar que los datos experimentales no estan exáctamente encima de la gráfica, pero siguen la misma forma. Esto se debe a que las medidas de laboratorio pueden tener algún error, pero igualmente comprueba que las leyes se verifican. Además, esto se corresponde con obtener una desviación cuadrática (\ref{ec:s}) muy pequeña en comparación con nuestras medidas.
+
+
+  \newpage
+  \section{Permeabilidad magnética del vacío}
+
+  En esta segunda parte de la práctica mantendremos el teslámetro en el centro de ambas bobinas y variaremos la intensidad. De esta manera podremos calcular la constante de permeabilidad magnética del vacío a partir de datos experimentales y comprarla con su valor teórico ($\mu_0 = 4 \pi 10^{-7}$).
+
+  Si observamos la ecuación de B (\ref{ec:B}), observamos que al dejar z constante, B se relaciona con I a través de una constante:
+  \begin{equation}
+    B = c \cdot I \qquad c = \frac{\mu_0 N}{2R} \cdot \left[\frac{2}{\left(1 + \left(\frac{a/2}{R}\right)^2 \right)^{3/2}}\right] \nonumber
+  \end{equation}
+
+  Podemos simplificar todavía más este resultado si sustituímos a por R, R/2 y R2 respectivamente:
+  \begin{gather}
+    c_1 = \frac{\mu_0 N}{2R} \cdot \left[\frac{2}{\left(1 + \left(\frac{R}{2R}\right)^2 \right)^{3/2}}\right] = \frac{\mu_0 N}{R} \cdot \frac{2^3}{5\sqrt{5}} \nonumber \\
+    c_2 = \frac{\mu_0 N}{2R} \cdot \left[\frac{2}{\left(1 + \left(\frac{R}{R}\right)^2 \right)^{3/2}}\right] = \frac{\mu_0 N}{R} \cdot \frac{2^6}{17\sqrt{17}} \nonumber \\
+    c_3 = \frac{\mu_0 N}{2R} \cdot \left[\frac{2}{\left(1 + \left(\frac{R}{4R}\right)^2 \right)^{3/2}}\right] = \frac{\mu_0 N}{R} \cdot \frac{1}{2\sqrt{2}} \nonumber
+  \end{gather}
+
+  Nuestro objetivo es encontrar las constantes $c_n$, la pendiente de la recta $B = c \cdot I$, para poder despejar $\mu_0$ de ahí. Para ello haremos un ajuste por mínimos cuadrados sin término independiente. Luego utilizaremos estas fórmulas para calcular $\mu_0$ en base a c.
+  \begin{gather}
+    \mu_0 = \frac{c_1 R \cdot 5 \sqrt{5}}{N \cdot 2^3} = \frac{c_2 R \cdot 17 \sqrt{17}}{N \cdot 2^6} = \frac{c_3 R \cdot 2 \sqrt{2}}{N} \label{ec:mu}
+  \end{gather}
+
+  Tambien podemos calcular la indeterminación de $\mu_0$ mediante propagación de incertidumbres. Por comodidad usaremos \textit{K} para referirnos a la fracción en corchetes en la fórmula superir que sustituímos por la constante al incluír a=R, a=R/2 y a=2R. Vemos que es simplemente sustituír c por s(c) en la fórmula de $\mu_0$.
+  \begin{gather}
+    s(\mu_0) = \sqrt{\left(\frac{\partial c}{\partial \mu_0} \right)^2 \cdot s^2(c)} = \sqrt{\left( \frac{2R}{N} \cdot K \right)^2 \cdot s^2(c)} = \frac{2R}{N} \cdot K \cdot s(c) \label{ec:smu}
+  \end{gather}
+
+  \newpage
+  \subsection{Tablas de datos}
+
+  En las siguientes tablas de datos representamos el campo magnético ($B_{exp}$) en teslas (T) que medimos desde el punto medio de las bobinas junto a la intensidad ($I$) en amperios (A). La incertidumbre del campo magnético sigue siendo constante $s(B_{exp}) = 10^{-5}T$, pero no se especifica la incertidumbre de I. En la parte anterior de la práctica podemos ver en el enunciado de las tablas que $s(I) = 0,01A$, sin embargo, al no especificarse en esta parte y de ser 0,01 causaría problemas a la hora de hacer una regresión lineal, consideraremos que es nula o muy baja.
+
+  \begin{figure}[H]
+    \begin{table}[H]
+      \centering
+      \csvreader[
+        tabular=|c|,
+        table head=\hline Medida \\ \hline,
+        late after last line=\\\hline,
+        separator=semicolon
+        ]{BH-4.csv}
+        {}
+        {\thecsvrow} \quad
+      \csvreader[
+        tabular=|c|c|,
+        table head=\hline $I1(A)$ & $B1_{exp}(T)$ \\ \hline,
+        late after last line=\\\hline,
+        separator=semicolon
+        ]{BH-4.csv}
+        {I = \int, Bexp=\be}
+        {\int & \be} \quad
+      \csvreader[
+        tabular=|c|c|,
+        table head=\hline $I2(A)$ & $B2_{exp}(T)$ \\ \hline,
+        late after last line=\\\hline,
+        separator=semicolon
+        ]{BH-5.csv}
+        {I = \int, Bexp=\be}
+        {\int & \be} \quad
+      \csvreader[
+        tabular=|c|c|,
+        table head=\hline $I3(A)$ & $B3_{exp}(T)$ \\ \hline,
+        late after last line=\\\hline,
+        separator=semicolon
+        ]{BH-6.csv}
+        {I = \int, Bexp=\be}
+        {\int & \be} \quad
+    \end{table}
+    \caption{Variación del campo magnético con la intensidad para a=R, a=R/2 y a=2R}
+  \end{figure}
+
+  \subsection{Representación gráfica}
+
+  Utilizaremos un programa de \code{python} muy similar al anterior para representar los datos experimentales como puntos. Sin embargo, en esta ocasión tenemos que hacer un ajuste por mínimos cuadrados, que explicaremos en la siguiente sección.
+
+  \begin{figure}[H]
+    %\centering
+    \hspace{2.5em} \input{BH2.pgf}
+    \caption{Campo magnético (B) frente a la intensidad (I) para tres separaciones de las bobinas (\textcolor{RoyalBlue}{a=R}, \textcolor{MediumSeaGreen}{a=R/2}, \textcolor{IndianRed}{a=2R})}
+  \end{figure}
+
+  \subsection{Ajuste por mínimos cuadrados}
+
+  Para ajustar los una serie de datos que parezcan seguir una relación lineal podemos utilizar el método de \textbf{ajuste por mínimos cuadrados}. Al ser \textit{lineal}, podemos ajustarla por una recta general de la forma $y = \alpha + \beta x$. El problema a resolver sería conseguir la mejor aproximación \textit{a}, \textit{b} de los parámetros $\alpha, \beta$ y sus incertidumbres utilizando nuestra serie de parámetros $\left\{ x_i, y_i \right\}$. Sin embargo, en este caso sabemos que las rectas pasan por el origen (Puesto que para \textit{I=0}, \textit{B=0}), por lo tanto el parámetro \textit{a} va a ser igual a 0, ya que si sustituímos \textit{y=0} y \textit{x=0}, obtenemos $0 = \alpha + \beta \cdot 0$. Este tipo de regresión de la forma $y = \beta x$ llama \textbf{ajuste por mínimos cuadrados sin término independiente}, y es la que encaja con nuestra ecuación $B = c \cdot I$.
+
+  Para ello minimizaremos la suma de los productos del peso estadístico de cada punto, $w_i$, por el cuadrado de la desviación de los datos, $[y_i - bx_i]^2$. Por lo tanto, la derivada respecto a \textit{b} debe de ser 0.
+  \begin{gather}
+    \chi^2 = \sum^{n}_{i=1} w_i[y_i - bx_i]^2 \label{ec:chi2} \\
+    \frac{\partial \chi^2}{\partial b}=0 \label{ec:deriv}
+  \end{gather}
+
+  De aquí resultan dos posibles casos:
+
+  \begin{enumerate}
+    \item Si las incertidumbres de $x_i$ no son despreciables respecto a las de $y_i$. Obtenemos la siguiente ecuación: $\omega_i=\frac{1}{s^2(y_i)+b^2s^2(x_i)}$, que excede el nivel de este curso.
+    \item Si por el contrario podemos despreciar las incertidumbres de $x_i$ respecto a $y_i$, podemos simplificar la ecuación anterior a $\omega_i=[s(y_i)]^{-2}$.
+  \end{enumerate}
+
+  En nuestro caso, estamos representando B ($y_i$) frente a I ($x_i$), y como ya comentamos la incertidumbre de I no está especificada por lo que consideraremos que es despreciable frente a la de B, así que podemos aplicar el segundo caso.
+
+  Además, podemos considerar que las incertidumbres de $y_i$ permanecen constantes entre las diferentes medidas, por lo que también lo hará el peso estadístico $w = cte$. Finalmente, conseguimos la expresión matemática de \textit{b} en base a la serie de medidas $\left\{ x_i, y_i \right\}$, que sustituiremos por \textit{I} y \textit{B}. Tambien podemos calcular la desviación típica (s), la incertidumbre de b (s(b)) y el coeficiente de regresión lineal (r).
+  \begin{gather}
+    b = \frac{\sum_i{x_i y_i}}{\sum_i{x_i^2}} = \frac{\sum_i{I B}}{\sum_i{I^2}} \label{ec:regb} \\
+    s = \sqrt{\frac{\sum_i{(y_i - bx_i)^2}}{n - 1}} = \sqrt{\frac{\sum_i{(B - bI)^2}}{n - 1}} \label{ec:regs} \\
+    s(b) = \frac{s}{\sqrt{\sum_i{x_i^2}}} = \frac{s}{\sqrt{\sum_i{I^2}}} \label{ec:regsb} \\
+    r = \frac{\sum_i{x_i y_i}}{\sqrt{(\sum_i{x_i^2}) \cdot (\sum_i{y_i^2})}} = \frac{\sum_i{I B}}{\sqrt{(\sum_i{I^2}) \cdot (\sum_i{B^2})}} \label{ec:regr}
+  \end{gather}
+
+  Implementaremos este procedimiento utilizando una vez más \code{python}. Lo haremos en una librería a parte para poder utilizarlo en el resto de las memorias. El código se describe a continuación, dónde los parámetros x e y son arrays de \code{numpy} o series de \code{pandas}, lo equivalente a una columna de nuestras tablas. Contienen la función \code{.sum()}, que hace un sumatorio de todos sus miembros. Como vemos, podemos operar antes de hacer la suma, por ejemplo, para calcular $\sum_i{x_i y_i}$.
+
+  \begin{python}
+    def reg_lin_b(x, y):
+        n = len(x) #Numero de datos
+
+        #Sumatorios necesarios
+        sxy = (x*y).sum()
+        sx2 = (x**2).sum()
+        sybx = ((y - b*x)**2).sum()
+        sy2 = (y**2).sum()
+
+        b = sxy / sx2 #Pendiente de la recta
+        s = (sybx / (n-1))**0.5 #Desviacion tipica
+        sb = s / (sx2)**0.5 #Incertidumbre de b
+        r = sxy / (sx2 * sy2)**0.5 #Coeficiente de regresion lineal
+
+        return (b, s, sb, r)
+  \end{python}
+
+  Ahora crearemos el programa que nos permitirá representar las rectas junto a los puntos experimentales, y nos devolverá los datos de la regresión lineal.
+
+  \begin{python}
+    import pandas as pd
+    import matplotlib.pyplot as plt
+
+    #Datos, similarmente para las otras dos tablas
+    d1 = pd.read_csv("BH-4.csv", sep=';', decimal=',')
+    I1 = d1["I"]; Be1 = d1["Bexp"]
+
+    #Regresion lineal sin termino independiente
+    b1 = rl(I1, Be1)[0]
+    xr1 = np.linspace(0, max(I1), 10); yr1 = b1 * xr1
+
+    #Graficas
+    plt.scatter(I1, Be1) #Experimental, puntos
+    plt.plot(xr1, yr1) #Teorica, recta regresion lineal
+  \end{python}
+
+  Y obtenemos la siguiente gráfica con los parámetros de regresión indicados.
+
+  \begin{figure}[H]
+    %\centering
+    \hspace{2.5em} \input{BH2R.pgf}
+    \caption{Campo magnético (B) frente a la intensidad (I) para tres separaciones de las bobinas (\textcolor{RoyalBlue}{a=R}, \textcolor{MediumSeaGreen}{a=R/2}, \textcolor{IndianRed}{a=2R}) con regresión lineal simple sin término independiente}
+  \end{figure}
+  \begin{gather*}
+    b_1 = 0,0006572 T/A \qquad s_1 = 9,3 \cdot 10^{-6} T \qquad sb_1 = 9,5 \cdot 10^{-7} T/A \qquad r_1 = 0,99998 \\
+    b_2 = 0,000843 T/A \qquad s_2 = 1,3 \cdot 10^{-5} T \qquad sb_2 = 1,3 \cdot 10^{-6} T/A \qquad r_2 = 0,99997 \\
+    b_3 = 0,000327 T/A \qquad s_3 = 1,1 \cdot 10^{-5} T \qquad sb_3 = 1,1 \cdot 10^{-6} T/A \qquad r_3 = 0,99990
+  \end{gather*}
+
+  \subsection{Cálculo de la permeabilidad magnética}
+
+  Ahora que tenemos las pendientes de las tres rectas, podemos calcular la permeabilidad magnética con las ecuaciones que describimos antes (\ref{ec:mu}). Tenemos así:
+  \begin{gather*}
+    \mu_{0(1)} = \frac{b_1 R \cdot 5 \sqrt{5}}{N \cdot 2^3} = \frac{0,0006572 \cdot 0,2 \cdot 5 \sqrt{5}}{154 \cdot 2^3} = 1,193 \cdot 10^{-6} \frac{m \cdot T}{A} \\
+    \mu_{0(2)} = \frac{b_2 R \cdot 17 \sqrt{17}}{N \cdot 2^6} = \frac{0,000843 \cdot 0,2 \cdot 17 \sqrt{17}}{154 \cdot 2^6} = 1,199 \cdot 10^{-6} \frac{m \cdot T}{A}\\
+    \mu_{0(3)} = \frac{b_3 R \cdot 2 \sqrt{2}}{N} = \frac{0,000327 \cdot 0,2 \cdot 2 \sqrt{2}}{154} = 1,201 \cdot 10^{-6} \frac{m \cdot T}{A}
+  \end{gather*}
+
+  Calcular la incertidumbre de nuestras medidas es sencillo utilizando propagación de incertidumbres. A partir de la expresión \ref{ec:smu} obtenemos estos resultados:
+  \begin{gather*}
+    s(\mu_{0(1)}) = \frac{s(b_1) R \cdot 5 \sqrt{5}}{N \cdot 2^3} = 1,7 \cdot 10^{-9} \frac{m \cdot T}{A} \\
+    s(\mu_{0(2)}) = \frac{s(b_2) R \cdot 17 \sqrt{17}}{N \cdot 2^6} = 1,8 \cdot 10^{-9} \frac{m \cdot T}{A} \\
+    s(\mu_{0(3)}) = \frac{s(b_3) R \cdot 2 \sqrt{2}}{N} = 4,0 \cdot 10^{-9} \frac{m \cdot T}{A}
+  \end{gather*}
+
+  Podemos observar que los resultados se ajustan bastante bien a la constante de permeabilidad magnética original, el ligero desvío se produce por el mismo motivo que las gráficas experimentales no coinciden del todo con las teóricas, probablemente pequeños fallos en la obtención de los datos en el laboratorio. De cualquier manera, podemos afirmar con seguridad que $\mu_0$ tiene un valor muy similar al obtenido.
+  \begin{gather*}
+    \mu_0 = 4\pi 10^-7 \frac{m \cdot T}{A} \approx 1,257 \cdot 10^-6 \\
+    \mu_0 \approx 1,193 \cdot 10^{-6} \pm 1,7 \cdot 10^{-9} \approx 1,199 \cdot 10^{-6} \pm 1,8 \cdot 10^{-9} \approx 1,201 \cdot 10^{-6} \pm 4,0 \cdot 10^{-9}
+  \end{gather*}
+
+  \newpage
+  \section{Conclusiones PENDIENTE}
+
+  \newpage
+  \thispagestyle{plain}
+  \mbox{}
+
+  \newpage
+  \part{Curva de Carga}
+
+
+
+
+
+
+
+
+\end{document}

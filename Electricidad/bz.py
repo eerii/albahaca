@@ -2,6 +2,12 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+import sys
+sys.path.insert(1, '../Base')
+import mpl_config as mpl
+
+mpl.inicio(3)
+
 #Constantes
 pm = 4 * np.pi * 10**(-7)
 i = 2.55
@@ -29,13 +35,13 @@ Bt2 = B(pm, i, n, r, r/2, z)
 Bt3 = B(pm, i, n, r, 2*r, z)
 
 #Gráficas
-plt.plot(z,Bt1,color="limegreen")
-plt.plot(z,Bt2,color="dodgerblue")
-plt.plot(z,Bt3,color="tomato")
+plt.plot(z,Bt1,label="a=R")
+plt.plot(z,Bt2,label="a=R/2")
+plt.plot(z,Bt3,label="a=2R")
 
-plt.scatter(z1,Be1,color="lightgreen")
-plt.scatter(z2,Be2,color="skyblue")
-plt.scatter(z3,Be3,color="lightsalmon")
+plt.scatter(z1,Be1,linewidth=0.5)
+plt.scatter(z2,Be2,linewidth=0.5)
+plt.scatter(z3,Be3,linewidth=0.5)
 
 #Desviación típica
 s = lambda Be, Bt: (1/len(Be)) * (np.sum(((Be - Bt)**2).to_numpy()))**0.5
@@ -45,4 +51,4 @@ s3 = s(Be3, B(pm, i, n, r, r, z3))
 
 print("Desviaciones - s1: {}, s2: {}, s3: {}".format(s1, s2, s3))
 
-plt.show()
+mpl.guardar("BH", "z(m)", "B(T)")

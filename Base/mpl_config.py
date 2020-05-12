@@ -1,5 +1,6 @@
-def inicio():
+def inicio(c):
     import matplotlib
+    from cycler import cycler
 
     matplotlib.use("pgf")
     matplotlib.rcParams.update({
@@ -7,16 +8,22 @@ def inicio():
         'font.family': 'serif',
         'text.usetex': True,
         'pgf.rcfonts': False,
+        'figure.figsize': [5.0, 3.5],
+        'scatter.edgecolors': "black"
     })
 
-def figure():
-    import matplotlib.pyplot as plt
-    fig = plt.figure()
-    fig.set_size_inches(w=5, h=3.5)
-    return fig
+    ccycler = 0
+    if c <= 2:
+        ccycler = (cycler(color=["royalblue", "indianred"]))
+    if c == 3:
+        ccycler = (cycler(color=["royalblue", "mediumseagreen", "tomato"]))
+    if c >= 4:
+        ccycler = (cycler(color=["royalblue", "mediumseagreen", "sandybrown", "tomato", "orchid"]))
+    matplotlib.rcParams['axes.prop_cycle'] = ccycler
 
-def guardar(n, xl, yl):
+def guardar(n, xl, yl, leg=True):
     import matplotlib.pyplot as plt
     plt.xlabel(xl)
     plt.ylabel(yl, rotation=0, labelpad=20)
-    plt.savefig(n + ".pdf", bbox_inches = "tight")
+    if leg: plt.legend()
+    plt.savefig(n + ".pgf", bbox_inches = "tight")
