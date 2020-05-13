@@ -356,7 +356,7 @@
 
   Tambien podemos calcular la indeterminación de $\mu_0$ mediante propagación de incertidumbres. Por comodidad usaremos \textit{K} para referirnos a la fracción en corchetes en la fórmula superir que sustituímos por la constante al incluír a=R, a=R/2 y a=2R. Vemos que es simplemente sustituír c por s(c) en la fórmula de $\mu_0$.
   \begin{gather}
-    s(\mu_0) = \sqrt{\left(\frac{\partial c}{\partial \mu_0} \right)^2 \cdot s^2(c)} = \sqrt{\left( \frac{2R}{N} \cdot K \right)^2 \cdot s^2(c)} = \frac{2R}{N} \cdot K \cdot s(c) \label{ec:smu}
+    s(\mu_0) = \sqrt{\left(\frac{\partial \mu_0}{\partial c} \right)^2 \cdot s^2(c)} = \sqrt{\left( \frac{2R}{N} \cdot K \right)^2 \cdot s^2(c)} = \frac{2R}{N} \cdot K \cdot s(c) \label{ec:smu}
   \end{gather}
 
   \newpage
@@ -523,6 +523,284 @@
 
   \newpage
   \part{Curva de Carga}
+
+  \section{Objetivos}
+
+  En esta práctica trabajaremos con un \textbf{circuito RC}, o lo que es lo mismo, que tiene una resistencia y un condensador. Podemos verlo en la figura a continuación:
+
+  \begin{figure}[H]
+    \centering
+    \begin{circuitikz}[european]
+      \draw (0,0) to[voltage source, l=V] (0,3)
+      to[R, l=R] (3,3)
+      to[capacitor, l=C] (3,0) -- (0,0);
+    \end{circuitikz}
+    \caption{Circuito RC}
+  \end{figure}
+
+  Mediremos la curva de carga del condensador en tres escenarios diferentes:
+
+  \begin{itemize}[label=$-$]
+    \item Mantentiendo \textbf{V} y \textbf{C} constantes, variando \textbf{R}
+    \item Mantentiendo \textbf{C} y \textbf{R} constantes, variando \textbf{V}
+    \item Mantentiendo \textbf{R} y \textbf{V} constantes, variando \textbf{C}
+  \end{itemize}
+
+  \subsection{Expresión de la intensidad}
+
+  Si utilizamos la \textbf{ley de Ohm} en el circuito, obtenemos una ecuación diferencial de \textit{Q(t)}, y utilizando su resultado podemos calcular \textit{I(t)} dado que $I(t) = \partial Q /\partial t$
+  \begin{gather}
+    \Delta V = \Delta V_R + \Delta V_C = IR + \frac{Q}{C} = \frac{\partial Q}{\partial t}R + \frac{Q}{C} \nonumber \\
+    Q(t) = C \Delta V (1-e^{\frac{-t}{RC}}) \nonumber \\
+    I(t) = \frac{\partial Q}{\partial t} = \frac{\Delta V}{R} e^{\frac{-t}{RC}} \label{ec:i}
+  \end{gather}
+
+  \subsection{Diagrama}
+
+  Pese a que no explicaremos de manera pormenorizada el montaje experimental, daremos unas nociones básicas del funcionamiento del circuito y cómo tomaremos las medidas.
+
+  Necesitamos una fuente de alimentacion que conectaremos a una resistencia y un condensador. Además, añadiremos un amperímetro que nos permita visualizar la intensidad. También colocaremos otro circuito de descarga, para que moviendo un interruptor podamos conectar el condensador directamente a una resistencia muy pequeña para que se descargue de manera casi instantánea. En el siguiente diagrama se ve una posible configuración:
+
+  \begin{figure}[H]
+    \centering
+    \begin{circuitikz}[european]
+      \draw (0,0) node[cute spdt up](S){}
+      (S.out 1) -- ++(2,0) to[capacitor, l=C] ++(0,-3) -- ++(0,-1) -- ++(-1, 0)
+      to[ammeter, l=A] ++(-2, 0)
+      to[R, l=R] ++(0,1.79)
+      to[voltage source, l=V] ++(0,1.79) -- (S.in)
+      (S.out 2) -- ++(1,0) to[R, l=$100\Omega$] ++(0,-3.18);
+    \end{circuitikz}
+    \caption{Montaje experimental}
+  \end{figure}
+
+  Al tomar las medidas, debemos de asegurarnos de que el condensador esté descargado. Conectaremos el condensador a la corriente (y la resistencia) y anotaremos el tiempo cada vez que el amperímetro varíe el $0,1 \mu A$, su precisión instrumental.
+
+  \subsection{Incertidumbres}
+
+  Ya sabemos que la incertidumbre experimental del amperímetro es de $0,1 \mu A = 10^{-7} A$, sin embargo en el caso del tiempo debemos realizar una matización. Pese a que el cronómetro tiene una precisión experimental de $0,01 s$, no podemos tomarla cómo tal. Hay un desfase entre que el amperímetro cambia y nosotros anotamos el tiempo, por lo que tenemos que tener en cuenta las limitaciones de nuestra propia percepción. Estimaremos que la incertidumbre del tiempo es de $0,3 s$.
+
+  Para representar la curva de carga preferiremos hacer uso del logaritmo de la intensidad ($\ln{I}$) en lugar de la medida directa, por lo que procederemos a calcular su fórmula de propagación de incertidumbres.
+  \begin{equation}
+    s(\ln{I}) = \sqrt{\left( \frac{\partial \ln{I}}{\partial I} \right)^2 \cdot s^2(I)} = \sqrt{\frac{1}{I^2} \cdot s^2(I)} = \frac{s(I)}{I} \label{ec:slni}
+  \end{equation}
+
+  \newpage
+  \subsection{Medidas con \textbf{V} y \textbf{C} constantes, variando \textbf{R}}
+
+  En la primera experiencia, dejaremos $\mathbf{V = 10V}$ y $\mathbf{C = 3 \cdot 10^{-5} F}$ constantes, y cambiaremos la resistencia. Para cuatro valores distintos obtenemos los datos expuestos.
+
+  \subsubsection{Tablas de datos}
+
+  Como discutimos en el apartado anterior, la incertidumbre del tiempo y de la intensidad son constantes a lo largo de los experimentos, siendo respectivamente $s(T) = 0,3 s$ y $s(I) = 10^{-7} A$, por lo que no las incluiremos en las tablas. La del logaritmo de I si que varía, y se calcula utilizando la ecuación \ref{ec:slni}. Presentamos los resultados a continuación.
+
+  \begin{minipage}[t]{0.5\textwidth}
+    \centering
+    $\mathbf{R_1 = 4,7 \cdot 10^6 \Omega}$ \vspace{0.5cm}
+    \csvreader[
+      tabular=|c|c|c|,
+      table head=\hline $T_1(s)$ & $I_1(A)$ & $\ln{I_1} \pm s(I_1) (A)$ \\ \hline,
+      late after last line=\\\hline,
+      filter test= \ifnumless{\thecsvrow}{22},
+      separator=semicolon
+      ]{CC-1.csv}
+      {T1=\Ti, I1=\Ii, LnI1=\LnIi, sLnI1=\sLnIi}
+      {\Ti & \Ii & $\LnIi \pm \sLnIi$}
+  \end{minipage}
+  \begin{minipage}[t]{0.5\textwidth}
+    \centering
+    $\mathbf{R_2 = 6,9 \cdot 10^6 \Omega}$ \vspace{0.5cm}
+    \csvreader[
+      tabular=|c|c|c|,
+      table head=\hline $T_2(s)$ & $I_2(A)$ & $\ln{I_2} \pm s(I_2) (A)$ \\ \hline,
+      late after last line=\\\hline,
+      filter test= \ifnumless{\thecsvrow}{14},
+      separator=semicolon
+      ]{CC-1.csv}
+      {T2=\Ti, I2=\Ii, LnI2=\LnIi, sLnI2=\sLnIi}
+      {\Ti & \Ii & $\LnIi \pm \sLnIi$}
+  \end{minipage}
+
+  \begin{minipage}[t]{0.5\textwidth}
+    \centering
+    $\mathbf{R_3 = 3,2 \cdot 10^6 \Omega}$ \vspace{0.5cm}
+    \csvreader[
+      tabular=|c|c|c|,
+      table head=\hline $T_3(s)$ & $I_3(A)$ & $\ln{I_3} \pm s(I_3) (A)$ \\ \hline,
+      late after last line=\\\hline,
+      filter test= \ifnumless{\thecsvrow}{100},
+      separator=semicolon
+      ]{CC-1.csv}
+      {T3=\Ti, I3=\Ii, LnI3=\LnIi, sLnI3=\sLnIi}
+      {\Ti & \Ii & $\LnIi \pm \sLnIi$}
+  \end{minipage}
+  \begin{minipage}[t]{0.5\textwidth}
+    \centering
+    $\mathbf{R_4 = 5 \cdot 10^6 \Omega}$ \vspace{0.5cm}
+    \csvreader[
+      tabular=|c|c|c|,
+      table head=\hline $T_4(s)$ & $I_4(A)$ & $\ln{I_4} \pm s(I_4) (A)$ \\ \hline,
+      late after last line=\\\hline,
+      filter test= \ifnumless{\thecsvrow}{14},
+      separator=semicolon
+      ]{CC-1.csv}
+      {T4=\Ti, I4=\Ii, LnI4=\LnIi, sLnI4=\sLnIi}
+      {\Ti & \Ii & $\LnIi \pm \sLnIi$}
+  \end{minipage}
+
+  \newpage
+  \subsection{Representación gráfica}
+
+  Primero, representaremos los datos de $I_i$ frente a $T_i$ directamente. Utilizando \code{pandas} y \code{matplotlib} de una manera muy similar a la primera práctica, obtenemos la siguiente gráfica:
+
+  \begin{figure}[H]
+    %\centering
+    \hspace{3em} \input{CC-1.pgf}
+    \caption{Intensidad (I) frente a tiempo (T) variando la resistencia (R)}
+  \end{figure}
+
+  Como podemos ver, las curvas parecen indicar algun tipo de relación de decaimiento exponencial. Para observarlo con mayor claridad, sustituiremos I por su logaritmo ($\ln{I}$). Si obtenemos rectas, eso significará que en efecto es una relación exponencial. Además, nos permitirá hacer un ajuste lineal de los datos.
+
+  \begin{figure}[H]
+    %\centering
+    \hspace{1.8em} \input{CC-1L.pgf}
+    \caption{Logaritmo de la intensidad ($\ln{I}$) frente a tiempo (T) variando la resistencia (R)}
+  \end{figure}
+
+  Las lineas se cruzan demasiado al representarlas todas juntas, por lo que dividiremos la gráfica en cuatro.
+
+  \begin{figure}[H]
+    %\centering
+    \hspace{0.2em} \input{CC-1LM.pgf}
+    \caption{Logaritmo de la intensidad ($\ln{I}$) frente a tiempo (T) variando la resistencia (R)}
+  \end{figure}
+
+  Ahora sí, podemos obvservar que en efecto se ajustan mucho a lineas rectas. El siguiente paso será hacer una regresión lineal para verificar cúal sería la línea teórica para ellas.
+
+  \newpage
+  \subsubsection{Ajuste por mínimos cuadrados}
+
+  En esta ocasión, la incertidumbre de $\ln{I}$ ($s(\ln{I}) = s(y_i)$) varía con el tiempo, cómo indican las tablas. Por lo tanto, tendremos que realizar un ajuste por mínimos cuadrados ponderado, a diferencia del simple que hicimos en las Bobinas.
+
+  Además, será un ajuste con término independiente, porque en $T=0$, $\ln{I} \ne 0$, de la forma $y_i = a + bx_i$. Las fórmulas correspondientes a este ajuste son:
+  \begin{gather}
+    a = \frac{(\sum_i{w_i y_i})(\sum_i{w_i x_i^2}) - (\sum_i{w_i x_i})(\sum_i{w_i x_i y_i})}{\Delta} \label{ec:regwa} \\
+    b = \frac{(\sum_i{w_i})(\sum_i{w_i x_i y_i}) - (\sum_i{w_i x_i})(\sum_i{w_i y_i})}{\Delta} \label{ec:regwb} \\
+    s(a) = \sqrt{\frac{\sum_i{w_i x_i^2}}{\Delta}} \qquad
+    s(b) = \sqrt{\frac{\sum_i{w_i}}{\Delta}} \label{ec:regwsab} \\
+    s = \sqrt{\frac{n}{(n - 2) \sum_i{w_i}} \left[ \sum_i{w_i(y_i - a - bx_i)^2} \right]} \label{ec:regws} \\ \vspace{0.3cm}
+    r = \frac{(\sum_i{w_i})(\sum_i{w_i x_i y_i}) - (\sum_i{w_i x_i})(\sum_i{w_i y_i})}{\sqrt{[(\sum_i{w_i})(\sum_i{w_i x_i^2}) - (\sum_i{w_i x_i})^2] [(\sum_i{w_i})(\sum_i{w_i y_i^2}) - (\sum_i{w_i y_i})^2]}} \label{ec:regwr} \\
+    \Delta = \begin{vmatrix}
+              \sum_i{w_i} & \sum_i{w_i x_i} \\
+              \sum_i{w_i x_i} & \sum_i{w_i x_i^2}
+             \end{vmatrix} \qquad
+    w = \frac{1}{sy^2}
+  \end{gather}
+
+  Lo implementamos en \code{python} con el siguiente código, de manera similar a la anterior regresión.
+
+  \begin{python}
+    def reg_lin_w(x, y, sy):
+        n = len(x); w = sy**(-2)
+
+        sw = w.sum(); swxy = (w*x*y).sum()
+        swx = (w*x).sum(); swy = (w*y).sum()
+        swx2 = (w*x**2).sum(); swy2 = (w*y**2).sum()
+        det = sw * swx2 - swx**2
+
+        a = (swy*swx2 - swx*swxy) / det
+        b = (sw*swxy - swx*swy) / det
+
+        sa = (swx2 / det)**0.5
+        sb = (sw / det)**0.5
+
+        swab = (w*(y - a - b*x)**2).sum()
+        s = ((n / ((n-2) * sw)) * swab)**0.5
+
+        r = (sw*swxy - swx*swy) / ((sw*swx2 - swx**2) * (sw*swy2 - swy**2))**0.5
+
+        return (a, b, s, sa, sb, r)
+  \end{python}
+
+  Además, añadimos un programa específico para nuestros datos, que iterará entre los distintos puntos y hará una regresión lineal para cada una de las resistencias. Con todo eso, obtenemos las siguientes gráficas con sus correspondientes parámetros de ajuste:
+
+  \begin{figure}[H]
+    %\centering
+    \hspace{0.2em} \input{CC-1LR.pgf}
+    \caption{Logaritmo de la intensidad ($\ln{I}$) frente a tiempo (T) variando la resistencia (R) con ajuste por mínimos cuadrados ponderado con término independiente}
+  \end{figure}
+
+  \begin{gather*}
+    a_1 = -13,041 \pm 0,022 \quad b_1 = -0,00798 \pm 0,00038 s^{-1} \quad s_1 = 0,015 \quad r_1 = 0,9991 \\
+    a_2 = -13,465 \pm 0,043 \quad b_2 = -0,00571 \pm 0,00054 s^{-1} \quad s_2 = 0,022 \quad r_2 = 0,998 \\
+    a_3 = -12,684 \pm 0,013 \quad b_3 = -0,01045 \pm 0,00031 s^{-1} \quad s_3 = 0,0044 \quad r_3 = 0,99991 \\
+    a_4 = -13,111 \pm 0,026 \quad b_4 = -0,00752 \pm 0,00042 s^{-1} \quad s_4 = 0,020 \quad r_4 = 0,998
+  \end{gather*}
+
+  \newpage
+  \subsubsection{Interpretación}
+
+  Ahora que tenemos los términos de ajuste de las distintas rectas, a y b correspondientes a $y_i = a + bx_i$, podemos interpretar su significado. Tomaremos la siguiente expresión y la convertiremos para obtener $\ln{I}$ en función del tiempo.
+  \begin{equation}
+    I(T) = \frac{\Delta V}{R} e^{-T/RC} \qquad \ln{I(T)} = \ln{\frac{\Delta V}{R}} - \frac{1}{RC} \cdot T \label{ec:I}
+  \end{equation}
+
+  Podemos justaponer esta ecuación a $y_i = a + bx_i$ siendo $y_i = \ln{I(T)}$ y $x_i = T$ para obtener los parámetros a y b teóricos:
+  \begin{equation}
+    a = \ln{\frac{\Delta V}{R}} \qquad b = - \frac{1}{RC} \label{ec:abteo}
+  \end{equation}
+
+  Ahora calcularemos los distintos valores de a y b teóricos para comprobar nuestros resultados experimentales:
+  \begin{gather*}
+    a_1 = \ln{\frac{10}{4,7 \cdot 10^6}} = -13,060 \qquad b_1 = - \frac{1}{4,7 \cdot 10^6 \cdot 3 \cdot 10^{-5}} = -0,00709 s^{-1} \\
+    a_2 = \ln{\frac{10}{6,9 \cdot 10^6}} = -13,444 \qquad b_2 = - \frac{1}{6,9 \cdot 10^6 \cdot 3 \cdot 10^{-5}} = -0,00483 s^{-1} \\
+    a_3 = \ln{\frac{10}{3,2 \cdot 10^6}} = -12,676 \qquad b_3 = - \frac{1}{3,2 \cdot 10^6 \cdot 3 \cdot 10^{-5}} = -0,01042 s^{-1} \\
+    a_4 = \ln{\frac{10}{5,0 \cdot 10^6}} = -13,122 \qquad b_4 = - \frac{1}{5,0 \cdot 10^6 \cdot 3 \cdot 10^{-5}} = -0,00667 s^{-1}
+  \end{gather*}
+
+  Debemos calcular la incertidumbre de a y b mediante propaganción de incertidumbres. Tomamos $s(\Delta V) = 0,1V$, y tanto s(C) como s(R) serán un 5\% de su valor nominal. Primero vemos las incertidumbres de R (múltiples valores) y C.
+  \begin{gather}
+    s(R_1) = 0,05 \cdot 4,7 \cdot 10^6 = 2,35 \cdot 10^5 \Omega \qquad s(R_2) = 0,05 \cdot 6,9 \cdot 10^6 = 3,45 \cdot 10^5 \Omega \nonumber \\
+    s(R_3) = 0,05 \cdot 3,2 \cdot 10^6 = 1,6 \cdot 10^5 \Omega \qquad s(R_4) = 0,05 \cdot 5,0 \cdot 10^6 = 2,5 \cdot 10^5 \Omega \nonumber \\
+    s(C) = 0,05 \cdot 3 \cdot 10^{-5} = 1,5 \cdot 10^{-6} F \nonumber
+  \end{gather}
+
+  Ahora tomaremos la incertidumbre de los términos independientes, $a_i$:
+  \begin{gather}
+    s(a) = \sqrt{\left(\frac{\partial a}{\partial \Delta V}\right)^2 \cdot s(\Delta V)^2 + \left(\frac{\partial a}{\partial R}\right)^2 \cdot s(R)^2} = \sqrt{\left(\frac{1}{\Delta V}\right)^2 \cdot s(\Delta V)^2 + \left(\frac{-1}{R}\right)^2 \cdot s(R)^2} \\
+    s(a_1) = \sqrt{\frac{1}{10^2} \cdot 0,1^2 + \left(\frac{-1}{4,7 \cdot 10^6}\right)^2 \cdot (2,35 \cdot 10^5)^2} = 0,051 \nonumber \\
+    s(a_2) = \sqrt{\frac{1}{10^2} \cdot 0,1^2 + \left(\frac{-1}{6,9 \cdot 10^6}\right)^2 \cdot (3,45 \cdot 10^5)^2} = 0,051 \nonumber \\
+    s(a_3) = \sqrt{\frac{1}{10^2} \cdot 0,1^2 + \left(\frac{-1}{3,2 \cdot 10^6}\right)^2 \cdot (1,6 \cdot 10^5)^2} = 0,051 \nonumber \\
+    s(a_4) = \sqrt{\frac{1}{10^2} \cdot 0,1^2 + \left(\frac{-1}{5,0 \cdot 10^6}\right)^2 \cdot (2,5 \cdot 10^5)^2} = 0,051 \nonumber \\
+    s(a_1) = s(a_2) = s(a_3) = s(a_4) = 0,051 \nonumber
+  \end{gather}
+
+  Y por último la incertidumbre de las pendientes de las rectas, $b_i$:
+  \begin{gather}
+    s(b) = \sqrt{\left(\frac{\partial b}{\partial R}\right)^2 \cdot s(R)^2 + \left(\frac{\partial b}{\partial C}\right)^2 \cdot s(C)^2} = \sqrt{\left(\frac{1}{C R^2}\right)^2 \cdot s(R)^2 + \left(\frac{1}{C^2 R}\right)^2 \cdot s(C)^2} \\
+    s(b_1) = \sqrt{\left(\frac{1}{3 \cdot 10^{-5} \cdot (4,7 \cdot 10^6)^2}\right)^2 \cdot (2,35 \cdot 10^5)^2 + \left(\frac{1}{(3 \cdot 10^{-5})^2 \cdot 4,7 \cdot 10^6}\right)^2 \cdot (1,5 \cdot 10^{-6})^2} \nonumber \\
+    s(b_2) = \sqrt{\left(\frac{1}{3 \cdot 10^{-5} \cdot (6,9 \cdot 10^6)^2}\right)^2 \cdot (3,45 \cdot 10^5)^2 + \left(\frac{1}{(3 \cdot 10^{-5})^2 \cdot 6,9 \cdot 10^6}\right)^2 \cdot (1,5 \cdot 10^{-6})^2} \nonumber \\
+    s(b_3) = \sqrt{\left(\frac{1}{3 \cdot 10^{-5} \cdot (3,2 \cdot 10^6)^2}\right)^2 \cdot (1,6 \cdot 10^5)^2 + \left(\frac{1}{(3 \cdot 10^{-5})^2 \cdot 3,2 \cdot 10^6}\right)^2 \cdot (1,5 \cdot 10^{-6})^2} \nonumber \\
+    s(b_4) = \sqrt{\left(\frac{1}{3 \cdot 10^{-5} \cdot (5,0 \cdot 10^6)^2}\right)^2 \cdot (2,5 \cdot 10^5)^2 + \left(\frac{1}{(3 \cdot 10^{-5})^2 \cdot 5,0 \cdot 10^6}\right)^2 \cdot (1,5 \cdot 10^{-6})^2} \nonumber \\
+    s(b_1) = 0,00050 s^{-1} \quad s(b_2) = 0,00034 s^{-1} \quad s(b_3) = 0,00074 s^{-1} \quad s(b_4) = 0,00047 s^{-1} \nonumber
+  \end{gather}
+
+  Tan solo nos queda comparar los valores de a y b teóricos y experimentales. Podemos ver que son todos razonablemente cercanos y que cumplen las tendencias. Cualquier desviación pequeña puede deberse al procedimiento de medida y a los errores en el laboratorio. Consideramos comprobada la ley en esta situación.
+
+  Antes de dejar el experimento, analizaremos el valor I(0). Si nos referimos a la ecuación \ref{ec:I} y sustituímos t por 0 nos queda $I(0) = \frac{\Delta V}{R}e^{0/RC}$, simplificando $I(0) = \frac{\Delta V}{R}$.
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

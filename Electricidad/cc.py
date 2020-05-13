@@ -7,6 +7,8 @@ sys.path.insert(1, '../Base')
 from reg_lin import reg_lin_w as rl
 import mpl_config as mpl
 
+mpl.inicio(4, [7., 5.])
+
 D = [pd.read_csv("CC-{}.csv".format(i), sep=';', decimal=',') for i in range(1,4)]
 
 I = np.asarray([[D[j]["I{}".format(i)].to_numpy() for i in range(1,5)] for j in range(0,3)])
@@ -15,20 +17,40 @@ LnI = np.asarray([[D[j]["LnI{}".format(i)].to_numpy() for i in range(1,5)] for j
 sLnI = np.asarray([[D[j]["sLnI{}".format(i)].to_numpy() for i in range(1,5)] for j in range(0,3)])
 
 #Selector de experimento
-exp = 1 #Número de experiencia (0-2)
+exp = 0 #Número de experiencia (0-2)
 rep = 3 #Número de repetición (0-3)
 
-#Regresión lineal ponderada
-x = T[exp,rep][~np.isnan(T[exp,rep])]
-y = LnI[exp,rep][~np.isnan(LnI[exp,rep])]
+fig, axs = plt.subplots(2, 2)
+c = ["royalblue", "mediumseagreen", "sandybrown", "tomato"]
 
-sy = sLnI[exp,rep][~np.isnan(sLnI[exp,rep])]
+#Regresión lineal ponderada y gráficas
+for r in range(4):
+    x = T[exp,r][~np.isnan(T[exp,r])]
+    y = LnI[exp,r][~np.isnan(LnI[exp,r])]
+    sy = sLnI[exp,r][~np.isnan(sLnI[exp,r])]
 
-a, b = rl(x,y,sy)[0:2]
+    a, b = rl(x,y,sy)[0:2]
 
-xr = np.linspace(min(x), max(x), 20)
-yr = a + b*xr
+    xr = np.linspace(min(x), max(x), 20)
+    yr = a + b*xr
 
-#Gráficas
-plt.scatter(T[exp,rep], np.log(I[exp,rep]))
-plt.plot(xr, yr)
+    yi = 1 if r%2 == 1 else 0
+    xi = 0 if r < 2 else 1
+
+    axs[xi, yi].scatter(x, y, color=c[r], edgecolors="black", linewidth=0.5)
+    axs[xi, yi].plot(xr, yr, color=c[r])
+    axs[xi, yi].set_title('$R_{}$'.format(r+1))
+
+for ax in axs.flat:
+    ax.set(xlabel='T(s)', ylabel='$\ln{I}(A)$')
+    ax.label_outer()
+
+mpl.guardar("CC-1LR", "T(s)", "$\ln{I}(A)$", False, False)
+
+import uncertainties as unc
+from uncertainties.umath import *
+v = unc.ufloat(10, 0.1)
+c = unc.ufloat(3*10**(-5), 0.05*3*10**(-5))
+r = unc.ufloat(3.2*10**6, 0.05*3.2*10**6)
+a = log(v/r)
+b = (-1)/(r*c)

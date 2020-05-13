@@ -1,4 +1,4 @@
-def inicio(c):
+def inicio(c, s=[5.0, 3.5]):
     import matplotlib
     from cycler import cycler
 
@@ -8,7 +8,7 @@ def inicio(c):
         'font.family': 'serif',
         'text.usetex': True,
         'pgf.rcfonts': False,
-        'figure.figsize': [5.0, 3.5],
+        'figure.figsize': s,
         'scatter.edgecolors': "black"
     })
 
@@ -21,9 +21,10 @@ def inicio(c):
         ccycler = (cycler(color=["royalblue", "mediumseagreen", "sandybrown", "tomato", "orchid"]))
     matplotlib.rcParams['axes.prop_cycle'] = ccycler
 
-def guardar(n, xl, yl, leg=True):
+def guardar(n, xl, yl, leg=True, lab=True):
     import matplotlib.pyplot as plt
-    plt.xlabel(xl)
-    plt.ylabel(yl, rotation=0, labelpad=20)
+    if lab:
+        plt.xlabel(xl)
+        plt.ylabel(yl, rotation=0, labelpad=20)
     if leg: plt.legend()
     plt.savefig(n + ".pgf", bbox_inches = "tight")
