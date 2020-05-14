@@ -542,8 +542,8 @@
 
   \begin{itemize}[label=$-$]
     \item Mantentiendo \textbf{V} y \textbf{C} constantes, variando \textbf{R}
-    \item Mantentiendo \textbf{C} y \textbf{R} constantes, variando \textbf{V}
     \item Mantentiendo \textbf{R} y \textbf{V} constantes, variando \textbf{C}
+    \item Mantentiendo \textbf{C} y \textbf{R} constantes, variando \textbf{V}
   \end{itemize}
 
   \subsection{Expresión de la intensidad}
@@ -586,11 +586,11 @@
   \end{equation}
 
   \newpage
-  \subsection{Medidas con \textbf{V} y \textbf{C} constantes, variando \textbf{R}}
+  \section{Medidas con \textbf{V} y \textbf{C} constantes, variando \textbf{R}}
 
   En la primera experiencia, dejaremos $\mathbf{V = 10V}$ y $\mathbf{C = 3 \cdot 10^{-5} F}$ constantes, y cambiaremos la resistencia. Para cuatro valores distintos obtenemos los datos expuestos.
 
-  \subsubsection{Tablas de datos}
+  \subsection{Tablas de datos}
 
   Como discutimos en el apartado anterior, la incertidumbre del tiempo y de la intensidad son constantes a lo largo de los experimentos, siendo respectivamente $s(T) = 0,3 s$ y $s(I) = 10^{-7} A$, por lo que no las incluiremos en las tablas. La del logaritmo de I si que varía, y se calcula utilizando la ecuación \ref{ec:slni}. Presentamos los resultados a continuación.
 
@@ -678,7 +678,7 @@
   Ahora sí, podemos obvservar que en efecto se ajustan mucho a lineas rectas. El siguiente paso será hacer una regresión lineal para verificar cúal sería la línea teórica para ellas.
 
   \newpage
-  \subsubsection{Ajuste por mínimos cuadrados}
+  \subsection{Ajuste por mínimos cuadrados}
 
   En esta ocasión, la incertidumbre de $\ln{I}$ ($s(\ln{I}) = s(y_i)$) varía con el tiempo, cómo indican las tablas. Por lo tanto, tendremos que realizar un ajuste por mínimos cuadrados ponderado, a diferencia del simple que hicimos en las Bobinas.
 
@@ -738,7 +738,7 @@
   \end{gather*}
 
   \newpage
-  \subsubsection{Interpretación}
+  \subsection{Interpretación}
 
   Ahora que tenemos los términos de ajuste de las distintas rectas, a y b correspondientes a $y_i = a + bx_i$, podemos interpretar su significado. Tomaremos la siguiente expresión y la convertiremos para obtener $\ln{I}$ en función del tiempo.
   \begin{equation}
@@ -767,7 +767,7 @@
 
   Ahora tomaremos la incertidumbre de los términos independientes, $a_i$:
   \begin{gather}
-    s(a) = \sqrt{\left(\frac{\partial a}{\partial \Delta V}\right)^2 \cdot s(\Delta V)^2 + \left(\frac{\partial a}{\partial R}\right)^2 \cdot s(R)^2} = \sqrt{\left(\frac{1}{\Delta V}\right)^2 \cdot s(\Delta V)^2 + \left(\frac{-1}{R}\right)^2 \cdot s(R)^2} \\
+    s(a) = \sqrt{\left(\frac{\partial a}{\partial \Delta V}\right)^2 \cdot s(\Delta V)^2 + \left(\frac{\partial a}{\partial R}\right)^2 \cdot s(R)^2} = \sqrt{\left(\frac{1}{\Delta V}\right)^2 \cdot s(\Delta V)^2 + \left(\frac{-1}{R}\right)^2 \cdot s(R)^2} \label{ec:sateo} \\
     s(a_1) = \sqrt{\frac{1}{10^2} \cdot 0,1^2 + \left(\frac{-1}{4,7 \cdot 10^6}\right)^2 \cdot (2,35 \cdot 10^5)^2} = 0,051 \nonumber \\
     s(a_2) = \sqrt{\frac{1}{10^2} \cdot 0,1^2 + \left(\frac{-1}{6,9 \cdot 10^6}\right)^2 \cdot (3,45 \cdot 10^5)^2} = 0,051 \nonumber \\
     s(a_3) = \sqrt{\frac{1}{10^2} \cdot 0,1^2 + \left(\frac{-1}{3,2 \cdot 10^6}\right)^2 \cdot (1,6 \cdot 10^5)^2} = 0,051 \nonumber \\
@@ -777,7 +777,7 @@
 
   Y por último la incertidumbre de las pendientes de las rectas, $b_i$:
   \begin{gather}
-    s(b) = \sqrt{\left(\frac{\partial b}{\partial R}\right)^2 \cdot s(R)^2 + \left(\frac{\partial b}{\partial C}\right)^2 \cdot s(C)^2} = \sqrt{\left(\frac{1}{C R^2}\right)^2 \cdot s(R)^2 + \left(\frac{1}{C^2 R}\right)^2 \cdot s(C)^2} \\
+    s(b) = \sqrt{\left(\frac{\partial b}{\partial R}\right)^2 \cdot s(R)^2 + \left(\frac{\partial b}{\partial C}\right)^2 \cdot s(C)^2} = \sqrt{\left(\frac{1}{C R^2}\right)^2 \cdot s(R)^2 + \left(\frac{1}{C^2 R}\right)^2 \cdot s(C)^2} \label{ec:sbteo} \\
     s(b_1) = \sqrt{\left(\frac{1}{3 \cdot 10^{-5} \cdot (4,7 \cdot 10^6)^2}\right)^2 \cdot (2,35 \cdot 10^5)^2 + \left(\frac{1}{(3 \cdot 10^{-5})^2 \cdot 4,7 \cdot 10^6}\right)^2 \cdot (1,5 \cdot 10^{-6})^2} \nonumber \\
     s(b_2) = \sqrt{\left(\frac{1}{3 \cdot 10^{-5} \cdot (6,9 \cdot 10^6)^2}\right)^2 \cdot (3,45 \cdot 10^5)^2 + \left(\frac{1}{(3 \cdot 10^{-5})^2 \cdot 6,9 \cdot 10^6}\right)^2 \cdot (1,5 \cdot 10^{-6})^2} \nonumber \\
     s(b_3) = \sqrt{\left(\frac{1}{3 \cdot 10^{-5} \cdot (3,2 \cdot 10^6)^2}\right)^2 \cdot (1,6 \cdot 10^5)^2 + \left(\frac{1}{(3 \cdot 10^{-5})^2 \cdot 3,2 \cdot 10^6}\right)^2 \cdot (1,5 \cdot 10^{-6})^2} \nonumber \\
@@ -787,20 +787,225 @@
 
   Tan solo nos queda comparar los valores de a y b teóricos y experimentales. Podemos ver que son todos razonablemente cercanos y que cumplen las tendencias. Cualquier desviación pequeña puede deberse al procedimiento de medida y a los errores en el laboratorio. Consideramos comprobada la ley en esta situación.
 
-  Antes de dejar el experimento, analizaremos el valor I(0). Si nos referimos a la ecuación \ref{ec:I} y sustituímos t por 0 nos queda $I(0) = \frac{\Delta V}{R}e^{0/RC}$, simplificando $I(0) = \frac{\Delta V}{R}$.
+  Antes de dejar el experimento, analizaremos el valor I(0). Si nos referimos a la ecuación \ref{ec:I} y sustituímos t por 0 nos queda $I(0) = \frac{\Delta V}{R}e^{0/RC}$, simplificando $I(0) = \frac{\Delta V}{R}$. Podemos comprobar que el logaritmo de I(0) nos da el término independiente del ajuste, o lo que es lo mismo, la oordenada en el origen, lo cual tiene completo sentido $(\ln{I(0)} = a)$ y coincide con nuestros datos.
 
 
+  \newpage
+  \section{Medidas con \textbf{R} y \textbf{V} constantes, variando \textbf{C}}
 
+  En esta segunda experiencia repetiremos el mismo procedimiento, pero esta vez dejando $\mathbf{V = 10V}$ y $\mathbf{R = 5,7 \cdot 10^6 \Omega}$ constantes y cambiando los valores del condensador. Realizaremos pruebas con cuatro condensadores diferentes.
 
+  \subsection{Tablas de datos}
 
+  Igual que en el apartado anterior, la incertidumbre del tiempo y de la intensidad son constantes a lo largo de los experimentos, siendo respectivamente $s(T) = 0,3 s$ y $s(I) = 10^{-7} A$ mientras que la del logaritmo de I varía y es calculada con \ref{ec:slni}. Presentamos las tablas obtenidas a continuación.
 
+  \begin{minipage}[t]{0.5\textwidth}
+    \centering
+    $\mathbf{C_1 = 4,7 \cdot 10^{-6} F}$ \vspace{0.5cm}
+    \csvreader[
+      tabular=|c|c|c|,
+      table head=\hline $T_1(s)$ & $I_1(A)$ & $\ln{I_1} \pm s(I_1) (A)$ \\ \hline,
+      late after last line=\\\hline,
+      separator=semicolon
+      ]{CC-2.csv}
+      {T1=\Ti, I1=\Ii, LnI1=\LnIi, sLnI1=\sLnIi}
+      {\Ti & \Ii & $\LnIi \pm \sLnIi$}
+  \end{minipage}
+  \begin{minipage}[t]{0.5\textwidth}
+    \centering
+    $\mathbf{C_2 = 1,0 \cdot 10^{-5} F}$ \vspace{0.5cm}
+    \csvreader[
+      tabular=|c|c|c|,
+      table head=\hline $T_2(s)$ & $I_2(A)$ & $\ln{I_2} \pm s(I_2) (A)$ \\ \hline,
+      late after last line=\\\hline,
+      separator=semicolon
+      ]{CC-2.csv}
+      {T2=\Ti, I2=\Ii, LnI2=\LnIi, sLnI2=\sLnIi}
+      {\Ti & \Ii & $\LnIi \pm \sLnIi$}
+  \end{minipage}
 
+  \begin{minipage}[t]{0.5\textwidth}
+    \centering
+    $\mathbf{C_3 = 3,0 \cdot 10^{-5} F}$ \vspace{0.5cm}
+    \csvreader[
+      tabular=|c|c|c|,
+      table head=\hline $T_3(s)$ & $I_3(A)$ & $\ln{I_3} \pm s(I_3) (A)$ \\ \hline,
+      late after last line=\\\hline,
+      separator=semicolon
+      ]{CC-2.csv}
+      {T3=\Ti, I3=\Ii, LnI3=\LnIi, sLnI3=\sLnIi}
+      {\Ti & \Ii & $\LnIi \pm \sLnIi$}
+  \end{minipage}
+  \begin{minipage}[t]{0.5\textwidth}
+    \centering
+    $\mathbf{C_4 = 6,0 \cdot 10^{-5} F}$ \vspace{0.5cm}
+    \csvreader[
+      tabular=|c|c|c|,
+      table head=\hline $T_4(s)$ & $I_4(A)$ & $\ln{I_4} \pm s(I_4) (A)$ \\ \hline,
+      late after last line=\\\hline,
+      separator=semicolon
+      ]{CC-2.csv}
+      {T4=\Ti, I4=\Ii, LnI4=\LnIi, sLnI4=\sLnIi}
+      {\Ti & \Ii & $\LnIi \pm \sLnIi$}
+  \end{minipage}
 
+  \newpage
+  \subsection{Representación gráfica}
 
+  Representamos directamente los datos de $I_i$ frente a $T_i$ utilizando el mismo programa.
 
+  \begin{figure}[H]
+    %\centering
+    \hspace{3em} \input{CC-2.pgf}
+    \caption{Intensidad (I) frente a tiempo (T) variando la resistencia (R)}
+  \end{figure}
 
+  Vuelve a aparecer el decaimiento exponencial, por lo que cambiaremos de nuevo I por su logaritmo y representaremos las gráficas otra vez. Como en esta ocasión la gráfica queda mucho más clara y se distinguen perfectamente las lineas, no la separaremos como antes.
 
+  \begin{figure}[H]
+    %\centering
+    \hspace{1.8em} \input{CC-2L.pgf}
+    \caption{Logaritmo de la intensidad ($\ln{I}$) frente a tiempo (T) variando la resistencia (R)}
+  \end{figure}
 
+  \subsection{Ajuste por mínimos cuadrados}
+
+  Ejecutaremos el programa de regresión lineal ponderada con término independiente que construímos en el apartado anterior y dibujaremos de nuevo la gráfica con sus parámetros de ajuste.
+
+  \begin{figure}[H]
+    %\centering
+    \hspace{0.2em} \input{CC-2LR.pgf}
+    \caption{Logaritmo de la intensidad ($\ln{I}$) frente a tiempo (T) variando la resistencia (R) con ajuste por mínimos cuadrados ponderado con término independiente}
+  \end{figure} \vspace{0cm}
+  \begin{gather*}
+    a_1 = -13,244 \pm 0,029 \quad b_1 = -0,0386 \pm 0,0025 s^{-1} \quad s_1 = 0,011 \quad r_1 = 0,9995 \\
+    a_2 = -13,250 \pm 0,029 \quad b_2 = -0,0181 \pm 0,0012 s^{-1} \quad s_2 = 0,013 \quad r_2 = 0,993 \\
+    a_3 = -13,245 \pm 0,029 \quad b_3 = -0,00584 \pm 0,00038 s^{-1} \quad s_3 = 0,0095 \quad r_3 = 0,9996 \\
+    a_4 = -13,255 \pm 0,029 \quad b_4 = -0,00299 \pm 0,00020 s^{-1} \quad s_4 = 0,018 \quad r_4 = 0,998
+  \end{gather*}
+
+  \subsection{a y b teóricos}
+
+  Cómo en el apartado anterior, utilizaremos las ecuaciones \ref{ec:abteo}, \ref{ec:sateo} y \ref{ec:sbteo} para calcular a y b teóricos junto a sus incertidumbres, y vemos que son muy similares. Por comodidad, simplemente indicaremos el resultado final tras aplicar esas fórmulas.
+  \begin{gather*}
+    a_1 = -13,253 \pm 0,051 \quad b_1 = -0,0373 \pm 0,0026 s^{-1} \\
+    a_2 = -13,253 \pm 0,051 \quad b_2 = -0,0175 \pm 0,0012 s^{-1} \\
+    a_3 = -13,253 \pm 0,051 \quad b_3 = -0,00585 \pm 0,00041 s^{-1} \\
+    a_4 = -13,253 \pm 0,051 \quad b_4 = -0,00292 \pm 0,00021 s^{-1}
+  \end{gather*}
+
+  \newpage
+  \section{Medidas con \textbf{C} y \textbf{R} constantes, variando \textbf{V}}
+
+  En la última experiencia repetiremos el mismo procedimiento que en las dos anteriores, aunque ahora fijaremos $\mathbf{C = 10^{-5} F}$ y $\mathbf{R = 4,4 \cdot 10^6 \Omega}$, y variaremos la diferencia de potencial en cuatro experimentos distintos.
+
+  \subsection{Tablas de datos}
+
+  La incertidumbre del tiempo y de la intensidad son constantes para todas las tablas, siendo respectivamente $s(T) = 0,3 s$ y $s(I) = 10^{-7} A$. Sin embargo, $s(\ln{I})$ cambia con cada medida y tenemos que calcularla usando \ref{ec:slni}. A continuación se exponen las tablas obtenidas.
+
+  \begin{minipage}[t]{0.5\textwidth}
+    \centering
+    $\mathbf{V_1 = 8,5V}$ \vspace{0.5cm}
+    \csvreader[
+      tabular=|c|c|c|,
+      table head=\hline $T_1(s)$ & $I_1(A)$ & $\ln{I_1} \pm s(I_1) (A)$ \\ \hline,
+      late after last line=\\\hline,
+      filter test= \ifnumless{\thecsvrow}{20},
+      separator=semicolon
+      ]{CC-3.csv}
+      {T1=\Ti, I1=\Ii, LnI1=\LnIi, sLnI1=\sLnIi}
+      {\Ti & \Ii & $\LnIi \pm \sLnIi$}
+  \end{minipage}
+  \begin{minipage}[t]{0.5\textwidth}
+    \centering
+    $\mathbf{V_2 = 11,5V}$ \vspace{0.5cm}
+    \csvreader[
+      tabular=|c|c|c|,
+      table head=\hline $T_2(s)$ & $I_2(A)$ & $\ln{I_2} \pm s(I_2) (A)$ \\ \hline,
+      late after last line=\\\hline,
+      filter test= \ifnumless{\thecsvrow}{26},
+      separator=semicolon
+      ]{CC-3.csv}
+      {T2=\Ti, I2=\Ii, LnI2=\LnIi, sLnI2=\sLnIi}
+      {\Ti & \Ii & $\LnIi \pm \sLnIi$}
+  \end{minipage}
+
+  \begin{minipage}[t]{0.5\textwidth}
+    \centering
+    $\mathbf{V_3 = 10,2V}$ \vspace{0.5cm}
+    \csvreader[
+      tabular=|c|c|c|,
+      table head=\hline $T_3(s)$ & $I_3(A)$ & $\ln{I_3} \pm s(I_3) (A)$ \\ \hline,
+      late after last line=\\\hline,
+      filter test= \ifnumless{\thecsvrow}{23},
+      separator=semicolon
+      ]{CC-3.csv}
+      {T3=\Ti, I3=\Ii, LnI3=\LnIi, sLnI3=\sLnIi}
+      {\Ti & \Ii & $\LnIi \pm \sLnIi$}
+  \end{minipage}
+  \begin{minipage}[t]{0.5\textwidth}
+    \centering
+    $\mathbf{V_4 = 6,0V}$ \vspace{0.5cm}
+    \csvreader[
+      tabular=|c|c|c|,
+      table head=\hline $T_4(s)$ & $I_4(A)$ & $\ln{I_4} \pm s(I_4) (A)$ \\ \hline,
+      late after last line=\\\hline,
+      filter test= \ifnumless{\thecsvrow}{14},
+      separator=semicolon
+      ]{CC-3.csv}
+      {T4=\Ti, I4=\Ii, LnI4=\LnIi, sLnI4=\sLnIi}
+      {\Ti & \Ii & $\LnIi \pm \sLnIi$}
+  \end{minipage}
+
+  \newpage
+  \subsection{Representación gráfica}
+
+  Representamos directamente los datos de $I_i$ frente a $T_i$ utilizando el mismo programa.
+
+  \begin{figure}[H]
+    %\centering
+    \hspace{3em} \input{CC-3.pgf}
+    \caption{Intensidad (I) frente a tiempo (T) variando la resistencia (R)}
+  \end{figure}
+
+  Se observa decaimiento exponencial, así que representaremos $\ln{I}$ en lugar de I.
+
+  \begin{figure}[H]
+    %\centering
+    \hspace{1.8em} \input{CC-3L.pgf}
+    \caption{Logaritmo de la intensidad ($\ln{I}$) frente a tiempo (T) variando la resistencia (R)}
+  \end{figure}
+
+  En esta ocasión las lineas están bastante cerca unas de otras, pero tienen una cualidad importante que se ve mejor si se representan juntas. A primera vista parece que son paralelas, y separando las gráficas perderíamos ese detalle. Tendremos que realizar un ajuste para comprobar si esta suposición es correcta.
+
+  \subsection{Ajuste por mínimos cuadrados}
+
+  Ejecutaremos el programa de regresión lineal ponderada con término independiente que construímos en el apartado anterior y dibujaremos de nuevo la gráfica con sus parámetros de ajuste
+
+  \begin{figure}[H]
+    %\centering
+    \hspace{0.2em} \input{CC-3LR.pgf}
+    \caption{Logaritmo de la intensidad ($\ln{I}$) frente a tiempo (T) variando la resistencia (R) con ajuste por mínimos cuadrados ponderado con término independiente}
+  \end{figure}
+  \begin{gather*}
+    a_1 = -13,099 \pm 0,026 \quad b_1 = -0,0241 \pm 0,0014 s^{-1} \quad s_1 = 0,013 \quad r_1 = 0,9993 \\
+    a_2 = -12,829 \pm 0,018 \quad b_2 = -0,02352 \pm 0,00090 s^{-1} \quad s_2 = 0,015 \quad r_2 = 0,9991 \\
+    a_3 = -12,965 \pm 0,021 \quad b_3 = -0,0231 \pm 0,0011 s^{-1} \quad s_3 = 0,019 \quad r_3 = 0,998 \\
+    a_4 = -13,495 \pm 0,041 \quad b_4 = -0,0231 \pm 0,0023 s^{-1} \quad s_4 = 0,013 \quad r_4 = 0,9993
+  \end{gather*}
+
+  \subsection{a y b teóricos}
+
+  Finalmente, volveremos a utilizar las ecuaciones \ref{ec:abteo}, \ref{ec:sateo} y \ref{ec:sbteo} para calcular a y b teóricos junto a sus incertidumbres. Como podemos observar los resultados son prácticamente idénticos.
+  \begin{gather*}
+    a_1 = -13,157 \pm -0,051 \quad b_1 = -0,0227 \pm -0,0016 s^{-1} \\
+    a_2 = -12,855 \pm -0,051 \quad b_2 = -0,0227 \pm -0,0016 s^{-1} \\
+    a_3 = -12,975 \pm -0,051 \quad b_3 = -0,0227 \pm -0,0016 s^{-1} \\
+    a_4 = -13,505 \pm -0,053 \quad b_4 = -0,0227 \pm -0,0016 s^{-1}
+  \end{gather*}
+
+  \newpage
+  \section{Conclusiones: PENDIENTE}
 
 
 
