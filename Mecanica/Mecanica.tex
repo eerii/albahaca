@@ -1,0 +1,741 @@
+\documentclass[12pt, a4paper, titlepage]{article}
+
+%INFORMACIÓN
+\title{\textbf {Mecánica: Leyes de Newton y Momento de Inercia}}
+\author{{\Large Pazos Pérez, José}\\CAMBIAR DNI}
+\date{}
+
+%PAQUETES
+\usepackage[dvipsnames]{xcolor} %Colorear texto y colores estándar
+\usepackage{colortbl} %Colorear celdas de tablas
+\usepackage{css-colors}
+
+\definecolor{Red}{RGB}{222, 94, 80}
+\definecolor{Blue}{RGB}{110, 176, 230}
+\definecolor{LinkBlue}{RGB}{20, 88, 224}
+
+\usepackage[centertags]{amsmath} %Excluir ecuaciones de la enumeración automática
+\usepackage{csvsimple} %Tablas desde archivos .csv
+\usepackage{pgfplots} %Gráficas desde matplotlib con .pgf
+\usepackage{graphicx} %Imágenes
+\usepackage[siunitx]{circuitikz} %Circuitos
+\usepackage{pythonhighlight} %Código de python
+\pgfplotsset{compat=1.16}
+
+\usepackage{tocloft} %Crear listas (por ejemplo, de ecuaciones)
+\usepackage{enumitem} %Cambiar los estilos de las listas
+\usepackage[margin=0.8in]{geometry} %Márgenes
+
+\usepackage{float} %Controlar el posicionamiento de gráficas y tablas con H
+\usepackage[toc,page]{appendix} %Anexos
+\usepackage{chngcntr} %Numeración de capítulos por partes
+\usepackage{hyperref} %Añadir vínculos
+\hypersetup{
+    colorlinks=true,
+    linkcolor=LinkBlue,
+    filecolor=Red,
+    urlcolor=Blue,
+}
+
+%CONFIGURACIÓN
+\renewcommand{\contentsname}{Índice}
+\renewcommand{\partname}{Experiencia}
+\renewcommand{\listtablename}{Lista de Tablas}
+\renewcommand{\listfigurename}{Lista de Figuras}
+\renewcommand{\appendixpagename}{Anexos}
+\renewcommand{\appendixtocname}{\large Anexos}
+\renewcommand{\appendixname}{Anexo}
+\renewcommand{\figurename}{Figura}
+\renewcommand{\tablename}{Tabla}
+
+\newcommand{\listecuacionesname}{\Large Lista de Ecuaciones}
+\newlistof{ecuaciones}{equ}{\listecuacionesname}
+\newcommand{\ecuaciones}[1]{\addcontentsline{equ}{ecuaciones}{\protect\numberline{\theequation}#1}\par}
+
+\linespread{1.3}
+\counterwithin*{section}{part}
+
+\newcommand{\code}[1]{\texttt{#1}} %Formatear texto como código
+\usepackage{parskip} %Añadir espacio tras los párrafos
+
+
+%DOCUMENTO
+\begin{document}
+  \maketitle
+
+  \tableofcontents
+
+  \newpage
+  \part{Leyes de Newton}
+
+  \section{Objetivos}
+
+  Realizaremos una serie de experiencias para verificar de manera empírica las leyes de Newton en dos escenarios diferentes:
+  \begin{itemize}[label=$-$]
+    \item Movimiento rectilineo uniforme [MRU]
+    \item Movimiento rectilineo uniformemente acelarado [MRUA]
+  \end{itemize}
+
+  \subsection{Segunda ley de Newton}
+
+  Comprobaremos la ley fundamental de la dinámica o segunda ley de Newton. Esta explica que la fuerza que actua sobre un cuerpo es proporcional a la aceleración de su centro de masas, con una constante igual a la masa del cuerpo:
+  \begin{equation}
+    \vec{F} = m \vec{a} \label{ec:newton}
+  \end{equation}
+
+  De esta ecuación podemos deducir dos factores esenciales:
+  \begin{itemize}[label=$-$]
+    \item Si no se aplica ninguna fuerza sobre el cuerpo, su aceleración será nula, por lo que mantendrá su velocidad. A esto lo llamamos MRU.
+    \item Si por el contrario aplicamos una fuerza, su aceleración será proporcional a la misma e inversamente proporcional a la masa del cuerpo. Si la fuerza es constante se considera MRUA.
+  \end{itemize}
+
+  En esta práctica comprobaremos ambos casos.
+
+  \subsection{Procedimiento de medida}
+
+  Aunque no entraremos en gran detalle sobre el montaje experimental debido a la situación extraordinaria que nos impidió ir al laboratorio a realizar esta práctica, estableceremos cuales serán los procedimientos básicos para tomar las medidas.
+
+  Utilizaremos un banco con microperforaciones que crearan una superficie de aire que hará flotar a nuestra masa y reducirá drásticamente el efecto del rozamiento. Además, colocaremos dos detectores que medirán cúanto tiempo transcurre cuando el móvil se desplzaza de uno a otro, con lo que calcularemos la variación de la velocidad, además de cúanto tiempo tarda el diafragma en cruzar el detector, útil para saber la velocidad instantánea del objeto.
+
+  Explicaremos los detalles de cada uno de los dos experimentos en sus respectivos apartados.
+
+  \subsection{Otras consideraciones}
+
+  Para el tratamiento de errores utilizaremos los métodos descritos en el documento "Análisis de Incertidumbres" de Alfredo Amigo. La fórmula general de propagación de incertidumbres que referenciaremos a lo largo del trabajo se describe a continuación:
+  \begin{equation}
+    s(y) = \sqrt{\sum_i{\left( \frac{\partial y}{\partial x_i} \right)^2 \cdot s^2(x_i)}} \label{ec:sy}
+  \end{equation}
+
+  Referido a los ajustes por mínimos cuadrados, la explicación completa se encuentra en las memorias de electricidad. De todas maneras, en los apéndices (\ref{s:ajustemc}) se encuentra una transcripción literal de la misma.
+
+  \newpage
+  \section{MRU}
+
+  En esta primera parte consideraremos el caso en el que las fuerzas que actúan sobre el objeto son nulas (o prácticamente despreciables). Para ello le comunicaremos un impulso inicial al móvil y dejaremos que se desplace sobre el banco. Deberíamos de obtener una velocidad constante a lo largo de todo el recorrido.
+
+  Mediremos la distancia entre los detectores (S), la cual iremos aumentando en sucesivas medidas, y anotaremos tres tiempos diferentes. T será el tiempo que tarda en recorrer S, T1 el tiempo que tarda el diafragma en atravesar el primer detector y T2 lo equivalente referido al segundo. Hemos de tener en cuenta que la longitud del diafragma del móvil (L) es de 0,100m para nuestros cálculos.
+
+  \subsection{Tablas de datos}
+
+  Representaremos las tablas de los datos obtenidos con tres masas distintas realizando diez medidas para distintas separaciones S. Como las incertidumbres de S y T* se mantienen constantes, siendo $s(S) = 0,001m$ y $s(T) = 0,001s$, no las incluiremos en la tabla. También diremos que las incertidumbres de L y m son $s(L) = 0,001m$ y $s(m) = 0,00001kg$.
+
+  \vspace{0.6cm}
+  \begin{minipage}[H]{0.12\textwidth}
+    \centering
+    \vspace{0.40cm}
+    \csvreader[
+      tabular=|c|,
+      table head=\hline S(m) \\ \hline,
+      late after last line=\\\hline,
+      separator=semicolon
+      ]{LN_MRU_M1.csv}
+      {S = \S}
+      {\S}
+  \end{minipage}
+  \begin{minipage}[H]{0.29\textwidth}
+    \centering
+    $\mathbf{M_1 = 0,20089kg}$
+    \csvreader[
+      tabular=|c|c|c|,
+      table head=\hline T(s) & T1(s) & T2(s) \\ \hline,
+      late after last line=\\\hline,
+      separator=semicolon
+      ]{LN_MRU_M1.csv}
+      {T = \t, T1 = \ti, T2 = \tii}
+      {\t & \ti & \tii}
+  \end{minipage}
+  \begin{minipage}[H]{0.29\textwidth}
+    \centering
+    $\mathbf{M_2 = 0,26079kg}$
+    \csvreader[
+      tabular=|c|c|c|,
+      table head=\hline T(s) & T1(s) & T2(s) \\ \hline,
+      late after last line=\\\hline,
+      separator=semicolon
+      ]{LN_MRU_M2.csv}
+      {T = \t, T1 = \ti, T2 = \tii}
+      {\t & \ti & \tii}
+  \end{minipage}
+  \begin{minipage}[H]{0.29\textwidth}
+    \centering
+    $\mathbf{M_3 = 0,30167kg}$
+    \csvreader[
+      tabular=|c|c|c|,
+      table head=\hline T(s) & T1(s) & T2(s) \\ \hline,
+      late after last line=\\\hline,
+      separator=semicolon
+      ]{LN_MRU_M3.csv}
+      {T = \t, T1 = \ti, T2 = \tii}
+      {\t & \ti & \tii}
+  \end{minipage}
+
+  \newpage
+  \subsection{Representación gráfica}
+
+  Ahora pasaremos a dibujar los datos de S en función de T. Para ello procesaremos los datos en \code{python}, utilizando la librería \code{pandas}, que nos permite importar directamente archivos .csv, el mismo formato que usamos para representar las tablas de \LaTeX.
+
+  \begin{python}
+    import numpy as np
+    import pandas as pd
+
+    d = [pd.read_csv("LN_MRU_M{}.csv".format(i), sep=';', decimal=',')
+         for i in range(1,4)]
+    S = np.array([d[j]["S"] for j in range(0,3)])
+    T = np.array([d[j]["T"] for j in range(0,3)])
+  \end{python}
+
+  Y utilizaremos estas estructuras de \code{numpy} para representar los datos, gracias a \code{matplotlib}. Los guardaremos en formato .pgf para cargalos directmente en \LaTeX con toda la calidad.
+
+  \begin{python}
+    for i in range(len(T)):
+        plt.clf()
+        plt.scatter(T[i], S[i], color=c[i])
+        #Guardar usando una funcion personalizada tres graficas distintas
+  \end{python}
+
+  Finalmente obtenemos estas gráficas:
+  \begin{figure}[H]
+    \centering
+    \input{LN_MRU_1.pgf} \input{LN_MRU_2.pgf}
+    \input{LN_MRU_3.pgf}
+    \caption{Distancia entre detectores (S) frente a tiempo (T) para  (\textcolor{RoyalBlue}{$m_1$}, \textcolor{MediumSeaGreen}{$m_2$}, \textcolor{IndianRed}{$m_3$})}
+  \end{figure}
+
+  \newpage
+  \subsection{Ajuste por mínimos cuadrados}
+
+  Como podemos observar, las gráficas anteriores parecen ajustarse a una recta, por lo que procederemos a hacer una regresión lineal. Además, sabemos que si la distancia entre los detectores es $S=0$, el tiempo que el móvil tardará en recorrerla también será $T=0$, por lo que la recta debe pasar por el orígen. Deducimos pues que es una regresión lineal sin término independiente. Además, las incertidumbres $s(y) = s(S)$ no varían, por lo que podremos hacer una regresión simple.
+
+  Las fórmulas relativas a este tipo de regresión así como una explicación detallada del programa que utilizaremos pueden encontrarse en el anexo (\ref{s:ajustemc}). Procedemos a representar las gráficas con sus correspondientes rectas y términos de ajuste.
+
+  \begin{figure}[H]
+    \centering
+    \input{LN_MRU_R1.pgf} \input{LN_MRU_R2.pgf}
+    \input{LN_MRU_R3.pgf}
+    \caption{Distancia entre detectores (S) frente a tiempo (T) para  (\textcolor{RoyalBlue}{$m_1$}, \textcolor{MediumSeaGreen}{$m_2$}, \textcolor{IndianRed}{$m_3$}) con un ajuste lineal por mínimos cuadrados sin término independiente}
+  \end{figure}
+  \begin{gather*}
+    b_1 = 0,8508 \pm 0,0039 m/s \qquad s_1 = 0,012 \qquad r_1 = 0,99990 \\
+    b_2 = 0,7401 \pm 0,0056 m/s \qquad s_2 = 0,020 \qquad r_2 = 0,9997 \\
+    b_3 = 0,7052 \pm 0,0016 m/s \qquad s_3 = 0,0059 \qquad r_3 = 0,99997 \\
+  \end{gather*}
+
+  Hemos decido enseñar las gráficas en el dominio en el que tomamos los datos experimentales, pero podemos comprobar fácilmente que las rectas pasan por cero si extendemos la recta para que llegue al orígen.
+
+  \begin{figure}[H]
+    %\centering
+    \hspace{3.5em} \input{LN_MRU_RZ1.pgf}
+    \caption{Extensión de la gráfica para \textcolor{RoyalBlue}{$m_1$} hasta el orígen}
+  \end{figure}
+
+  \subsection{Interpretación: Velocidad media}
+
+  Ahora que tenemos un ajuste lineal para cada tabla de datos, podemos deducir que la pendiente de esas rectas (el término b) es la velocidad media del móvil. Si tomamos la siguiente ecuación podemos ver las similitudes:
+  \begin{equation}
+    S = v \cdot T \qquad S = b \cdot T \qquad \Rightarrow  \qquad v = b
+  \end{equation}
+  Y tendremos las siguientes velocidades medias de los móviles con sus incertidumbres:
+  \begin{equation*}
+    v_1 = 0,8508 \pm 0,0039 m/s \qquad v_2 = 0,7401 \pm 0,0056 m/s \qquad v_3 = 0,7052 \pm 0,0016 m/s
+  \end{equation*}
+
+  \subsection{Velocidad instantánea}
+
+  Ahora trataremos de calcular la velocidad instantánea del objeto al pasar los detectores 1 y 2. Para ello podemos utilizar los distintos datos T1 y T2 que se miden para cada distancia S en las tablas experimentales, pero al ser distintas medidas debemos de aplicar tratamiento de errores para dar una cifra que las represente a todas.
+
+  \subsubsection{Tratamiento de datos}
+
+  Aplicaremos el procedimiento estándar de tratamiento para varias medidas a las columnas T1 y T2 de nuestras tablas. Como demostración iremos indicando el valor de los parámetros calculados para T1 en la primera tabla, pero al final indicaremos todos los datos calculados para el resto de columnas. En el proceso explicaremos las fórmulas necesarias así como el código utilizado para implementarlo en \code{python}.
+
+  \begin{enumerate}
+    \item Calculamos la media de la muestra, $\bar{x}$.
+    \begin{equation}
+      \bar{x} = \frac{\sum_{i=1}^n{x_i}}{n} = \frac{1,163}{10} = 0,1163 s \label{ec:media}
+    \end{equation}
+    \begin{python}
+      def tratamiento_datos(x, sb=0):
+        #x es un array de numpy con los datos a tratar
+        #sb es la incertidumbre experimental
+        import numpy as np
+        #Media
+        fmed = lambda x: x.sum() / len(x)
+        med = fmed(x)
+    \end{python}
+
+    \item Calculamos la desviación típica de la muestra, $s_A(x)$.
+    \begin{equation}
+      s_A(x) = \sqrt{\frac{\sum_{i=1}^n{(x_i - \bar{x})^2}}{n - 1}} = \sqrt{\frac{1,21 \cdot 10^{-5}}{10 - 1}} = 0,0012 s \label{ec:sax}
+    \end{equation}
+    \begin{python}
+        #Desviacion tipica muestra
+        fsa = lambda x, m: (((x - m)**2).sum() / (len(x) - 1))**0.5
+        sa = fsa(x, med)
+    \end{python}
+
+    \item Evaluamos los valores discordantes, aquellos que se ecuentren fuera del intervalo de confianza $\bar{x} - k\cdot s_A(x) \leq x_i \leq \bar{x} + k\cdot s_A(x) = 0,1139 s \leq x_i \leq 0,1187 s$. Tomaremos $k = 2$ para asegurar una cobertura del 95\%. En este caso todos los valores están dentro del intervalo y no hay que eliminar ninguno. Por ejemplo, en T1 de la segunda tabla, el valor 0,142 no entra en su intervalo de confianza y ha de ser eliminado.
+    \begin{python}
+        #Valores discordantes
+        k = 2
+        lb = med - k*sa
+        ub = med + k*sa
+        e = np.array(np.where(np.logical_or(x <= lb, x >= ub)))
+            .flatten().astype(np.int32).tolist()
+        nx = np.delete(x, e)
+    \end{python}
+
+    \item Volvemos a computar el valor medio $\bar{x}$ y la desviación típica de la muestra $s_A(x)$, además la desviación típica de la media $s_A(\bar{x})$ con los datos corregidos. No aplicar este proceso más de una vez.
+    \begin{equation}
+      s_A(\bar{x}) = \frac{s_A(x)}{\sqrt{n}} = \frac{0,0012}{\sqrt{10}} = 0,00038 s \label{ec:samx}
+    \end{equation}
+    \begin{python}
+        #Calcular de nuevo
+        med = fmed(nx)
+        sa = fsa(nx, med)
+        #Desviacion tipica media
+        sm = sa / len(nx)**0.5
+    \end{python}
+
+    \item Calculamos la incertidumbre combinada, $s_C(\bar{x})$.
+    \begin{equation}
+      s_C(\bar{x}) = \sqrt{[s_A(\bar{x})]^2 + [s_B(\bar{x})]^2} = \sqrt{[0,00038]^2 + [0,001]^2} = 0,0011 s \label{ec:scx}
+    \end{equation}
+
+    \item Resultado final de la forma $\bar{x}, s_C(\bar{x}), \phi=n-1$:
+    \begin{equation*}
+      (\bar{x}, s_C(\bar{x}), \phi) = (0,1163s; 0,0011s; 9)
+    \end{equation*}
+  \end{enumerate}
+
+  Ahora completaremos los resultados del resto de tablas:
+
+  \textit{Para $m_2$-T1 eliminamos 0,142; para $m_2$-T2 eliminamos 0,144; para $m_3$-T1 eliminamos 0,143}
+  \begin{gather*}
+    m_1: \qquad T1(0,1163s;0,0011s;9) \qquad T2(0,1171s;0,0011s;9) \\
+    m_2: \qquad T1(0,1322s;0,0011s;8) \qquad T2(0,1332s;0,0011s;8) \\
+    m_3: \qquad T1(0,1397s;0,0010s;8) \qquad T2(0,1417s;0,0011s;9)
+  \end{gather*}
+
+  \subsubsection{Cálculo de V}
+
+  Utilizando los datos descritos anteriormente y sabiendo que la longitud del diafragma es $L=0,100 \pm 0,001 m$ calcularemos las velocidades instantáneas en ambos detectores. Si son iguales (o razonablemente similares) comprobaremos que al no aplicar una fuerza la velocidad se mantiene constante.
+  \begin{gather}
+    V_1 = \frac{L}{T1} \qquad V_2 = \frac{L}{T2} \label{ec:velinst} \\
+    m_1: \qquad V_1 = \frac{0,1}{0,1163} = 0,860 m/s \qquad V_2 = \frac{0,1}{0,1171} = 0,854 m/s \nonumber \\
+    m_2: \qquad V_1 = \frac{0,1}{0,1322} = 0,7563 m/s \qquad V_2 = \frac{0,1}{0,1332} = 0,7506 m/s \nonumber \\
+    m_3: \qquad V_1 = \frac{0,1}{0,1397} = 0,7160 m/s \qquad V_2 = \frac{0,1}{0,1417} = 0,7057 m/s \nonumber
+  \end{gather}
+
+  \subsubsection{Propagación de errores}
+
+  Antes de afirmar nada, calcularemos también el error de dichas medidas utilizando propagación de errores.
+  \begin{gather}
+    \qquad s(V) = \sqrt{\left(\frac{\partial V}{\partial L}\right)^2 \cdot s^2(L) + \left(\frac{\partial V}{\partial T_i}\right)^2 \cdot s^2(T_i)} = \sqrt{\frac{s^2(L)}{T_i^2} + \frac{L^2 \cdot s^2(T_i)}{T_i^4}}
+    \label{ec:sv}
+  \end{gather}
+
+  Finalmente obtenemos:
+  \begin{gather*}
+    m_1: \qquad V_1 = 0,860 \pm 0,011 m/s \qquad V_2 = 0,854 \pm 0,011 m/s \\
+    m_2: \qquad V_1 = 0,7563 \pm 0,0095 m/s \qquad V_2 = 0,7506 \pm 0,0094 m/s\\
+    m_3: \qquad V_1 = 0,7160 \pm 0,0088 m/s \qquad V_2 = 0,7057 \pm 0,0086 m/s
+  \end{gather*}
+
+  Como podemos comprobar, los resultados son muy parecidos entre ambas velocidades para cada masa. La ligera diferencia que entra dentro del intervalo de incertidumbre se puede deber a las mediciones del laboratorio así como al rozamiento del aire por no realizar el experimento en un vacío.
+
+
+  \newpage
+  \section{MRUA}
+
+  En la segunda parte de la práctica verificaremos que la fuerza es proporcional a la aceleración. La configuración es igual a la del primer experimento con una salvedad. Ahora le comunicaremos una aceleración al móvil utilizando un peso que cuelga de una polea en el otro extremo del banco que acelerará hacia el suelo por la acción de la gravedad.
+
+  \subsection{Tablas de datos}
+
+  En esta ocasión seguiremos midiendo S y T cómo la distancia entre los detectores y el tiempo que tarda en recorrerla, y sólo tomaremos T2 cómo el tiempo que el diafragma tarda en recorrer el segundo detector. Las incertidumbres son constantes, $s(S) = 0,001m$ y $s(T) = 0,001s$, por lo que no las incluiremos en la tabla. Además, el diafragma mide $L = 0,1m$ con una incertidumbre igual a la de S, y la masa que cuelga de la polea es $m = 0,02977 kg$. Todas las masas tienen incertidumbre $s(M) = 0,00001 kg$.
+
+  \begin{center}
+    \vspace{0.6cm}
+    \begin{minipage}[H]{0.14\textwidth}
+      \centering
+      \vspace{0.40cm}
+      \csvreader[
+        tabular=|c|,
+        table head=\hline S(m) \\ \hline,
+        late after last line=\\\hline,
+        separator=semicolon
+        ]{LN_MRUA_M1.csv}
+        {S = \S}
+        {\S}
+    \end{minipage}
+    \begin{minipage}[H]{0.23\textwidth}
+      \centering
+      $\mathbf{M_1 = 0,20401kg}$
+      \csvreader[
+        tabular=|c|c|,
+        table head=\hline T(s) & T2(s) \\ \hline,
+        late after last line=\\\hline,
+        separator=semicolon
+        ]{LN_MRUA_M1.csv}
+        {T = \t, T2 = \tii}
+        {\t & \tii}
+    \end{minipage}
+    \begin{minipage}[H]{0.23\textwidth}
+      \centering
+      $\mathbf{M_2 = 0,23003kg}$
+      \csvreader[
+        tabular=|c|c|,
+        table head=\hline T(s) & T2(s) \\ \hline,
+        late after last line=\\\hline,
+        separator=semicolon
+        ]{LN_MRUA_M2.csv}
+        {T = \t, T2 = \tii}
+        {\t & \tii}
+    \end{minipage}
+    \begin{minipage}[H]{0.23\textwidth}
+      \centering
+      $\mathbf{M_3 = 0,33012kg}$
+      \csvreader[
+        tabular=|c|c|,
+        table head=\hline T(s) & T2(s) \\ \hline,
+        late after last line=\\\hline,
+        separator=semicolon
+        ]{LN_MRUA_M3.csv}
+        {T = \t, T2 = \tii}
+        {\t & \tii}
+    \end{minipage}
+  \end{center}
+
+  \subsection{Método 1: $s = \frac{1}{2}at^2$}
+
+  El primer método que utilizaremos es la distancia que recorre un móvil uniformemente acelerado. Esta se puede derivar utilizando ecuaciones diferenciales siendo la velocidad y la posición incial las constantes de integración.
+  \begin{gather}
+    v = \frac{ds}{dt} \qquad s = vt + s_0 \\
+    a = \frac{dv}{dt} = \frac{d}{dt}\left(\frac{ds}{dt}\right) = \frac{d^2s}{dt^2} \qquad s = \frac{1}{2}at^2 + v_0t + s_0 \label{ec:newtona}
+  \end{gather}
+
+  En este caso, cómo $s_0 = 0$ y $v_0 = 0$, la ecuación \ref{ec:newtona} se reduce a $s = \frac{1}{2}at^2$.
+
+  Vemos que podemos poner la ecuación cómo $y = bx$ siendo y la distancia, b la aceleración y x la mitad del tiempo al cuadrado. Entonces, si representamos S frente a $\frac{1}{2}T^2$ podremos hacer un ajuste por mínimos cuadrados para obtener la pendiente y calcular así la aceleración. Antes de ello debemos crear una nueva columna en la tabla para $\frac{1}{2}T^2$.
+
+  \begin{center}
+    \vspace{0.6cm}
+    \begin{minipage}[H]{0.12\textwidth}
+      \centering
+      \vspace{0.40cm}
+      \csvreader[
+        tabular=|c|,
+        table head=\hline S(m) \\ \hline,
+        late after last line=\\\hline,
+        separator=semicolon
+        ]{LN_MRUA_M1.csv}
+        {S = \S}
+        {\S}
+    \end{minipage}
+    \begin{minipage}[H]{0.27\textwidth}
+      \centering
+      $\mathbf{M_1 = 0,20401kg}$
+      \csvreader[
+        tabular=|c|,
+        table head=\hline $\frac{1}{2}T^2(s^2)$ \\ \hline,
+        late after last line=\\\hline,
+        separator=semicolon
+        ]{LN_MRUA_M1.csv}
+        {Ta=\tiii, sTa = \tii}
+        {$\tiii \pm \tii$}
+    \end{minipage}
+    \begin{minipage}[H]{0.27\textwidth}
+      \centering
+      $\mathbf{M_2 = 0,23003kg}$
+      \csvreader[
+        tabular=|c|,
+        table head=\hline $\frac{1}{2}T^2(s^2)$ \\ \hline,
+        late after last line=\\\hline,
+        separator=semicolon
+        ]{LN_MRUA_M2.csv}
+        {Ta=\tiii, sTa = \tii}
+        {$\tiii \pm \tii$}
+    \end{minipage}
+    \begin{minipage}[H]{0.27\textwidth}
+      \centering
+      $\mathbf{M_3 = 0,33012kg}$
+      \csvreader[
+        tabular=|c|,
+        table head=\hline $\frac{1}{2}T^2(s^2)$ \\ \hline,
+        late after last line=\\\hline,
+        separator=semicolon
+        ]{LN_MRUA_M3.csv}
+        {Ta=\tiii, sTa = \tii}
+        {$\tiii \pm \tii$}
+    \end{minipage}
+    \vspace{0.6cm}
+  \end{center}
+
+  Agora representaremos gráficamente S frente a $\frac{1}{2}T^2$ utilizando un programa moi similar ao do experimento anterior.
+
+  \begin{figure}[H]
+    \centering
+    \input{LN_MRUA_1.pgf} \input{LN_MRUA_2.pgf}
+    \input{LN_MRUA_3.pgf}
+    \caption{Distancia recorrida (S) frente a $\frac{1}{2}T^2$ para  (\textcolor{RoyalBlue}{$m_1$}, \textcolor{MediumSeaGreen}{$m_2$}, \textcolor{IndianRed}{$m_3$})}
+  \end{figure}
+
+  \newpage
+  \subsubsection{Ajuste por mínimos cuadrados}
+
+  Realizaremos un ajuste lineal por mínimos cuadrados simple y sin término independiente, ya que para una distancia $S=0$, $T=0$ y por lo tanto $\frac{1}{2}T^2 = 0$, deduciendo entonces que la recta que intentamos ajustar pasa por el orígen. Usaremos el mismo programa que en el apartado anterior para representar las gráficas con sus términos de ajuste.
+
+  \begin{figure}[H]
+    \centering
+    \input{LN_MRUA_L1.pgf} \input{LN_MRUA_L2.pgf}
+    \input{LN_MRUA_L3.pgf}
+    \caption{Distancia recorrida (S) frente a $\frac{1}{2}T^2$ para  (\textcolor{RoyalBlue}{$m_1$}, \textcolor{MediumSeaGreen}{$m_2$}, \textcolor{IndianRed}{$m_3$}) con regresión lineal simple sin término independiente}
+  \end{figure}
+  \begin{gather*}
+    b_1 = 1,191 \pm 0,016 m/s^2 \qquad s_1 = 0,021 \qquad r_1 = 0,9992 \\
+    b_2 = 0,902 \pm 0,011 m/s^2 \qquad s_2 = 0,020 \qquad r_2 = 0,9992 \\
+    b_3 = 0,809 \pm 0,013 m/s^2 \qquad s_3 = 0,025 \qquad r_3 = 0,998
+  \end{gather*}
+
+  Como explicamos anteriormente, podemos relacionar la pendiente de las rectas (b) con la aceleración del móvil, por lo tanto:
+  \begin{gather*}
+    a_1 = 1,191 \pm 0,016 m/s^2 \qquad a_2 = 0,902 \pm 0,011 m/s^2 \qquad a_3 = 0,809 \pm 0,013 m/s^2
+  \end{gather*}
+
+  \newpage
+  \subsection{Método 2: $a = \frac{\Delta V}{\Delta T}$}
+
+  Mediante la ecuación \ref{ec:newtona} podemos ver que a es la derivada de v respecto a t. Para intervalos finitos es posible hayar la aceleración media dividiendo $\Delta V / \Delta T$.
+
+  Calcularemos la velocidad instantánea en el segundo detector para cada S, que además corresponderá a $\Delta V$ ya que la velocidad inicial es 0. Usaremos \ref{ec:velinst} y \ref{ec:sv}.
+
+  \begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|}\hline
+    $V_1(m/s)$    & $V_2(m/s)$      & $V_3(m/s)$      \\ \hline
+    0.826+/-0.011 & 0.7576+/-0.0095 & 0.7299+/-0.0090 \\
+    0.885+/-0.012 & 0.813+/-0.010   & 0.7752+/-0.0098 \\
+    0.962+/-0.013 & 0.885+/-0.012   & 0.820+/-0.011   \\
+    0.980+/-0.014 & 0.917+/-0.012   & 0.833+/-0.011   \\
+    1.042+/-0.015 & 0.980+/-0.014   & 0.847+/-0.011   \\
+    1.111+/-0.017 & 1.020+/-0.015   & 0.885+/-0.012   \\
+    1.190+/-0.019 & 1.053+/-0.015   & 0.909+/-0.012   \\
+    1.220+/-0.019 & 1.099+/-0.016   & 0.935+/-0.013   \\
+    1.250+/-0.020 & 1.124+/-0.017   & 0.952+/-0.013   \\
+    1.316+/-0.022 & 1.176+/-0.018   & 1.000+/-0.014   \\ \hline
+    \end{tabular}
+  \end{table}
+
+  \subsubsection{Ajuste por mínimos cuadrados}
+
+  Ahora representaremos gráficamente V frente a T, y haremos un ajuste lineal sin término independiente utilizando el método definido anteriormente para encontrar la pendiente, en este caso la aceleración, ya que $\Delta V = a \Delta T$. También añadiremos los parámetros del ajuste.
+
+  \begin{figure}[H]
+    \centering
+    \input{LN_MRUA_A1.pgf} \input{LN_MRUA_A2.pgf}
+    \input{LN_MRUA_A3.pgf}
+    \caption{Velocidad (V) frente a tiempo (T) para (\textcolor{RoyalBlue}{$m_1$}, \textcolor{MediumSeaGreen}{$m_2$}, \textcolor{IndianRed}{$m_3$}) con regresión lineal simple sin término independiente}
+  \end{figure}
+  \begin{gather*}
+    b_1 = 1,224 \pm 0,011 m/s^2 \qquad s_1 = 0,031 \qquad r_1 = 0,9996 \\
+    b_2 = 0,964 \pm 0,0078 m/s^2 \qquad s_2 = 0,025 \qquad r_2 = 0,9997 \\
+    b_3 = 0,800 \pm 0,013 m/s^2 \qquad s_3 = 0,043 \qquad r_3 = 0,998
+  \end{gather*}
+
+  Ya que la pendiente es la aceleración, podemos obtener sus valores para este experimento.
+  \begin{gather*}
+    a_1 = 1,224 \pm 0,011 m/s^2 \qquad a_2 = 0,964 \pm 0,0078 m/s^2 \qquad a_3 = 0,800 \pm 0,013 m/s^2
+  \end{gather*}
+
+  \newpage
+  \subsection{Aceleración teórica}
+
+  Finalmente calcularemos cúal sería la aceleración teórica y así poder compararla con nuestros resultados experimentales. Sabiendo que las masas del móvil son $M_1 = 0,20401kg$, $M_2 = 0,23003kg$ y $M_3 = 0,33012kg$, y que la masa que cuelga de la polea es $m = 0,02977 kg$, además de conocer su incertidumbre, $s(M) = 0,00001 kg$, podemos calcular la aceleración utilizando las leyes de Newton:
+  \begin{equation}
+    F = M \cdot a \qquad T = m \cdot g \qquad Ma = mg \qquad a = g \frac{m}{M} \label{ec:accm}
+  \end{equation}
+
+  Además de su incertidumbre \textit{(tomaremos g cómo $9,8 \pm 0,1 m/s^2$)}:
+  \begin{equation}
+    s(a) = \sqrt{\frac{g^2 m^2 s(M)^2}{M^4} + \frac{g^2 s(m)^2}{M^2} + \frac{m^2 s(g)^2}{M^2}} \label{ec:saccm}
+  \end{equation}
+
+  Así nos queda:
+  \begin{equation*}
+    a_1 = 1.430 \pm 0.015 m/s^2 \qquad a_2 = 1.268 \pm 0.013 m/s^2 \qquad 0.8838 \pm 0.0090 m/s^2
+  \end{equation*}
+
+  Si lo comparamos con las dos aceleraciones experimentales vemos que los valores difieren considerablemente, especialmente las de los dos primeros términos, pero de nuevo podemos atribuír al procedimiento de medida en el laboratorio y a los diferentes tipos de rozamiento y fricción (polea, aire) que no se ajusten completamente.
+
+
+  \newpage
+  \section{Conclusiones POR HACER!!!!}
+
+
+  \newpage
+  \thispagestyle{plain}
+  \mbox{}
+
+  \newpage
+  \part{Momento de Inercia}
+
+  \section{Objetivos}
+
+  En esta práctica trabajaremos sobre el momento de inercia de distintos cuerpos. Este surge al rotar un objeto sobre uno de sus ejes, puede considerarse análogo a la masa en un movimento armónico simple. Nuestras metas a lo largo de la práctica son las siguientes:
+  \begin{itemize}[label=$-$]
+    \item Medir la constante recuperadora del muelle que utilizaremos en los experimentos.
+    \item Calcular el momento de inercia de distintos cuerpos.
+    \item Verificar que se cumple el Teorema de Steiner.
+  \end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  \newpage
+  \begin{appendices}
+    \addtocontents{toc}{\protect\setcounter{tocdepth}{2}}
+    \makeatletter
+    \addtocontents{toc}{%
+    \begingroup
+    \let\protect\l@chapter\protect\l@section
+    \let\protect\l@section\protect\l@subsection
+    }
+
+    \section{Ajuste por mínimos cuadrados}
+    \label{s:ajustemc}
+
+    \textit{(Transcripción literal de las memorias de Electricidad, parte de Bobinas de Helmholtz)}
+
+    Para ajustar los una serie de datos que parezcan seguir una relación lineal podemos utilizar el método de \textbf{ajuste por mínimos cuadrados}. Al ser \textit{lineal}, podemos ajustarla por una recta general de la forma $y = \alpha + \beta x$. El problema a resolver sería conseguir la mejor aproximación \textit{a}, \textit{b} de los parámetros $\alpha, \beta$ y sus incertidumbres utilizando nuestra serie de parámetros $\left\{ x_i, y_i \right\}$. Sin embargo, en este caso sabemos que las rectas pasan por el origen (Puesto que para \textit{I=0}, \textit{B=0}), por lo tanto el parámetro \textit{a} va a ser igual a 0, ya que si sustituímos \textit{y=0} y \textit{x=0}, obtenemos $0 = \alpha + \beta \cdot 0$. Este tipo de regresión de la forma $y = \beta x$ llama \textbf{ajuste por mínimos cuadrados sin término independiente}, y es la que encaja con nuestra ecuación $B = c \cdot I$.
+
+    Para ello minimizaremos la suma de los productos del peso estadístico de cada punto, $w_i$, por el cuadrado de la desviación de los datos, $[y_i - bx_i]^2$. Por lo tanto, la derivada respecto a \textit{b} debe de ser 0.
+    \begin{gather}
+      \chi^2 = \sum^{n}_{i=1} w_i[y_i - bx_i]^2 \label{ec:chi2} \\
+      \frac{\partial \chi^2}{\partial b}=0 \label{ec:deriv}
+    \end{gather}
+
+    De aquí resultan dos posibles casos:
+
+    \begin{enumerate}
+      \item Si las incertidumbres de $x_i$ no son despreciables respecto a las de $y_i$. Obtenemos la siguiente ecuación: $\omega_i=\frac{1}{s^2(y_i)+b^2s^2(x_i)}$, que excede el nivel de este curso.
+      \item Si por el contrario podemos despreciar las incertidumbres de $x_i$ respecto a $y_i$, podemos simplificar la ecuación anterior a $\omega_i=[s(y_i)]^{-2}$.
+    \end{enumerate}
+
+    En nuestro caso, estamos representando B ($y_i$) frente a I ($x_i$), y como ya comentamos la incertidumbre de I no está especificada por lo que consideraremos que es despreciable frente a la de B, así que podemos aplicar el segundo caso.
+
+    Además, podemos considerar que las incertidumbres de $y_i$ permanecen constantes entre las diferentes medidas, por lo que también lo hará el peso estadístico $w = cte$. Finalmente, conseguimos la expresión matemática de \textit{b} en base a la serie de medidas $\left\{ x_i, y_i \right\}$, que sustituiremos por \textit{I} y \textit{B}. Tambien podemos calcular la desviación típica (s), la incertidumbre de b (s(b)) y el coeficiente de regresión lineal (r).
+
+    \begin{gather}
+      b = \frac{\sum_i{x_i y_i}}{\sum_i{x_i^2}} = \frac{\sum_i{I B}}{\sum_i{I^2}} \label{ec:regb} \\
+      s = \sqrt{\frac{\sum_i{(y_i - bx_i)^2}}{n - 1}} = \sqrt{\frac{\sum_i{(B - bI)^2}}{n - 1}} \label{ec:regs} \\
+      s(b) = \frac{s}{\sqrt{\sum_i{x_i^2}}} = \frac{s}{\sqrt{\sum_i{I^2}}} \label{ec:regsb} \\
+      r = \frac{\sum_i{x_i y_i}}{\sqrt{(\sum_i{x_i^2}) \cdot (\sum_i{y_i^2})}} = \frac{\sum_i{I B}}{\sqrt{(\sum_i{I^2}) \cdot (\sum_i{B^2})}} \label{ec:regr}
+    \end{gather}
+
+    Implementaremos este procedimiento utilizando una vez más \code{python}. Lo haremos en una librería a parte para poder utilizarlo en el resto de las memorias. El código se describe a continuación, dónde los parámetros x e y son arrays de \code{numpy} o series de \code{pandas}, lo equivalente a una columna de nuestras tablas. Contienen la función \code{.sum()}, que hace un sumatorio de todos sus miembros. Como vemos, podemos operar antes de hacer la suma, por ejemplo, para calcular $\sum_i{x_i y_i}$.
+
+    \begin{python}
+      def reg_lin_b(x, y):
+          n = len(x) #Numero de datos
+
+          #Sumatorios necesarios
+          sxy = (x*y).sum()
+          sx2 = (x**2).sum()
+          sybx = ((y - b*x)**2).sum()
+          sy2 = (y**2).sum()
+
+          b = sxy / sx2 #Pendiente de la recta
+          s = (sybx / (n-1))**0.5 #Desviacion tipica
+          sb = s / (sx2)**0.5 #Incertidumbre de b
+          r = sxy / (sx2 * sy2)**0.5 #Coeficiente de regresion lineal
+
+          return (b, s, sb, r)
+    \end{python}
+
+    Ahora crearemos el programa que nos permitirá representar las rectas junto a los puntos experimentales, y nos devolverá los datos de la regresión lineal.
+
+    \begin{python}
+      import pandas as pd
+      import matplotlib.pyplot as plt
+
+      #Datos, similarmente para las otras dos tablas
+      d1 = pd.read_csv("BH-4.csv", sep=';', decimal=',')
+      I1 = d1["I"]; Be1 = d1["Bexp"]
+
+      #Regresion lineal sin termino independiente
+      b1 = rl(I1, Be1)[0]
+      xr1 = np.linspace(0, max(I1), 10); yr1 = b1 * xr1
+
+      #Graficas
+      plt.scatter(I1, Be1) #Experimental, puntos
+      plt.plot(xr1, yr1) #Teorica, recta regresion lineal
+    \end{python}
+
+    Y obtenemos la siguiente gráfica con los parámetros de regresión indicados.
+
+    \begin{figure}[H]
+      %\centering
+      \hspace{2.5em} \input{BH2R.pgf}
+      \caption{Campo magnético (B) frente a la intensidad (I) para tres separaciones de las bobinas (\textcolor{RoyalBlue}{a=R}, \textcolor{MediumSeaGreen}{a=R/2}, \textcolor{IndianRed}{a=2R}) con regresión lineal simple sin término independiente}
+    \end{figure}
+    \begin{gather*}
+      b_1 = 0,0006572 T/A \qquad s_1 = 9,3 \cdot 10^{-6} T \qquad sb_1 = 9,5 \cdot 10^{-7} T/A \qquad r_1 = 0,99998 \\
+      b_2 = 0,000843 T/A \qquad s_2 = 1,3 \cdot 10^{-5} T \qquad sb_2 = 1,3 \cdot 10^{-6} T/A \qquad r_2 = 0,99997 \\
+      b_3 = 0,000327 T/A \qquad s_3 = 1,1 \cdot 10^{-5} T \qquad sb_3 = 1,1 \cdot 10^{-6} T/A \qquad r_3 = 0,99990
+    \end{gather*}
+
+  \end{appendices}
+
+
+
+\end{document}

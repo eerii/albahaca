@@ -32,3 +32,7 @@ def tratamiento_datos(x, sb=0):
         print("Indices: {}\n---".format(e))
 
     return med, sc
+
+import pandas as pd
+d = pd.read_csv("LN_MRU_M1.csv", sep=';', decimal=',')
+x = d["T1"]
