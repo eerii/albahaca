@@ -81,3 +81,30 @@ def reg_lin_w(x, y, sy):
     print("r=", r, "\n---")
 
     return (a, b, s, sa, sb, r)
+
+#Regresión lineal ponderada sin término independiente
+def reg_lin_wb(x, y, sy):
+    print("---\nRegresión lineal ponderada sin término independiente\n---")
+
+    n = len(x)
+    w = sy**(-2)
+
+    sw = w.sum()
+    swx = (w*x).sum()
+    swxy = (w*x*y).sum()
+    swx2 = (w*x**2).sum()
+    swy2 = (w*y**2).sum()
+
+    b = swxy / swx2
+    sb = 1 / (swx2)**0.5
+
+    swb = (w*(y - b*x)**2).sum()
+    s = ((n / ((n-1) * sw)) * swb)**0.5
+
+    r = swxy / (swx2 * swy2)**0.5
+
+    print("b=", b)
+    print("s=", s, "sb=", sb)
+    print("r=", r, "\n---")
+
+    return (b, s, sb, r)
