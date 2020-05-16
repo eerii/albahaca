@@ -76,17 +76,17 @@
     \item Movimiento rectilineo uniformemente acelarado [MRUA]
   \end{itemize}
 
-  \subsection{Segunda ley de Newton}
+  \subsection{Ley fundamental de la dinámica}
 
-  Comprobaremos la ley fundamental de la dinámica o segunda ley de Newton. Esta explica que la fuerza que actua sobre un cuerpo es proporcional a la aceleración de su centro de masas, con una constante igual a la masa del cuerpo:
+  Comprobaremos la ley fundamental de la dinámica. Esta propone que la fuerza que actua sobre un cuerpo es proporcional a la aceleración de su centro de masas, con una constante igual a la masa del cuerpo:
   \begin{equation}
     \vec{F} = m \vec{a} \label{ec:newton}
   \end{equation}
 
   De esta ecuación podemos deducir dos factores esenciales:
   \begin{itemize}[label=$-$]
-    \item Si no se aplica ninguna fuerza sobre el cuerpo, su aceleración será nula, por lo que mantendrá su velocidad. A esto lo llamamos MRU.
-    \item Si por el contrario aplicamos una fuerza, su aceleración será proporcional a la misma e inversamente proporcional a la masa del cuerpo. Si la fuerza es constante se considera MRUA.
+    \item Si no se aplica ninguna fuerza sobre el cuerpo, su aceleración será nula, por lo que mantendrá su velocidad. A esto lo llamamos MRU (Primera ley de Newton).
+    \item Si por el contrario aplicamos una fuerza, su aceleración será proporcional a la misma e inversamente proporcional a la masa del cuerpo. Si la fuerza es constante se considera MRUA (Segunda ley de Newton).
   \end{itemize}
 
   En esta práctica comprobaremos ambos casos.
@@ -101,17 +101,17 @@
 
   \subsection{Otras consideraciones}
 
-  Para el tratamiento de errores utilizaremos los métodos descritos en el documento "Análisis de Incertidumbres" de Alfredo Amigo. La fórmula general de propagación de incertidumbres que referenciaremos a lo largo del trabajo se describe a continuación:
+  Para el tratamiento de errores utilizaremos los métodos descritos en el documento \textit{Análisis de Incertidumbres} de Alfredo Amigo. La fórmula general de propagación de incertidumbres que referenciaremos a lo largo del trabajo se describe a continuación:
   \begin{equation}
     s(y) = \sqrt{\sum_i{\left( \frac{\partial y}{\partial x_i} \right)^2 \cdot s^2(x_i)}} \label{ec:sy}
   \end{equation}
 
-  Referido a los ajustes por mínimos cuadrados, la explicación completa se encuentra en las memorias de electricidad.
+  Referido a los ajustes por mínimos cuadrados, la explicación completa se encuentra en las memorias de electricidad, aunque en el apéndice hay una reproducción exacta del apartado en el que se habla sobre ella (\ref{s:minimoscuadrados}).
 
   \newpage
   \section{MRU}
 
-  En esta primera parte consideraremos el caso en el que las fuerzas que actúan sobre el objeto son nulas (o prácticamente despreciables). Para ello le comunicaremos un impulso inicial al móvil y dejaremos que se desplace sobre el banco. Deberíamos de obtener una velocidad constante a lo largo de todo el recorrido.
+  En esta primera parte consideraremos el caso en el que las fuerzas que actúan sobre el objeto son nulas (o prácticamente despreciables). Le comunicaremos un impulso inicial al móvil y dejaremos que se desplace sobre el banco. Deberíamos de obtener una velocidad constante a lo largo de todo el recorrido.
 
   Mediremos la distancia entre los detectores (S), la cual iremos aumentando en sucesivas medidas, y anotaremos tres tiempos diferentes. T será el tiempo que tarda en recorrer S, T1 el tiempo que tarda el diafragma en atravesar el primer detector y T2 lo equivalente referido al segundo. Hemos de tener en cuenta que la longitud del diafragma del móvil (L) es de 0,100m para nuestros cálculos.
 
@@ -195,21 +195,23 @@
 
   Finalmente obtenemos estas gráficas:
   \begin{figure}[H]
-    \centering
+    \hspace{-1.8cm} \centering
     \input{LN_MRU_1.pgf} \input{LN_MRU_2.pgf}
-    \input{LN_MRU_3.pgf}
+
+    \hspace{-1.8cm} \input{LN_MRU_3.pgf}
     \caption{Distancia entre detectores (S) frente a tiempo (T) para  (\textcolor{RoyalBlue}{$m_1$}, \textcolor{MediumSeaGreen}{$m_2$}, \textcolor{IndianRed}{$m_3$})}
   \end{figure}
 
   \newpage
   \subsection{Ajuste por mínimos cuadrados}
 
-  Como podemos observar, las gráficas anteriores parecen ajustarse a una recta, por lo que procederemos a hacer una regresión lineal. Además, sabemos que si la distancia entre los detectores es $S=0$, el tiempo que el móvil tardará en recorrerla también será $T=0$, por lo que la recta debe pasar por el orígen. Deducimos pues que es una regresión lineal sin término independiente. Además, las incertidumbres $s(y) = s(S)$ no varían, por lo que podremos hacer una regresión simple. Procedemos a representar las gráficas con sus correspondientes rectas y términos de ajuste.
+  Como podemos observar, las gráficas anteriores parecen ajustarse a una recta, por lo que procederemos a hacer una regresión lineal (ver sección \ref{s:minimoscuadrados}). Además, sabemos que si la distancia entre los detectores es $S=0$, el tiempo que el móvil tardará en recorrerla también será $T=0$, por lo que la recta debe pasar por el orígen. Deducimos pues que es una regresión lineal sin término independiente. Además, las incertidumbres $s(y) = s(S)$ no varían, por lo que podremos hacer una regresión simple. Procedemos a representar las gráficas con sus correspondientes rectas y términos de ajuste.
 
   \begin{figure}[H]
-    \centering
+    \hspace{-1.8cm} \centering
     \input{LN_MRU_R1.pgf} \input{LN_MRU_R2.pgf}
-    \input{LN_MRU_R3.pgf}
+
+    \hspace{-1.8cm} \input{LN_MRU_R3.pgf}
     \caption{Distancia entre detectores (S) frente a tiempo (T) para  (\textcolor{RoyalBlue}{$m_1$}, \textcolor{MediumSeaGreen}{$m_2$}, \textcolor{IndianRed}{$m_3$}) con un ajuste lineal por mínimos cuadrados sin término independiente}
   \end{figure}
   \begin{gather*}
@@ -218,6 +220,7 @@
     b_3 = 0,7052 \pm 0,0016 m/s \qquad s_3 = 0,0059 \qquad r_3 = 0,99997 \\
   \end{gather*}
 
+  \newpage
   Hemos decido enseñar las gráficas en el dominio en el que tomamos los datos experimentales, pero podemos comprobar fácilmente que las rectas pasan por cero si extendemos la recta para que llegue al orígen.
 
   \begin{figure}[H]
@@ -232,14 +235,14 @@
   \begin{equation}
     S = v \cdot T \qquad S = b \cdot T \qquad \Rightarrow  \qquad v = b
   \end{equation}
-  Y tendremos las siguientes velocidades medias de los móviles con sus incertidumbres:
+  Y tendremos las velocidades medias de los móviles con sus incertidumbres:
   \begin{equation*}
     v_1 = 0,8508 \pm 0,0039 m/s \qquad v_2 = 0,7401 \pm 0,0056 m/s \qquad v_3 = 0,7052 \pm 0,0016 m/s
   \end{equation*}
 
   \subsection{Velocidad instantánea}
 
-  Ahora trataremos de calcular la velocidad instantánea del objeto al pasar los detectores 1 y 2. Para ello podemos utilizar los distintos datos T1 y T2 que se miden para cada distancia S en las tablas experimentales, pero al ser distintas medidas debemos de aplicar tratamiento de errores para dar una cifra que las represente a todas.
+  Trataremos de calcular la velocidad instantánea del objeto al pasar los detectores 1 y 2. Para ello podemos utilizar los distintos datos T1 y T2 que se miden para cada distancia S en las tablas experimentales, pero al ser distintas medidas debemos de aplicar tratamiento de errores para dar una cifra que las represente a todas.
 
   \subsubsection{Tratamiento de datos}
   \label{s:tratamientodatos}
@@ -416,7 +419,7 @@
   Vemos que podemos poner la ecuación cómo $y = bx$ siendo y la distancia, b la aceleración y x la mitad del tiempo al cuadrado. Entonces, si representamos S frente a $\frac{1}{2}T^2$ podremos hacer un ajuste por mínimos cuadrados para obtener la pendiente y calcular así la aceleración. Antes de ello debemos crear una nueva columna en la tabla para $\frac{1}{2}T^2$.
 
   \begin{center}
-    \vspace{0.6cm}
+    \vspace{0.3cm}
     \begin{minipage}[H]{0.12\textwidth}
       \centering
       \vspace{0.40cm}
@@ -465,15 +468,16 @@
         {Ta=\tiii, sTa = \tii}
         {$\tiii \pm \tii$}
     \end{minipage}
-    \vspace{0.6cm}
+    \vspace{0.3cm}
   \end{center}
 
-  Agora representaremos gráficamente S frente a $\frac{1}{2}T^2$ utilizando un programa moi similar ao do experimento anterior.
+  Representaremos gráficamente S frente a $\frac{1}{2}T^2$:
 
   \begin{figure}[H]
-    \centering
+    \hspace{-1.8cm} \centering
     \input{LN_MRUA_1.pgf} \input{LN_MRUA_2.pgf}
-    \input{LN_MRUA_3.pgf}
+
+    \hspace{-1.8cm} \input{LN_MRUA_3.pgf}
     \caption{Distancia recorrida (S) frente a $\frac{1}{2}T^2$ para  (\textcolor{RoyalBlue}{$m_1$}, \textcolor{MediumSeaGreen}{$m_2$}, \textcolor{IndianRed}{$m_3$})}
   \end{figure}
 
@@ -482,9 +486,10 @@
   Realizaremos un ajuste lineal por mínimos cuadrados simple y sin término independiente, ya que para una distancia $S=0$, $T=0$ y por lo tanto $\frac{1}{2}T^2 = 0$, deduciendo entonces que la recta que intentamos ajustar pasa por el orígen. Usaremos el mismo programa que en el apartado anterior para representar las gráficas con sus términos de ajuste.
 
   \begin{figure}[H]
-    \centering
+    \hspace{-1.8cm} \centering
     \input{LN_MRUA_L1.pgf} \input{LN_MRUA_L2.pgf}
-    \input{LN_MRUA_L3.pgf}
+
+    \hspace{-1.8cm} \input{LN_MRUA_L3.pgf}
     \caption{Distancia recorrida (S) frente a $\frac{1}{2}T^2$ para  (\textcolor{RoyalBlue}{$m_1$}, \textcolor{MediumSeaGreen}{$m_2$}, \textcolor{IndianRed}{$m_3$}) con regresión lineal simple sin término independiente}
   \end{figure}
   \begin{gather*}
@@ -522,16 +527,21 @@
     \end{tabular}
   \end{table}
 
+  \newpage
   \subsubsection{Ajuste por mínimos cuadrados}
 
-  Ahora representaremos gráficamente V frente a T, y haremos un ajuste lineal sin término independiente utilizando el método definido anteriormente para encontrar la pendiente, en este caso la aceleración, ya que $\Delta V = a \Delta T$. También añadiremos los parámetros del ajuste.
+  Ahora representaremos gráficamente V frente a T, y haremos un ajuste lineal sin término independiente para encontrar la pendiente, en este caso la aceleración, ya que $\Delta V = a \Delta T$.
 
   \begin{figure}[H]
-    \centering
+    \hspace{-1.8cm} \centering
     \input{LN_MRUA_A1.pgf} \input{LN_MRUA_A2.pgf}
-    \input{LN_MRUA_A3.pgf}
-    \caption{Velocidad (V) frente a tiempo (T) para (\textcolor{RoyalBlue}{$m_1$}, \textcolor{MediumSeaGreen}{$m_2$}, \textcolor{IndianRed}{$m_3$}) con regresión lineal simple sin término independiente}
+
+    \hspace{-1.8cm} \input{LN_MRUA_A3.pgf}
+
+    \caption{Velocidad (V) frente a tiempo (T) para (\textcolor{RoyalBlue}{$m_1$}, \textcolor{MediumSeaGreen}{$m_2$}, \textcolor{IndianRed}{$m_3$}) con ajuste lineal simple sin término independiente}
   \end{figure}
+
+  Sus parámetros de ajuste son:
   \begin{gather*}
     b_1 = 1,224 \pm 0,011 m/s^2 \qquad s_1 = 0,031 \qquad r_1 = 0,9996 \\
     b_2 = 0,964 \pm 0,0078 m/s^2 \qquad s_2 = 0,025 \qquad r_2 = 0,9997 \\
@@ -565,7 +575,21 @@
 
 
   \newpage
-  \section{Conclusiones POR HACER!!!!}
+  \section{Conclusiones}
+
+  \subsection{Primera ley de Newton: MRU}
+
+  En el primer experimento analizamos un objeto con un movimiento rectilineo uniforme. Mediante un ajuste por mínimos cuadrados entre la distancia y el tiempo que tardaba en recorrerla obtuvimos su velocidad media. También utilizamos tratamiento de errores para determinar la velocidad instantánea del móvil al pasar por cada uno de los receptores. Cómo no había fuerzas externas (despreciables) comprobamos que las velocidades se mantenían constantes en todo momento. Las pequeñas desviaciones que obtuvimos dentro de los márgenes de error se pueden atribuír a que no conseguimos eliminar todo el rozamiento del aire o a pequeños fallos en la instrumentación utilizada.
+
+  Tambien vimos que al aumentar la masa del móvil la velocidad disminuía. Esto se debe a que el instrumento que utilizamos para conferirle el momento inicial al objeto es el mismo, por lo que podemos deducir que proporciona el mismo momento $\vec{p} = m \vec{v}$. Cómo aumenta la masa, el módulo de la velocidad ha de disminuír.
+
+  \subsection{Segunda ley de Newton: MRUA}
+
+  Para el segundo experimento añadimos un peso en caída libre que añadía aceleración al móvil. Utilizamos dos métodos independientes para verficar las aceleraciones, y entre ellos ofrecieron resultados muy similares. Sin embargo, cuando los comparamos con las aceleraciones teóricas, las experimentales son algo más lentas. Esto se puede deber de nuevo al rozamiento del aire, en este caso más prominente por estar acelerando el objeto, o al rozamiento de la polea. Sin embargo, podemos decir que fue satisfactorio ya que la tendencia general se mantuvo.
+
+  Observamos que cúanta más masa tenía el móvil, menor era la aceleración. Si tomamos la fórmula \ref{ec:newton} vemos que, ya que la masa en caída libre es la misma, la aceleración disminuye conforme aumenta la masa.
+
+  En general diremos que la práctica ha sido satisfactoria, pese a que en el segundo caso se debería de tener más en cuenta diversos factores ambientales que influyen de manera más prominente en el resultado.
 
 
   \newpage
@@ -577,7 +601,7 @@
 
   \section{Objetivos}
 
-  En esta práctica trabajaremos sobre el momento de inercia de distintos cuerpos. Este surge al rotar un objeto sobre uno de sus ejes, puede considerarse análogo a la masa en un movimento armónico simple. Nuestras metas a lo largo de la práctica son las siguientes:
+  En esta práctica trabajaremos sobre el momento de inercia de distintos cuerpos. Este surge al rotar un objeto sobre uno de sus ejes, pudiendose considerar análogo a la masa en un movimento armónico simple. Nuestras metas a lo largo de la práctica son las siguientes:
   \begin{itemize}[label=$-$]
     \item Medir la constante recuperadora del muelle que utilizaremos en los experimentos.
     \item Calcular el momento de inercia de distintos cuerpos.
@@ -587,9 +611,9 @@
 
   \section{Determinación de la constante recuperadora del muelle}
 
-  Primero debemos de calcular cúal es la constante recuperadora del muelle que vamos a utilizar en la práctica, ya que será un dato fundamental para los siguientes pasos, puesto que define cómo es nuestro muelle.
+  Primero debemos calcular cúal es la constante recuperadora del muelle que vamos a utilizar en la práctica. Será un dato fundamental para los siguientes pasos puesto que define cómo es nuestro muelle.
 
-  Para ello utilizaremos un disco al que uniremos al resorte en el centro de masas, de esta manera permitiéndonos girarlo. Utilizaremos un dinamómetro para determinar la fuerza del disco al desplazarlo un ángulo $\varphi$. Con todos estos crearemos una tabla, sin embargo, antes de representarla, necesitamos completar un paso previo.
+  Para ello utilizaremos un disco al que uniremos al resorte en el centro de masas, de esta manera permitiéndonos girarlo. Utilizaremos un dinamómetro para determinar la fuerza del disco al desplazarlo un ángulo $\varphi$. Con todos estos datos crearemos una tabla. Sin embargo, antes de representarla, necesitamos completar un paso previo.
 
   \subsection{Cálculo del momento de la fuerza}
 
@@ -606,7 +630,7 @@
 
   \subsection{Tabla de datos}
 
-  Ahora que sabemos calcular el momento de la fuerza, representaremos la tabla con el ángulo (en radianes), la fuerza y su momento. Mientras la incertidumbre en el ángulo ($s(\varphi) = 2^{\circ} \; | \; 0,035 rad$) y la de la fuerza ($s(F) = 0,02N$*) se mantienen constantes, la del momento es variable ya que se calcula con la fórmula \ref{ec:smfuerza}. Sin embargo, su variación para estos valores es tan pequeña que no entra dentro de las dos cifras significativas, por lo que no la incluiremos en la tabla. Su valor es $s(M) = 0,0030 Nm$ A continuación se exponen los resultados para diferentes medidas, acompañadas del ángulo en grados exclusivamente en calidad informativa.
+  Ahora que sabemos calcular el momento de la fuerza, representaremos la tabla con el ángulo (en radianes), la fuerza y su momento. Mientras la incertidumbre en el ángulo ($s(\varphi) = 2^{\circ} \; | \; 0,035 rad$) y la de la fuerza ($s(F) = 0,02N$*) se mantienen constantes, la del momento es variable ya que se calcula con la fórmula \ref{ec:smfuerza}. Sin embargo, su variación para estos valores es tan pequeña que no entra dentro de las dos cifras significativas, por lo que no la incluiremos en la tabla y diremos que vale $s(M) = 0,0030 Nm$. A continuación se exponen los resultados para diferentes medidas, acompañadas del ángulo en grados exclusivamente en calidad informativa.
 
   \textit{(Nota referida a la incertidumbre de la fuerza: Aunque en el documento de las memorias dice que la incertidumbre del dinamómetro es de 0,2N, esto no tendría sentido con nuestros datos experimentales ya que tienen dos cifras después de la coma. Tras comentar esto a los profesores a cargo de las prácticas, nos confirmaron que en efecto es un error y la incertidumbre a utilizar es 0,02N)}
 
@@ -625,6 +649,7 @@
     \caption{Fuerza (F) y su momento (M) en función del ángulo ($\varphi$)}
   \end{figure}
 
+  \newpage
   \subsection{Representación gráfica}
 
   Utilizaremos \code{matplotlib} y \code{pandas} para cargar los datos desde el .csv de la tabla y representar una gráfica del momento de la fuerza frente al ángulo girado (en radianes).
@@ -646,16 +671,17 @@
     \caption{Momento de la fuerza (M) frente al ángulo girado ($\varphi$)}
   \end{figure}
 
-  Como podemos observar, parece que los puntos podrían dormar una recta. Esto tendría sentido ya que asumiendo que el resorte tenga un comportamiento lineal, siendo D la constante del resorte:
+  Como podemos observar, parece que los puntos podrían formar una recta. Esto tendría sentido, ya que asumiendo que el resorte tenga un comportamiento lineal, siendo D la constante del resorte:
   \begin{equation}
     M = -D \cdot \varphi \label{ec:md}
   \end{equation}
 
   Al representar el momento frente al ángulo, la pendiente de la recta será la constante recuperadora del resorte, exactamente lo que queríamos calcular.
 
+  \newpage
   \subsection{Ajuste por mínimos cuadrados}
 
-  Procederemos a realizar un ajuste por mínimos cuadrados de los puntos de la gráfica anterior. Esta regresión será lineal, y pasará por el orígen (Pues para un ángulo 0 no hay fuerza), por lo que no tendrá término independiente. Podríamos decir que sería un ajuste ponderado, ya que las incertidumbres de $y_i$ son variables, pero como ya explicamos antes, su variación es tan pequeña que prácticamente es despreciable para estos valores, por lo que haremos un ajuste simple. Exponemos a continuación la gráfica y sus parámetros de ajuste:
+  Procederemos a realizar un ajuste por mínimos cuadrados de los puntos de la gráfica anterior. Esta regresión será lineal, y pasará por el orígen (Pues para un ángulo 0 no hay fuerza), por lo que no tendrá término independiente. Podríamos realizar un ajuste ponderado, ya que las incertidumbres de $y_i$ son variables, pero como ya explicamos antes, su variación es tan pequeña que prácticamente es despreciable para estos valores, por lo que haremos un ajuste simple. Exponemos a continuación la gráfica y sus parámetros de ajuste:
 
   \begin{figure}[H]
     %\centering
@@ -936,7 +962,7 @@
 
   \subsubsection{Tabla de datos}
 
-  Aqui exponemos las medidas directas que tomamos del semiperiodo en el laboratorio para cada distancia, y a continuación la tabla con el periodo complet. Las incertidumbres son constantes y de $s(t) = 0,001s$ y $s(T) = 0,002s$.
+  Aqui exponemos las medidas directas que tomamos del semiperiodo en el laboratorio para cada distancia, y a continuación la tabla con el periodo completo. Las incertidumbres son constantes y de $s(t) = 0,001s$ y $s(T) = 0,002s$.
 
   \begin{figure}[H]
     \centering
@@ -1064,7 +1090,23 @@
 
 
   \newpage
-  \section{Conclusiones PENDIENTEEEEE}
+  \section{Conclusiones}
+
+  \subsection{Primera parte}
+
+  En la primera parte de la práctica teníamos que determinar la constante recuperadora del muelle. Mediante un ajuste por mínimos cuadrados sobre la gráfica del momento de la fuerza frente al ángulo conseguimos aproximar su valor. Sin embargo, el ajuste era muy pobre (el coeficiente de regresión solo tenía 2 nueves) y los datos estaban considerablemente alejados de la recta, por lo que deducimos que el valor que nos dio no es del todo fiable. Vemoremos las consecuencias a lo largo de toda la práctica ya que todos los resultados experimentales subsequentes que utilicen este dato diferirán en cierta medida de las predicciones teóricas.
+
+  \subsection{Segunda parte}
+
+  Una vez conocida la constante del muelle teníamos que encontrar el momento de inercia de un disco y un cilindro macizos. Mediante tratamiento de datos obtuvimos el valor de su periodo con el que pudimos calcular el momento de inercia experimental. Al compararlo con el teórico vimos que había una considerable diferencia, pero ambas en el mismo sentido. Probablemente esto se deba a los datos de la constante del muelle y para solucionarlo deberíamos de tomar más datos en la primera parte para poder hacer un mejor ajuste.
+
+  \subsection{Tercera parte}
+
+  En la parte final de la práctica había que verificar el teorema de Steiner para relacionar los momentos a través de ejes paralelos. Utilizamos un disco y una barra y medimos sus semiperiodos a diferentes separaciones del centro de masas. Utilizando el mismo procedimiento que en el apartado anterior, pero esta vez para diversas medidas, conseguimos los momentos experimentales y teóricos. En el caso del disco, de nuevo, vimos que los momentos experimentales eran considerablemente más pequeños que los teóricos. Para la barra también hubo diferencias a la baja, pero no eran tan notables, en especial en las medidas muy alejadas del centro.
+
+  Finalmente para ambos cuerpos realizamos una gráfica del momento de inercia frente al cuadrado de la distancia, en el que teóricamente debería de dar una recta cuya pendiente es la masa y cuya oordenada en el origen es el momento de inercia en el centro. En el disco nos acercamos bastante al término independiente pero la masa difirió por un cuarto de su valor. Quizá si pudieramos tomar más medidas podríamos haber hecho un mejor ajuste. En el caso del cilindro el ajuste fue prácticamente perfecto para ambas cantidades, probablemente se debiese al mayor número de medidas.
+
+  En general diremos que la práctica se completó de manera medianamente satisfactoria. Podemos avistar las relaciones que hay entre las cantidades y las tendencias que siguen, pero el error en el cálculo de la constante del muelle se arrastró a lo largo de toda la práctica y nos impide afirmar nada con exactitud. Lo más sensato sería repetir la práctica con varios muelles distintos y así poder ver el efecto que tiene este en las relaciones, así cómo minimizar el error que pueda tener en los resultados.
 
 
 
@@ -1125,6 +1167,90 @@
   Eiras, Jorge. \textit{Edición de textos de carácter científico con LaTeX.} \url{https://cv.usc.es/course/view.php?id=18484}
 
   Sturm, Thomas. \textit{The csvsimple package.} \url{https://osl.ugr.es/CTAN/macros/latex/contrib/csvsimple/csvsimple.pdf}
+
+  \section*{Ajuste por mínimos cuadrados}
+  \addcontentsline{toc}{section}{Ajuste por mínimos cuadrados}
+  \label{s:minimoscuadrados}
+
+  \textit{Esta sección es una reproducción de la explicación de la regresión lineal de las memorias de electricidad. En concreto la sección que se centra en cómo hayar la constante de permeabilidad magnética. En este caso se explica un ajuste lineal simple sin término independiente.}
+
+  Para ajustar los una serie de datos que parezcan seguir una relación lineal podemos utilizar el método de \textbf{ajuste por mínimos cuadrados}. Al ser \textit{lineal}, podemos ajustarla por una recta general de la forma $y = \alpha + \beta x$. El problema a resolver sería conseguir la mejor aproximación \textit{a}, \textit{b} de los parámetros $\alpha, \beta$ y sus incertidumbres utilizando nuestra serie de parámetros $\left\{ x_i, y_i \right\}$. Sin embargo, en este caso sabemos que las rectas pasan por el origen (Puesto que para \textit{I=0}, \textit{B=0}), por lo tanto el parámetro \textit{a} va a ser igual a 0, ya que si sustituímos \textit{y=0} y \textit{x=0}, obtenemos $0 = \alpha + \beta \cdot 0$. Este tipo de regresión de la forma $y = \beta x$ llama \textbf{ajuste por mínimos cuadrados sin término independiente}, y es la que encaja con nuestra ecuación $B = c \cdot I$.
+
+  Para ello minimizaremos la suma de los productos del peso estadístico de cada punto, $w_i$, por el cuadrado de la desviación de los datos, $[y_i - bx_i]^2$. Por lo tanto, la derivada respecto a \textit{b} debe de ser 0.
+  \begin{gather}
+    \chi^2 = \sum^{n}_{i=1} w_i[y_i - bx_i]^2 \label{ec:chi2} \\
+    \frac{\partial \chi^2}{\partial b}=0 \label{ec:deriv}
+  \end{gather}
+
+  De aquí resultan dos posibles casos:
+
+  \begin{enumerate}
+    \item Si las incertidumbres de $x_i$ no son despreciables respecto a las de $y_i$. Obtenemos la siguiente ecuación: $\omega_i=\frac{1}{s^2(y_i)+b^2s^2(x_i)}$, que excede el nivel de este curso.
+    \item Si por el contrario podemos despreciar las incertidumbres de $x_i$ respecto a $y_i$, podemos simplificar la ecuación anterior a $\omega_i=[s(y_i)]^{-2}$.
+  \end{enumerate}
+
+  En nuestro caso, estamos representando B ($y_i$) frente a I ($x_i$), y como ya comentamos la incertidumbre de I no está especificada por lo que consideraremos que es despreciable frente a la de B, así que podemos aplicar el segundo caso.
+
+  Además, podemos considerar que las incertidumbres de $y_i$ permanecen constantes entre las diferentes medidas, por lo que también lo hará el peso estadístico $w = cte$. Finalmente, conseguimos la expresión matemática de \textit{b} en base a la serie de medidas $\left\{ x_i, y_i \right\}$, que sustituiremos por \textit{I} y \textit{B}. Tambien podemos calcular la desviación típica (s), la incertidumbre de b (s(b)) y el coeficiente de regresión lineal (r).
+  \begin{gather}
+    b = \frac{\sum_i{x_i y_i}}{\sum_i{x_i^2}} = \frac{\sum_i{I B}}{\sum_i{I^2}} \label{ec:regb} \\
+    s = \sqrt{\frac{\sum_i{(y_i - bx_i)^2}}{n - 1}} = \sqrt{\frac{\sum_i{(B - bI)^2}}{n - 1}} \label{ec:regs} \\
+    s(b) = \frac{s}{\sqrt{\sum_i{x_i^2}}} = \frac{s}{\sqrt{\sum_i{I^2}}} \label{ec:regsb} \\
+    r = \frac{\sum_i{x_i y_i}}{\sqrt{(\sum_i{x_i^2}) \cdot (\sum_i{y_i^2})}} = \frac{\sum_i{I B}}{\sqrt{(\sum_i{I^2}) \cdot (\sum_i{B^2})}} \label{ec:regr}
+  \end{gather}
+
+  Implementaremos este procedimiento utilizando una vez más \code{python}. Lo haremos en una librería a parte para poder utilizarlo en el resto de las memorias. El código se describe a continuación, dónde los parámetros x e y son arrays de \code{numpy} o series de \code{pandas}, lo equivalente a una columna de nuestras tablas. Contienen la función \code{.sum()}, que hace un sumatorio de todos sus miembros. Como vemos, podemos operar antes de hacer la suma, por ejemplo, para calcular $\sum_i{x_i y_i}$.
+
+  \begin{python}
+    def reg_lin_b(x, y):
+        n = len(x) #Numero de datos
+
+        #Sumatorios necesarios
+        sxy = (x*y).sum()
+        sx2 = (x**2).sum()
+        sybx = ((y - b*x)**2).sum()
+        sy2 = (y**2).sum()
+
+        b = sxy / sx2 #Pendiente de la recta
+        s = (sybx / (n-1))**0.5 #Desviacion tipica
+        sb = s / (sx2)**0.5 #Incertidumbre de b
+        r = sxy / (sx2 * sy2)**0.5 #Coeficiente de regresion lineal
+
+        return (b, s, sb, r)
+  \end{python}
+
+  Ahora crearemos el programa que nos permitirá representar las rectas junto a los puntos experimentales, y nos devolverá los datos de la regresión lineal.
+
+  \begin{python}
+    import pandas as pd
+    import matplotlib.pyplot as plt
+    from reg_lin import reg_lin_b as rl
+
+    #Datos, similarmente para las otras dos tablas
+    d1 = pd.read_csv("BH-4.csv", sep=';', decimal=',')
+    I1 = d1["I"]; Be1 = d1["Bexp"]
+
+    #Regresion lineal sin termino independiente
+    b1 = rl(I1, Be1)[0]
+    xr1 = np.linspace(0, max(I1), 10); yr1 = b1 * xr1
+
+    #Graficas
+    plt.scatter(I1, Be1) #Experimental, puntos
+    plt.plot(xr1, yr1) #Teorica, recta regresion lineal
+  \end{python}
+
+  Y obtenemos la siguiente gráfica con los parámetros de regresión indicados.
+
+  \begin{figure}[H]
+    %\centering
+    \hspace{2.5em} \input{BH2R.pgf}
+    \caption{Campo magnético (B) frente a la intensidad (I) para tres separaciones de las bobinas (\textcolor{RoyalBlue}{a=R}, \textcolor{MediumSeaGreen}{a=R/2}, \textcolor{IndianRed}{a=2R}) con regresión lineal simple sin término independiente}
+  \end{figure}
+  \begin{gather*}
+    b_1 = 0,0006572 T/A \qquad s_1 = 9,3 \cdot 10^{-6} T \qquad sb_1 = 9,5 \cdot 10^{-7} T/A \qquad r_1 = 0,99998 \\
+    b_2 = 0,000843 T/A \qquad s_2 = 1,3 \cdot 10^{-5} T \qquad sb_2 = 1,3 \cdot 10^{-6} T/A \qquad r_2 = 0,99997 \\
+    b_3 = 0,000327 T/A \qquad s_3 = 1,1 \cdot 10^{-5} T \qquad sb_3 = 1,1 \cdot 10^{-6} T/A \qquad r_3 = 0,99990
+  \end{gather*}
 
 
 \end{document}
