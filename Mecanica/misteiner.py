@@ -10,11 +10,12 @@ from varias_medidas import tratamiento_datos as tdatos
 from reg_lin import reg_lin as rl
 import mpl_config as mpl
 
+mpl.inicio(1)
+
 #CONSTANTES GLOBALES
 D = 0.02167
 sD = 0.00048
 sb = 0.001 * 2
-
 
 #FUNCIONES
 def m_inercia_exp(d):
@@ -36,8 +37,8 @@ def m_inercia_exp(d):
 
     print("---")
     for i in range(len(I)):
-        print("PropEr I{} = {} +/- {}".format(i*3, I[i], sI[i]))
-        print("Uncert I{} = {:.2u}\n---".format(i*3, Iu[i]))
+        #print("PropEr I{} = {} +/- {}".format(i*3, I[i], sI[i]))
+        print("I{} = {:.2u}\n---".format(i*3, Iu[i]))
 
     return I
 
@@ -52,10 +53,11 @@ def m_inercia_steiner(M, sM, R, sR, It, sIt, dist):
 
         Isu[i] = Itu + Mu * (distu[i])**2
 
-        print("PropEr Is{} = {} +/- {}".format(i*3, Is[i], sIs[i]))
-        print("Uncert Is{} = {:.2u}\n---".format(i*3, Isu[i]))
+        #print("PropEr Is{} = {} +/- {}".format(i*3, Is[i], sIs[i]))
+        print("Is{} = {:.2u}\n---".format(i*3, Isu[i]))
 
-def graph(d, I):
+def graph(d, I,n):
+    plt.clf()
     #Representación
     x = d**2
     y = I
@@ -68,6 +70,7 @@ def graph(d, I):
     yr = a + b * xr
 
     plt.plot(xr, yr)
+    mpl.guardar("MI3_Steiner_{}".format(n), "$d^2 (m^2)$", "$I (kg \\cdot m^2)$", False)
 
 
 #DISCO
@@ -90,13 +93,12 @@ sIt = (((R**2 / 2)**2 * sM**2) + ((M * R)**2 * sR**2))**0.5
 
 Mu = unc.ufloat(M, sM); Ru = unc.ufloat(R, sR); Itu = (Mu * Ru**2) / 2
 
-print("It = {} +/- {}".format(It, sIt))
 print("It = {:.2u}\n---".format(Itu))
 
 #Llamar Funciones
 I = m_inercia_exp(d)
 m_inercia_steiner(M, sM, R, sR, It, sIt, dist)
-graph(dist, I)
+graph(dist, I, "Disco")
 
 
 #BARRA
@@ -124,10 +126,9 @@ sIt = (((L**2 / 12)**2 * sM**2) + (((M*L) / 6)**2 * sL**2))**0.5
 
 Mu = unc.ufloat(M, sM); Lu = unc.ufloat(L, sL); Itu = (Mu * Lu**2) / 12
 
-print("It = {} +/- {}".format(It, sIt))
 print("It = {:.2u}\n---".format(Itu))
 
 #Llamar Funciones
 I = m_inercia_exp(d)
 m_inercia_steiner(M, sM, L, sL, It, sIt, dist)
-graph(dist, I)
+#graph(dist, I)

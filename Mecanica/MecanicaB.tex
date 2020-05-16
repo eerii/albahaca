@@ -242,6 +242,7 @@
   Ahora trataremos de calcular la velocidad instantánea del objeto al pasar los detectores 1 y 2. Para ello podemos utilizar los distintos datos T1 y T2 que se miden para cada distancia S en las tablas experimentales, pero al ser distintas medidas debemos de aplicar tratamiento de errores para dar una cifra que las represente a todas.
 
   \subsubsection{Tratamiento de datos}
+  \label{s:tratamientodatos}
 
   Aplicaremos el procedimiento estándar de tratamiento para varias medidas a las columnas T1 y T2 de nuestras tablas. Como demostración iremos indicando el valor de los parámetros calculados para T1 en la primera tabla, pero al final indicaremos todos los datos calculados para el resto de columnas. En el proceso explicaremos las fórmulas necesarias así como el código utilizado para implementarlo en \code{python}.
 
@@ -605,7 +606,9 @@
 
   \subsection{Tabla de datos}
 
-  Ahora que sabemos calcular el momento de la fuerza, representaremos la tabla con el ángulo (en radianes), la fuerza y su momento. Mientras la incertidumbre en el ángulo ($s(\varphi) = 2^{\circ} \; | \; 0,035 rad$) y la de la fuerza ($s(F) = 0,2N$) se mantienen constantes, la del momento es variable ya que se calcula con la fórmula \ref{ec:smfuerza}. Sin embargo, su variación para estos valores es tan pequeña que no entra dentro de las dos cifras significativas, por lo que no la incluiremos en la tabla. Su valor es $s(M) = 0,0030 Nm$ A continuación se exponen los resultados para diferentes medidas, acompañadas del ángulo en grados exclusivamente en calidad informativa.
+  Ahora que sabemos calcular el momento de la fuerza, representaremos la tabla con el ángulo (en radianes), la fuerza y su momento. Mientras la incertidumbre en el ángulo ($s(\varphi) = 2^{\circ} \; | \; 0,035 rad$) y la de la fuerza ($s(F) = 0,02N$*) se mantienen constantes, la del momento es variable ya que se calcula con la fórmula \ref{ec:smfuerza}. Sin embargo, su variación para estos valores es tan pequeña que no entra dentro de las dos cifras significativas, por lo que no la incluiremos en la tabla. Su valor es $s(M) = 0,0030 Nm$ A continuación se exponen los resultados para diferentes medidas, acompañadas del ángulo en grados exclusivamente en calidad informativa.
+
+  \textit{(Nota referida a la incertidumbre de la fuerza: Aunque en el documento de las memorias dice que la incertidumbre del dinamómetro es de 0,2N, esto no tendría sentido con nuestros datos experimentales ya que tienen dos cifras después de la coma. Tras comentar esto a los profesores a cargo de las prácticas, nos confirmaron que en efecto es un error y la incertidumbre a utilizar es 0,02N)}
 
   \begin{figure}[H]
     \begin{table}[H]
@@ -648,7 +651,7 @@
     M = -D \cdot \varphi \label{ec:md}
   \end{equation}
 
-  Al representar el momento frente al ángulo, la pendiente de la recta será el número opuesto a la constante recuperadora del resorte, exactamente lo que queríamos calcular.
+  Al representar el momento frente al ángulo, la pendiente de la recta será la constante recuperadora del resorte, exactamente lo que queríamos calcular.
 
   \subsection{Ajuste por mínimos cuadrados}
 
@@ -663,9 +666,9 @@
     b = 0,02167 \pm 0,00048 \frac{Nm}{rad} \qquad s = 0,0036 \qquad r= 0,997
   \end{equation*}
 
-  El coeficiente de regresión lineal ya nos muestra que no es un ajuste perfecto, pero tomaremos el valor de b como el opuesto de la constante recuperadora del muelle de igual manera.
+  El coeficiente de regresión lineal ya nos muestra que no es un ajuste perfecto, pero tomaremos el valor de b como la constante recuperadora del muelle de igual manera.
   \begin{equation*}
-    D = -b = -0,02167 \pm 0,00048 \frac{Nm}{rad}
+    D = -b = 0,02167 \pm 0,00048 \frac{Nm}{rad}
   \end{equation*}
 
 
@@ -687,65 +690,245 @@
 
   \subsubsection{Tabla de datos}
 
-  Obtenemos los siguientes datos experimentales. Cabe destacar que la incertidumbre del tiempo es constante y su valor es $s(t) = 0,001 s$, por lo que no la incluiremos en la tabla.
+  Obtenemos los siguientes datos experimentales. Cabe destacar que la incertidumbre de las medidas de tiempo es constante y su valor es $s(t) = 0,001 s$, por lo que no la incluiremos en la tabla. También añadiremos la columna del periodo completo, $T_d = 2 \cdot t_d$. Su incertidumbre será $s(T) = 0,002 s$.
+
+  \begin{figure}[H]
+    \begin{table}[H]
+      \centering
+      \csvreader[
+        tabular=|c|c|c|,
+        table head=\hline Medida & $\;\; t_d(s) \;\;$ & $\;\; T_d(s) \;\;$ \\ \hline,
+        late after last line=\\\hline,
+        separator=semicolon
+        ]{MI2_Cuerpos.csv}
+        {stDisco=\semiperiodo, TDisco=\periodo}
+        {\thecsvrow & \semiperiodo & \periodo}
+    \end{table}
+    \caption{Medidas del semiperiodo y el periodo de un disco macizo}
+  \end{figure}
+
+  \subsubsection{Tratamiento de datos}
+
+  Para analizar los datos que tenemos y obtener un valor único que los describa utilizaremos el procedimiento que ya describimos en la sección \ref{s:tratamientodatos}. No tenemos que descartar ninguna medida fuera del intervalo de confianza. Los resultados que obtenemos para $T_d$ son los siguientes:
+  \begin{gather*}
+    (\bar{x}, s_C(\bar{x}), \phi) = (1,5884;0,0033;9)
+  \end{gather*}
+
+  \subsubsection{Momento de inercia experimental}
+
+  Utilizaremos la ecuación \ref{ec:periodoinercia} y el valor calculado en el apartado anterior para obtener el momento de inercia del disco macizo.
+  \begin{gather*}
+    I = \frac{T^2 D}{4 \pi^2} = \frac{1,5884^2 \cdot 0,02167}{4 \pi^2} = 1,385 \cdot 10^{-3} kg \cdot m^2
+  \end{gather*}
+
+  Por propagación de incertidumbres, calculamos su error:
+  \begin{gather}
+    s(I) = \sqrt{\left(\frac{\partial I}{\partial T}\right)^2 \cdot s^2(T) + \left(\frac{\partial I}{\partial D}\right)^2 \cdot s^2(D)} = \sqrt{\left(\frac{2 T D}{4 \pi^2}\right)^2 \cdot s^2(T) + \left(\frac{T^2}{4 \pi^2}\right)^2 \cdot s^2(D)} \label{ec:sinexp} \\
+    s(I) = 3,1 \cdot 10^{-5} kg \cdot m^2 \nonumber
+  \end{gather}
+
+  \subsubsection{Momento de inercia teórico}
+
+  Conociendo la masa y el radio del disco macizo podemos calcular el momento de inercia teórico, para así poder compararlo con el experimental. En el caso del disco, podemos resolver fácilmente la integral.
+  \begin{equation}
+    I = \int_m{r^2 dm} \qquad I_{disco} = \frac{1}{2} m r^2 \label{ec:minerciateo}
+  \end{equation}
+
+  También calcularemos su incertidumbre:
+  \begin{equation}
+    s(I) = \sqrt{\left(\frac{\partial I}{\partial m}\right)^2 \cdot s^2(m) + \left(\frac{\partial I}{\partial r}\right)^2 \cdot s^2(r)} = \sqrt{\left(\frac{r^2}{2}\right)^2 \cdot s^2(m) + \left(mr\right)^2 \cdot s^2(r)} \label{ec:sminerciateo}
+  \end{equation}
+
+  Utilizando $m = 0,29590 \pm 0,00001 kg$ y $r = 0,108 \pm 0,001m$ llegamos al valor téorico expuesto a contnuación:
+  \begin{equation*}
+    I_{teo} = 1,73 \cdot 10^{-3} \pm 3,2 \cdot 10^{-5} kg \cdot m^2
+  \end{equation*}
+
+  Observamos que no coincide completamente con lo medido en el laboratorio, pero tenemos que tener en cuenta que el valor D que utilizamos para calcular los datos experimentales no tenía un ajuste perfecto, por lo que es normal que los resultados nos den desviados.
+
+  \newpage
+  \subsection{Cuerpo 2: Cilindro macizo}
+
+  Como segundo cuerpo experimental utilizaremos un cilidro macizo. Su masa es $m = 0,37310 \pm 0,00001 kg$ mientras que su radio vale $r = 0,050 \pm 0,001 m$.
+
+  \subsubsection{Tabla de datos}
+
+  Como explicamos anteriormente, las incertidumbres del semiperiodo y el periodo son constantes, y sus valores son $s(t_c) = 0,001s$ y $s(T_c) = 0,002s$ respectivamente. Procedemos a mostrar los datos en la tabla a continuación:
+
+  \begin{figure}[H]
+    \begin{table}[H]
+      \centering
+      \csvreader[
+        tabular=|c|c|c|,
+        table head=\hline Medida & $\;\; t_c(s) \;\;$ & $\;\; T_c(s) \;\;$ \\ \hline,
+        late after last line=\\\hline,
+        separator=semicolon
+        ]{MI2_Cuerpos.csv}
+        {stCil=\semiperiodo, TCil=\periodo}
+        {\thecsvrow & \semiperiodo & \periodo}
+    \end{table}
+    \caption{Medidas del semiperiodo y el periodo de un cilindro macizo}
+  \end{figure}
+
+  \subsubsection{Tratamiento de datos}
+
+  Volvemos a utilizar el procedimiento descrito en la sección \ref{s:tratamientodatos} para obtener un dato único que comprenda nuestras medidas. No necesitamos eliminar ninguna medida ya que todas entran dentro del intervalo de confianza. Para $T_c$ calculamos los siguientes datos:
+  \begin{gather*}
+    (\bar{x}, s_C(\bar{x}), \phi) = (0,7472;0,0030;9)
+  \end{gather*}
+
+  \subsubsection{Momento de inercia experimental}
+
+  Con las ecuaciones \ref{ec:periodoinercia} y \ref{ec:sinexp} calculamos el momento de inercia de este cilindro macizo y su incertidumbre.
+  \begin{gather*}
+    I = 3,064 \cdot 10^{-4} \pm 7,2 \cdot 10^{-6} kg \cdot m^2
+  \end{gather*}
+
+  \subsubsection{Momento de inercia teórico}
+
+  En este caso, calcularemos la integral del momento de inercia para un cilidro macizo y casualmente el resultado coincide con el del disco macizo.
+  \begin{equation}
+    I = \int_m{r^2 dm} \qquad I_{cilindro} = \frac{1}{2} m r^2
+  \end{equation}
+
+  Sabiendo que $m = 0,37310 \pm 0,00001 kg$ y $r = 0,050 \pm 0,001 m$, y utilizando la ecuación \ref{ec:sminerciateo} también calcularemos su incertidumbre.
+  \begin{equation*}
+    I = 4,66 \cdot 10^{-4} \pm 1,8 \cdot 10^{-5} kg \cdot m^2
+  \end{equation*}
+
+  Volvemos a observar que el valor calculado difiere de manera considerable, pero de nuevo se debe a que el cálculo téorico, además de los posibles errores en las medidas de este apartado, también arrastra aquellos de la constante recuperadora del muelle.
+
+
+  \newpage
+  \section{Teorema de Steiner}
+
+  Conociendo el momento de inercia a través de un eje, el teorema de Steiner nos permite calcular el momento de inercia en otro eje paralelo al primero. Siendo $I$ el nuevo eje, $I_0$ el que conocemos, $m$ la masa del sólido y $d$ la distancia entre los ejes, el teorema nos dice que:
+  \begin{equation}
+    I = I_0 + md^2 \label{ec:steiner}
+  \end{equation}
+
+  En esta última experiencia utilizaremos un disco y una barra para comprobar el teorema de Steiner. Realizaremos medidas de sus periodos de oscilación, pero esta vez a diferentes distancias del centro de masas. Así conseguiremos diversos momentos de inercia por ejes paralelos que luego podremos comparar con los resultados teóricos.
+
+  \subsection{Cuerpo 1: Disco}
+
+  El primer cuerpo será un disco de radio $r = 0,150 \pm 0,001 m$, cuya masa valdrá $m = 0,39740 \pm 0,00001 kg$. Tomaremos diez medidas para cada separación, y la iremos variando en $0,03 m$ desde el centro. Por otro lado, la incertidumbre de las distancias es de $0,001m$.
+
+  \subsubsection{Tabla de datos}
+
+  Primero representaremos las medidas directas del semiperiodo, cuya incertidumbre es de $s(t) = 0,001s$. Por otro lado, expondremos el periodo que calculamos a raíz de estas, cuya incertidumbre será $s(T) = 0,002s$.
+
+  \vspace{0.6cm}
+  \begin{minipage}[H]{0.5\textwidth}
+    \centering
+    \textbf{Semiperiodo }$\mathbf{t_d(s)}$
+    \csvreader[
+      tabular=|c|c|c|c|c|,
+      table head=\hline 0cm & 3cm & 6cm & 9cm & 12cm \\ \hline,
+      late after last line=\\\hline,
+      separator=semicolon
+      ]{MI3_Steiner_Disco.csv}
+      {}
+      {\csvcoli & \csvcolii & \csvcoliii & \csvcoliv & \csvcolv}
+  \end{minipage}
+  \begin{minipage}[H]{0.5\textwidth}
+    \centering
+    \textbf{Periodo }$\mathbf{T_d(s)}$
+    \csvreader[
+      tabular=|c|c|c|c|c|,
+      table head=\hline 0cm & 3cm & 6cm & 9cm & 12cm \\ \hline,
+      late after last line=\\\hline,
+      separator=semicolon
+      ]{MI3_Steiner_Disco.csv}
+      {}
+      {\csvcolvi & \csvcolvii & \csvcolviii & \csvcolix & \csvcolx}
+  \end{minipage}
+
+  \subsubsection{Tratamiento de datos}
+
+  Aplicaremos el proceso descrito en \ref{s:tratamientodatos} a la tabla del periodo. Con esto obtendremos cinco valores ajustados del periodo para las distintas distancias desde el centro de masas:
+  \begin{gather*}
+    T_{0cm}: \quad (\bar{x}, s_C(\bar{x}), \phi) \quad = \quad (2,5110; 0,0028; 9) \\
+    T_{3cm}: \quad (\bar{x}, s_C(\bar{x}), \phi) \quad = \quad (2,5448; 0,0046; 9) \\
+    T_{6cm}: \quad (\bar{x}, s_C(\bar{x}), \phi) \quad = \quad (2,8594; 0,0042; 9) \\
+    T_{9cm}: \quad (\bar{x}, s_C(\bar{x}), \phi) \quad = \quad (3,2592; 0,0030; 9) \\
+    T_{12cm}: \quad (\bar{x}, s_C(\bar{x}), \phi) \quad = \quad (3,7573; 0,0026; 8) \;
+  \end{gather*}
+  \textit{(Para $T_{12cm}$ eliminamos un valor por salir fuera del intervalo de confianza, 3,788, y volvemos a calcular los parámetros corresponientes.)}
+
+  \subsubsection{Momento de inercia experimental}
+
+  Para cada periodo calcularemos el momento de inercia experimental asociado y su incertidumbre utilizando las formulas \ref{ec:periodoinercia} y \ref{ec:sinexp}. Expresamos directamente los resultados a continuación:
+  \begin{gather*}
+    I_{0cm} = 3,461 \cdot 10^{-3} \pm 7,7 \cdot 10^{-5} kg \cdot m^2 \\
+    I_{3cm} = 3,555 \cdot 10^{-3} \pm 8,0 \cdot 10^{-5} kg \cdot m^2 \\
+    I_{6cm} = 4,49 \cdot 10^{-3} \pm 1,0 \cdot 10^{-4} kg \cdot m^2 \\
+    I_{9cm} = 5,83 \cdot 10^{-3} \pm 1,3 \cdot 10^{-4} kg \cdot m^2 \\
+    I_{12cm} = 7,75 \cdot 10^{-3} \pm 1,7 \cdot 10^{-4} kg \cdot m^2
+  \end{gather*}
+
+  \subsubsection{Momento de inercia teórico (Steiner)}
+
+  Por último verificaremos que se cumple el teorema de Steiner calculando el momento de inercia teórico y comparando con los datos experimentales.
+
+  Primero calculamos el momento de inercia por el eje que pasa por el centro de masa, y para ello podemos utilizar las ecuaciones \ref{ec:minerciateo} y \ref{ec:sminerciateo}:
+  \begin{equation*}
+    I_{0cm} = 4,471 \cdot 10^{-3} \pm 6,0 \cdot 10^{-5} kg \cdot m^2
+  \end{equation*}
+
+  Ahora podemos aplicar el teorema de Steiner (\ref{ec:steiner}) para las distintas distancias. También podemos calcular su error por propagación de incertidumbres:
+  \begin{gather}
+    s(I) = \sqrt{\left( \frac{\partial I}{\partial I_0} \right)^2 \cdot s^2(I_0) + \left( \frac{\partial I}{\partial m} \right)^2 \cdot s^2(m) + \left( \frac{\partial I}{\partial d} \right)^2 \cdot s^2(d)} \nonumber \\
+    s(I) = \sqrt{s^2(I_0) + d^4 \cdot s^2(m) + \left( 2 d m \right)^2 \cdot s^2(d)} \label{ec:ssteiner}
+  \end{gather}
+
+  Obtenemos los siguientes datos para los momentos de inercia de los ejes separados del centro de masa:
+  \begin{gather*}
+    I_{3cm} = 4,828 \cdot 10^{-3} \pm 6,4 \cdot 10^{-5} kg \cdot m^2 \\
+    I_{6cm} = 5,901 \cdot 10^{-3} \pm 7,6 \cdot 10^{-5} kg \cdot m^2 \\
+    I_{9cm} = 7,690 \cdot 10^{-3} \pm 9,3 \cdot 10^{-5} kg \cdot m^2 \\
+    I_{12cm} = 1,019 \cdot 10^{-2} \pm 1,1 \cdot 10^{-4} kg \cdot m^2
+  \end{gather*}
+
+  Vemos que difieren de los resultados experimentales, probablemente por las mismas razones que comentamos antes, pero siguen la misma tendendencia, por lo que consideraremos verificado el teorema de Steiner para el disco.
+
+  \subsubsection{Representación gráfica}
+
+  Si observamos la fórmula del teorema de steiner, vemos que al representar el momento de un eje frente a la distancia al cuadrado obtendremos una recta cuyo término independiente será $I_0$ y su pendiente será $m$.
+  \begin{equation*}
+    I = I_0 + md^2 \qquad y_i = a + bx_i \qquad \Rightarrow \qquad
+    I_0 = a \qquad m = b
+  \end{equation*}
+
+  Primero crearemos una tabla con la que poder represetnar $I$ frente a $d^2$. Hay que tener en cuenta que las incertidumbres de ambas medidas varían, por lo que las incluiremos en la tabla. La incertidumbre de la distancia al cuadrado, por propagación, es $2 \cdot d \cdot s(d)$, siendo $s(d) = 0,001m$.
 
   \begin{figure}[H]
     \begin{table}[H]
       \centering
       \csvreader[
         tabular=|c|c|,
-        table head=\hline Medida & $\;\; t_d(s) \;\;$ \\ \hline,
+        table head=\hline $I \pm s(I) (kg \cdot m^2)$ & $d^2 \pm s(d^2) (m^2)$ \\ \hline,
         late after last line=\\\hline,
         separator=semicolon
-        ]{MI2_Cuerpos.csv}
-        {TDisco=\TDisco}
-        {\thecsvrow & \TDisco}
+        ]{MI3_Steiner_Disco_ID2.csv}
+        {}
+        {$\csvcoli \pm \csvcoliii$ & $\csvcolii \pm \csvcoliv$}
     \end{table}
-    \caption{Medidas del semiperíodo de oscilación del disco macizo}
+    \caption{Momento de inercia (I) frente a la distancia al cuadrado (d)}
   \end{figure}
 
+  Ahora representaremos estos datos junto a su ajuste por mínimos cuadrados. Considerararemos que las incertidumbres de $I$ no varían lo suficiente cómo para un ajuste ponderado, y que las incertidumbres de $d^2$ son despreciables pese a estar muy próximas, ya que el ajuste si no excedería el nivel de este curso. Por lo tanto realizaremos una regresión lineal simple con término independiente.
 
+  \begin{figure}[H]
+    %\centering
+    \hspace{3.2em} \input{MI3_Steiner_Disco.pgf}
+    \caption{Momento de inercia (I) frente a la distancia del centro de masas al cuadrado ($d^2$)}
+  \end{figure}
+  \begin{gather*}
+    a = 3,3798387 \cdot 10^{-3} \pm 1,8 \cdot 10^{-9} kg \cdot m^2 \qquad b = 0,30312451 \pm 2,3 \cdot 10^{-7} kg \\
+    s = 2,7 \cdot 10^{-9} \qquad r = 0,9993
+  \end{gather*}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  Vemos que el ajuste es bastante razonable, y que el término a se ajuste muy bien al punto $I_0$, pese a que el término b difiere un poco de la masa. 
 
 
 \end{document}

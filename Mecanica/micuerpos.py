@@ -14,13 +14,13 @@ D = 0.02167
 sD = 0.00048
 
 d = pd.read_csv("MI2_Cuerpos.csv", sep=';', decimal=',')
-td = d["TDisco"].to_numpy() * 2
-Td, sTd = tdatos(td, sb)
-tc = d["TCil"].to_numpy() * 2
-Tc, sTc = tdatos(tc, sb)
+td = d["stDisco"].to_numpy() * 2
+tc = d["stCil"].to_numpy() * 2
 
 #DISCO
 print("---\nDisco\n---")
+
+Td, sTd = tdatos(td, sb)
 
 #Momento Inercia Experimental
 Id = (Td**2 * D) / (4*np.pi**2)
@@ -46,6 +46,8 @@ print("I(teo) = {} +/- {}".format(Idt, sIdt))
 
 #CILINDRO
 print("---\nCilindro\n---")
+
+Tc, sTc = tdatos(tc, sb)
 
 #Momento Inercia Experimental
 Ic = (Tc**2 * D) / (4*np.pi**2)
