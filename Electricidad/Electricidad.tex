@@ -1,7 +1,7 @@
 \documentclass[12pt, a4paper, titlepage]{article}
 
 %INFORMACIÓN
-\title{\textbf {Electricidad: Bobinas de Helmholtz y Curva de Carga}}
+\title{\textbf {\huge Electricidad: Bobinas de Helmholtz y Curva de Carga}}
 \author{{\Large Pazos Pérez, José}\\CAMBIAR DNI}
 \date{}
 
@@ -68,11 +68,11 @@
 
   \section{Objetivos}
 
-  En esta práctica exploraremos las \textbf{Bobinas de Helmholtz}, una distribución de dos bobinas enfrentadas por las que circula corriente eléctrica en el mismo sentido. A raíz de ello se generará un campo magnético con la peculiaridad de ser prácticamente uniforme entre ambos aparatos. Tendremos dos metas principales:
+  En esta práctica exploraremos las \textbf{Bobinas de Helmholtz}, una distribución de dos bobinas enfrentadas por las que circula corriente eléctrica en el mismo sentido. Estas generarán un campo magnético que contará con la peculiaridad de ser prácticamente uniforme entre ambos aparatos. Tendremos dos metas principales:
 
   \begin{itemize}[label=$-$]
-    \item Comparar el campo magnético entre las dos espiras predicho por la teoría con el que mediremos de manera experimental, variando la distancia entre las bobinas.
-    \item Obtener el valor de la permeabilidad magnética del vacío mediante un ajuste de mínimos cuadrados realizado sobre datos tomados con la distancia entre las bobinas fija.
+    \item Comparar el campo magnético entre las dos espiras predicho por la teoría con el que mediremos de manera experimental, mientras variamos la distancia entre las bobinas.
+    \item Obtener el valor de la permeabilidad magnética del vacío mediante un ajuste por mínimos cuadrados realizado sobre datos tomados manteniendo la distancia entre las bobinas fija.
   \end{itemize}
 
   \subsection{Expresión para el campo magnético}
@@ -95,7 +95,7 @@
   \newpage
   \subsection{Diagrama}
 
-  Para verificar esta ley y comprender mejor el funcionamiento de este dispositivo, utilizaremos dos bobinas con 154 espiras enrolladas, y las enfrentaremos. Luego les sumistraremos corriente eléctrica y mediremos el campo magnético con un teslámetro. No entraremos en detalles sobre el montaje pormenorizado por no haber realizado esta práctica, pero en la próxima imágen se puede observar cómo las bobinas enfrentadas producen el campo que mediremos.
+  Para verificar esta ley y comprender mejor el funcionamiento de este dispositivo, utilizaremos dos bobinas con 154 espiras enrolladas, y las enfrentaremos. Les sumistraremos corriente eléctrica y mediremos el campo magnético con un teslámetro. No entraremos en detalles sobre el montaje pormenorizado ya que por culpa la situación excepcional no fue posible asistir al laboratorio. Sin embargo, en la próxima imágen se puede observar cómo las bobinas enfrentadas producen el campo que mediremos.
 
   \begin{figure}[H]
     \centering
@@ -108,14 +108,14 @@
   \newpage
   \section{Variación del campo en el eje central}
 
-  En esta primera experiecia colocaremos las bobinas de la manera descrita a tres distancias: Igual al radio, la mitad del radio y el doble del radio. Luego moveremos el teslamómetro desde el punto central hacia los lados, siempre siguiendo el eje central. De esta manera, obtendremos 50 medidas en las que lo único que variamos es la distancia, dejando la intensidad constante.
+  En esta primera experiencia colocaremos las bobinas de la manera descrita a tres distancias: Igual al radio, la mitad del radio y el doble del radio. Luego moveremos el teslamómetro desde el punto central hacia los lados, siempre siguiendo el eje central. De esta manera, obtendremos 50 medidas en las que lo único que variamos es la distancia, dejando la intensidad constante.
 
   \subsection{Tablas de datos}
 
   Procedemos a exponer las tablas que obtuvimos. En ellas se representa la distancia al centro (z) en metros (m) y el campo que medimos ($B_{exp}$) en teslas (T). La incertidumbre de ambas medidas es constante, por lo que la explicitaremos aquí y no en las tablas:
   \begin{gather}
-    s(B_{exp}) = 0.01mT = 10^{-5}T \\
-    z = d - d_0 \qquad s(z) = \sqrt{s(d)^2 + s(d_0)^2} = \sqrt{2} \cdot s(d) = \sqrt{2} \cdot 0,001m = 0,0014m
+    s(B_{exp}) = 0.01mT = 10^{-5}T \nonumber \\
+    z = d - d_0 \qquad s(z) = \sqrt{s(d)^2 + s(d_0)^2} = \sqrt{2} \cdot s(d) = \sqrt{2} \cdot 0,001m = 0,0014m \nonumber
   \end{gather}
   La intensidad también será constante y su valor e incertidumbre se fijarán en $I = 2,55 \pm 0,01 A$.
 
@@ -184,7 +184,7 @@
       \caption{Variación de B con a=R/2}
     \end{figure}
 
-    Calculamos la desviación típica (\ref{ec:s}) con estos datos y obtenemos $s_2 = 3,3 \cdot 10^{-5} T$.
+    Calculamos la desviación cuadrática (\ref{ec:s}) con estos datos y obtenemos $s_2 = 3,3 \cdot 10^{-5} T$.
   \end{minipage} \hfill
   \begin{minipage}{0.49\textwidth}
     \subsubsection{Tabla 3: Separación a=2R}
@@ -214,7 +214,7 @@
       \caption{Variación de B con a=2R}
     \end{figure}
 
-    Calculamos la desviación típica (\ref{ec:s}) con estos datos y obtenemos $s_3 = 7,5 \cdot 10^{-5} T$.
+    Calculamos la desviación cuadrática (\ref{ec:s}) con estos datos y obtenemos $s_3 = 7,5 \cdot 10^{-5} T$.
   \end{minipage}
 
   \newpage
@@ -229,7 +229,7 @@
     B3_{teo} = \frac{\mu_0 I N}{2R} \cdot \left[\frac{1}{\left(1 + \left(\frac{z - R}{R}\right)^2 \right)^{3/2}} + \frac{1}{\left(1 + \left(\frac{z + R}{R}\right)^2 \right)^{3/2}}\right] \nonumber
   \end{gather*}
 
-  Ahora, con estas ecuaciones, sustituiremos el valor del radio R=0.20m, la permeabilidad magnética $\mu_0 = 4 \pi 10^{-7}$, el número de espiras N=154 y la intensidad I=2,55A. Esto nos dará una fórmula general para calcular los valores de B sustituyendo las distancias z correspondientes. Presentamos los resultados corresponiendtes en las siguientes tablas:
+  Haciendo uso de estas ecuaciones sustituiremos el valor del radio R=0.20m, la permeabilidad magnética $\mu_0 = 4 \pi 10^{-7}$, el número de espiras N=154 y la intensidad I=2,55A. Esto nos dará una fórmula general para calcular los valores de B sustituyendo las distancias z correspondientes. Presentamos los resultados corresponiendtes en las siguientes tablas:
 
   \textit{(En la siguiente página por comodidad de representación.)}
 
@@ -278,7 +278,7 @@
 
   \subsection{Representación gráfica}
 
-  Finalmente, teniendo los datos del campo magnético experimental y sabiendo calcular los del campo magnético teórico, representaremos ambos para poder compararlos. Cabe destacar que no utilizaremos los datos $B_{teo}$ de la tabla anterior, si no que computaremos la fórmula directamente en python para obtener una curva más suave. La tabla anterior era simplemente una demostración de cómo calcular el campo teórico.
+  Finalmente, teniendo los datos del campo magnético experimental y sabiendo calcular los del campo magnético teórico, representaremos ambos para poder compararlos. Cabe destacar que no utilizaremos los datos $B_{teo}$ de la tabla anterior, si no que computaremos la fórmula directamente en python para obtener una curva más suave.
 
   Primero procesaremos los datos en \code{python}, y para ello haremos uso de la librería \code{pandas}, que nos permite importar directamente archivos .csv, el mismo formato que usamos para representar las tablas de \LaTeX.
 
@@ -329,15 +329,15 @@
     \caption{Campo magnético (B) frente a distancia del punto medio (z) para tres separaciones de bobinas (\textcolor{RoyalBlue}{a=R}, \textcolor{MediumSeaGreen}{a=R/2}, \textcolor{IndianRed}{a=2R})}
   \end{figure}
 
-  Podemos observar que los datos experimentales no estan exáctamente encima de la gráfica, pero siguen la misma forma. Esto se debe a que las medidas de laboratorio pueden tener algún error, pero igualmente comprueba que las leyes se verifican. Además, esto se corresponde con obtener una desviación cuadrática (\ref{ec:s}) muy pequeña en comparación con nuestras medidas.
+  Podemos observar que los datos experimentales no estan exáctamente encima de la gráfica, pero siguen la misma forma. Esto se debe a que las medidas de laboratorio pueden tener algún error, pero igualmente comprueba que las leyes se verifican puesto que siguen la misma tendencia.
 
 
   \newpage
   \section{Permeabilidad magnética del vacío}
 
-  En esta segunda parte de la práctica mantendremos el teslámetro en el centro de ambas bobinas y variaremos la intensidad. De esta manera podremos calcular la constante de permeabilidad magnética del vacío a partir de datos experimentales y comprarla con su valor teórico ($\mu_0 = 4 \pi 10^{-7}$).
+  En esta segunda parte de la práctica mantendremos el teslámetro en el centro de ambas bobinas y variaremos la intensidad. De esta manera podremos calcular la constante de permeabilidad magnética del vacío a partir de datos experimentales y comprarla con su valor teórico ($\mu_0~=~4~\pi~10^{-7}$).
 
-  Si observamos la ecuación de B (\ref{ec:B}), observamos que al dejar z constante, B se relaciona con I a través de una constante:
+  Si analizamos la ecuación de B (\ref{ec:B}), observamos que al dejar z constante, B se relaciona con I a través de una constante:
   \begin{equation}
     B = c \cdot I \qquad c = \frac{\mu_0 N}{2R} \cdot \left[\frac{2}{\left(1 + \left(\frac{a/2}{R}\right)^2 \right)^{3/2}}\right] \nonumber
   \end{equation}
@@ -349,12 +349,12 @@
     c_3 = \frac{\mu_0 N}{2R} \cdot \left[\frac{2}{\left(1 + \left(\frac{R}{4R}\right)^2 \right)^{3/2}}\right] = \frac{\mu_0 N}{R} \cdot \frac{1}{2\sqrt{2}} \nonumber
   \end{gather}
 
-  Nuestro objetivo es encontrar las constantes $c_n$, la pendiente de la recta $B = c \cdot I$, para poder despejar $\mu_0$ de ahí. Para ello haremos un ajuste por mínimos cuadrados sin término independiente. Luego utilizaremos estas fórmulas para calcular $\mu_0$ en base a c.
+  Nuestro objetivo es encontrar las constantes $c_n$, la pendiente de la recta $B = c \cdot I$, para conseguir el valor de $\mu_0$. Para ello haremos un ajuste por mínimos cuadrados sin término independiente (de la forma $y_i = bx_i$). Luego utilizaremos estas fórmulas para calcular $\mu_0$ en base a c.
   \begin{gather}
     \mu_0 = \frac{c_1 R \cdot 5 \sqrt{5}}{N \cdot 2^3} = \frac{c_2 R \cdot 17 \sqrt{17}}{N \cdot 2^6} = \frac{c_3 R \cdot 2 \sqrt{2}}{N} \label{ec:mu}
   \end{gather}
 
-  Tambien podemos calcular la indeterminación de $\mu_0$ mediante propagación de incertidumbres. Por comodidad usaremos \textit{K} para referirnos a la fracción en corchetes en la fórmula superir que sustituímos por la constante al incluír a=R, a=R/2 y a=2R. Vemos que es simplemente sustituír c por s(c) en la fórmula de $\mu_0$.
+  Tambien podemos calcular la indeterminación de $\mu_0$ mediante propagación de incertidumbres. Por comodidad usaremos \textit{K} para referirnos a la fracción en corchetes en la fórmula superior que sustituímos por la constante al incluír a=R, a=R/2 y a=2R.
   \begin{gather}
     s(\mu_0) = \sqrt{\left(\frac{\partial \mu_0}{\partial c} \right)^2 \cdot s^2(c)} = \sqrt{\left( \frac{2R}{N} \cdot K \right)^2 \cdot s^2(c)} = \frac{2R}{N} \cdot K \cdot s(c) \label{ec:smu}
   \end{gather}
@@ -362,7 +362,7 @@
   \newpage
   \subsection{Tablas de datos}
 
-  En las siguientes tablas de datos representamos el campo magnético ($B_{exp}$) en teslas (T) que medimos desde el punto medio de las bobinas junto a la intensidad ($I$) en amperios (A). La incertidumbre del campo magnético sigue siendo constante $s(B_{exp}) = 10^{-5}T$, pero no se especifica la incertidumbre de I. En la parte anterior de la práctica podemos ver en el enunciado de las tablas que $s(I) = 0,01A$, sin embargo, al no especificarse en esta parte y de ser 0,01 causaría problemas a la hora de hacer una regresión lineal, consideraremos que es nula o muy baja.
+  En las siguientes tablas de datos representamos el campo magnético ($B_{exp}$) en teslas (T) que medimos desde el punto medio de las bobinas junto a la intensidad ($I$) en amperios (A). La incertidumbre del campo magnético sigue siendo constante $s(B_{exp}) = 10^{-5}T$, pero no se especifica la incertidumbre de I. En la parte anterior de la práctica podemos ver en el enunciado de las tablas que $s(I) = 0,01A$, sin embargo, al no especificarse en esta parte y de ser 0,01 causaría problemas a la hora de hacer una regresión lineal, consideraremos que es nula o despreciable frente a la incertidumbre de B.
 
   \begin{figure}[H]
     \begin{table}[H]
@@ -465,6 +465,7 @@
   \begin{python}
     import pandas as pd
     import matplotlib.pyplot as plt
+    from reg_lin import reg_lin_b as rl
 
     #Datos, similarmente para las otras dos tablas
     d1 = pd.read_csv("BH-4.csv", sep=';', decimal=',')
@@ -515,7 +516,23 @@
   \end{gather*}
 
   \newpage
-  \section{Conclusiones PENDIENTE}
+  \section{Conclusiones}
+
+  \subsection{Primera parte}
+
+  En la primera parte de la práctica comparamos el campo téorico con el experimental a través del eje central. Podemos decir que los resultados fueron satisfactorios ya que las curvas que obtivimos, pese a estar ligeramente desplazadas de las teóricas, se ajustaban perfectamente a su forma. Quizá este desplazamiento se deba a algún pequeño problema de medida en el laboratorio o al aparato usado, ya que todas las medidas difieren de la misma manera.
+
+  Observando la gráfica podemos ver que cúanto más cerca estén las bobinas mayor será el campo en el centro, pero más rápido decaerá conforme nos vayamos alejando. También apreciamos que cuando separamos las bobinas una distancia mayor que su radio se crea en el centro un valle dónde el campo magnético es menor que su máximo, mientras que si la distancia es menor o igual a su radio el punto central es el máximo.
+
+  Una nota final sobre este experimento es que los datos no están uniformemente tomados debido a la disposición del experimento en el laboratorio. Por ese motivo los puntos teóricos no se extienden de igual manera en ambas direcciones.
+
+  \subsection{Segunda parte}
+
+  En el segundo experimento demostramos una relación lineal entre el campo magnético en el punto central de las bobinas y la intensidad que pasa por ellas. Para comprobarlo hicimos uso de un ajuste simple por mínimos cuadrados sin término independiente que consideramos muy satisfactorio, ya que las tres curvas contaban con un coeficiente de regresión lineal de 4 nueves.
+
+  Utilizando la pendiente de estas rectas pudimos calcular la constante de permeabilidad magnética ($\mu_0$) y obtuvimos valores muy similares a los teóricos (Diferían en menos de una décima de orden). La pequeña diferencia se puede deber a lo mismo que el apartado anterior, además de que la constante teórica implica la permeabilidad en el vacío y el laboratorio está lleno de aire y otras partículas.
+
+  En general hemos completado esta práctica con datos bastante similares a los teóricos y consideraremos que ha sido exitosa.
 
   \newpage
   \thispagestyle{plain}
@@ -526,7 +543,7 @@
 
   \section{Objetivos}
 
-  En esta práctica trabajaremos con un \textbf{circuito RC}, o lo que es lo mismo, que tiene una resistencia y un condensador. Podemos verlo en la figura a continuación:
+  En esta práctica trabajaremos con un \textbf{circuito RC}. Este tipo de circuito cuenta con una resistencia \textit{R} y un condensador \textit{C}. A continuación mostramos un diagrama de cómo podría montarse:
 
   \begin{figure}[H]
     \centering
@@ -537,6 +554,8 @@
     \end{circuitikz}
     \caption{Circuito RC}
   \end{figure}
+
+  Experimentaremos sobre las propiedades de la curva de carga del condensador. Este dispositivo es capaz de almacenar energía potencial eléctrica en sus dos superficies conductoras. Cuando se somete a una diferencia de potencial sus placas se \textit{cargan} con una carga Q de signo opuesto, haciendo que la intensidad del circuito decrezca tendiendo a 0.
 
   Mediremos la curva de carga del condensador en tres escenarios diferentes:
 
@@ -574,13 +593,13 @@
     \caption{Montaje experimental}
   \end{figure}
 
-  Al tomar las medidas, debemos de asegurarnos de que el condensador esté descargado. Conectaremos el condensador a la corriente (y la resistencia) y anotaremos el tiempo cada vez que el amperímetro varíe el $0,1 \mu A$, su precisión instrumental.
+  Al tomar las medidas, debemos de asegurarnos de que el condensador esté descargado. Conectaremos el circuito RC a la corriente y anotaremos el tiempo cada vez que el amperímetro varíe el $0,1 \mu A$, su precisión instrumental.
 
   \subsection{Incertidumbres}
 
-  Ya sabemos que la incertidumbre experimental del amperímetro es de $0,1 \mu A = 10^{-7} A$, sin embargo en el caso del tiempo debemos realizar una matización. Pese a que el cronómetro tiene una precisión experimental de $0,01 s$, no podemos tomarla cómo tal. Hay un desfase entre que el amperímetro cambia y nosotros anotamos el tiempo, por lo que tenemos que tener en cuenta las limitaciones de nuestra propia percepción. Estimaremos que la incertidumbre del tiempo es de $0,3 s$.
+  Sabemos que la incertidumbre experimental del amperímetro es de $0,1 \mu A = 10^{-7} A$, sin embargo, en el caso de la incertidumbre del tiempo debemos realizar una matización. Pese a que el cronómetro tiene una precisión experimental de $0,01 s$, no podemos tomarla cómo tal. Hay un desfase entre que el amperímetro cambia y nosotros anotamos el tiempo, por lo que tenemos que tener en cuenta las limitaciones de nuestra propia percepción. Estimaremos que la incertidumbre del tiempo es de $0,3 s$.
 
-  Para representar la curva de carga preferiremos hacer uso del logaritmo de la intensidad ($\ln{I}$) en lugar de la medida directa, por lo que procederemos a calcular su fórmula de propagación de incertidumbres.
+  Para representar la curva de carga preferiremos hacer uso del logaritmo de la intensidad ($\ln{I}$) en lugar de la medida directa, por lo que procederemos a calcular su fórmula de propagación de incertidumbres para utilizarla en el momento en que sea necesario.
   \begin{equation}
     s(\ln{I}) = \sqrt{\left( \frac{\partial \ln{I}}{\partial I} \right)^2 \cdot s^2(I)} = \sqrt{\frac{1}{I^2} \cdot s^2(I)} = \frac{s(I)}{I} \label{ec:slni}
   \end{equation}
@@ -588,11 +607,11 @@
   \newpage
   \section{Medidas con \textbf{V} y \textbf{C} constantes, variando \textbf{R}}
 
-  En la primera experiencia, dejaremos $\mathbf{V = 10V}$ y $\mathbf{C = 3 \cdot 10^{-5} F}$ constantes, y cambiaremos la resistencia. Para cuatro valores distintos obtenemos los datos expuestos.
+  En la primera experiencia dejaremos $\mathbf{V = 10V}$ y $\mathbf{C = 3 \cdot 10^{-5} F}$ constantes mientras varíamos el valor de la resistencia. Para cuatro valores distintos obtenemos los datos expuestos.
 
   \subsection{Tablas de datos}
 
-  Como discutimos en el apartado anterior, la incertidumbre del tiempo y de la intensidad son constantes a lo largo de los experimentos, siendo respectivamente $s(T) = 0,3 s$ y $s(I) = 10^{-7} A$, por lo que no las incluiremos en las tablas. La del logaritmo de I si que varía, y se calcula utilizando la ecuación \ref{ec:slni}. Presentamos los resultados a continuación.
+  Como discutimos en el apartado anterior, la incertidumbre del tiempo y de la intensidad son constantes a lo largo de los experimentos, siendo respectivamente $s(T) = 0,3 s$ y $s(I) = 10^{-7} A$, por lo que no las incluiremos en las tablas. La incertidumbre del logaritmo de I si que varía de la manera que explicamos en la ecuación \ref{ec:slni}. Presentamos los resultados a continuación.
 
   \begin{minipage}[t]{0.5\textwidth}
     \centering
@@ -675,14 +694,14 @@
     \caption{Logaritmo de la intensidad ($\ln{I}$) frente a tiempo (T) variando la resistencia (R)}
   \end{figure}
 
-  Ahora sí, podemos obvservar que en efecto se ajustan mucho a lineas rectas. El siguiente paso será hacer una regresión lineal para verificar cúal sería la línea teórica para ellas.
+  Ahora sí, podemos obvservar que en efecto se asemejan a rectas con razonable precisión. El siguiente paso será hacer una regresión lineal para descubrir qué linea teórica se ajusta a ellas.
 
   \newpage
   \subsection{Ajuste por mínimos cuadrados}
 
-  En esta ocasión, la incertidumbre de $\ln{I}$ ($s(\ln{I}) = s(y_i)$) varía con el tiempo, cómo indican las tablas. Por lo tanto, tendremos que realizar un ajuste por mínimos cuadrados ponderado, a diferencia del simple que hicimos en las Bobinas.
+  En esta ocasión, la incertidumbre de $\ln{I}$ ($s(\ln{I}) = s(y_i)$) varía con el tiempo, cómo indican las tablas. Por lo tanto, tendremos que realizar un ajuste por mínimos cuadrados ponderado, a diferencia del ajuste simple que hicimos en la práctica anterior.
 
-  Además, será un ajuste con término independiente, porque en $T=0$, $\ln{I} \ne 0$, de la forma $y_i = a + bx_i$. Las fórmulas correspondientes a este ajuste son:
+  Además, será un ajuste con término independiente de la forma $y_i = a + bx_i$, porque en $T=0$, $\ln{I} \ne 0$. Las fórmulas correspondientes a este ajuste son:
   \begin{gather}
     a = \frac{(\sum_i{w_i y_i})(\sum_i{w_i x_i^2}) - (\sum_i{w_i x_i})(\sum_i{w_i x_i y_i})}{\Delta} \label{ec:regwa} \\
     b = \frac{(\sum_i{w_i})(\sum_i{w_i x_i y_i}) - (\sum_i{w_i x_i})(\sum_i{w_i y_i})}{\Delta} \label{ec:regwb} \\
@@ -750,7 +769,7 @@
     a = \ln{\frac{\Delta V}{R}} \qquad b = - \frac{1}{RC} \label{ec:abteo}
   \end{equation}
 
-  Ahora calcularemos los distintos valores de a y b teóricos para comprobar nuestros resultados experimentales:
+  Calcularemos los distintos valores de a y b teóricos para comprobar nuestros resultados experimentales:
   \begin{gather*}
     a_1 = \ln{\frac{10}{4,7 \cdot 10^6}} = -13,060 \qquad b_1 = - \frac{1}{4,7 \cdot 10^6 \cdot 3 \cdot 10^{-5}} = -0,00709 s^{-1} \\
     a_2 = \ln{\frac{10}{6,9 \cdot 10^6}} = -13,444 \qquad b_2 = - \frac{1}{6,9 \cdot 10^6 \cdot 3 \cdot 10^{-5}} = -0,00483 s^{-1} \\
@@ -758,14 +777,14 @@
     a_4 = \ln{\frac{10}{5,0 \cdot 10^6}} = -13,122 \qquad b_4 = - \frac{1}{5,0 \cdot 10^6 \cdot 3 \cdot 10^{-5}} = -0,00667 s^{-1}
   \end{gather*}
 
-  Debemos calcular la incertidumbre de a y b mediante propaganción de incertidumbres. Tomamos $s(\Delta V) = 0,1V$, y tanto s(C) como s(R) serán un 5\% de su valor nominal. Primero vemos las incertidumbres de R (múltiples valores) y C.
+  Debemos medir la incertidumbre de a y b mediante propaganción de incertidumbres. Tomamos $s(\Delta V) = 0,1V$, y tanto s(C) como s(R) serán un 5\% de su valor nominal. Primero anotamos las incertidumbres de R (múltiples valores) y C.
   \begin{gather}
     s(R_1) = 0,05 \cdot 4,7 \cdot 10^6 = 2,35 \cdot 10^5 \Omega \qquad s(R_2) = 0,05 \cdot 6,9 \cdot 10^6 = 3,45 \cdot 10^5 \Omega \nonumber \\
     s(R_3) = 0,05 \cdot 3,2 \cdot 10^6 = 1,6 \cdot 10^5 \Omega \qquad s(R_4) = 0,05 \cdot 5,0 \cdot 10^6 = 2,5 \cdot 10^5 \Omega \nonumber \\
     s(C) = 0,05 \cdot 3 \cdot 10^{-5} = 1,5 \cdot 10^{-6} F \nonumber
   \end{gather}
 
-  Ahora tomaremos la incertidumbre de los términos independientes, $a_i$:
+  Tomaremos la incertidumbre de los términos independientes, $a_i$:
   \begin{gather}
     s(a) = \sqrt{\left(\frac{\partial a}{\partial \Delta V}\right)^2 \cdot s(\Delta V)^2 + \left(\frac{\partial a}{\partial R}\right)^2 \cdot s(R)^2} = \sqrt{\left(\frac{1}{\Delta V}\right)^2 \cdot s(\Delta V)^2 + \left(\frac{-1}{R}\right)^2 \cdot s(R)^2} \label{ec:sateo} \\
     s(a_1) = \sqrt{\frac{1}{10^2} \cdot 0,1^2 + \left(\frac{-1}{4,7 \cdot 10^6}\right)^2 \cdot (2,35 \cdot 10^5)^2} = 0,051 \nonumber \\
@@ -901,7 +920,7 @@
 
   \subsection{Tablas de datos}
 
-  La incertidumbre del tiempo y de la intensidad son constantes para todas las tablas, siendo respectivamente $s(T) = 0,3 s$ y $s(I) = 10^{-7} A$. Sin embargo, $s(\ln{I})$ cambia con cada medida y tenemos que calcularla usando \ref{ec:slni}. A continuación se exponen las tablas obtenidas.
+  La incertidumbre del tiempo y de la intensidad son constantes para todas las tablas, siendo respectivamente $s(T) = 0,3 s$ y $s(I) = 10^{-7} A$, mientras que $s(\ln{I})$ cambia con cada medida.
 
   \begin{minipage}[t]{0.5\textwidth}
     \centering
@@ -984,7 +1003,7 @@
 
   \begin{figure}[H]
     %\centering
-    \hspace{0.2em} \input{CC-3LR.pgf}
+    \hspace{1.8em} \input{CC-3LR.pgf}
     \caption{Logaritmo de la intensidad ($\ln{I}$) frente a tiempo (T) variando la resistencia (R) con ajuste por mínimos cuadrados ponderado con término independiente}
   \end{figure}
   \begin{gather*}
@@ -1005,8 +1024,19 @@
   \end{gather*}
 
   \newpage
-  \section{Conclusiones: PENDIENTE}
+  \section{Conclusiones}
 
+  En esta práctica hemos intentado verificar las relaciones de decaimiento exponencial de la corriente conforme se carga un condensador. Hemos hecho tres tipos de experimentos, manteniendo dos de los parámetros constantes y variando el restante.
+
+  En la primera experiencia, con V y C constantes y variando R, vimos que todas las rectas tenían pendientes y términos independientes distintos, y que parecían cruzarse en el medio. Esto puede sugerir que cuánto más baja es la resistencia del circuito, mayor corriente pasa por él al principio ($\ln{I_0}$ menos negativo) pero decae con más rapidez (mayor pendiente negativa) porque el condensador se carga con mayor velocidad.
+
+  También comprobamos que el término independiente del ajuste era igual a $\ln{I_0}$ aplicando dos formulas distintas que nos condujeron al mismo resultado. Además, los valores de a y b que obtuvimos de manera téorica y experimental se correspondieron de una manera muy cercana, entrando aproximadamanete dentro de los intervalos de confianza que especificamos.
+
+  En la segunda experiencia dejamos R y V constantes y variamos C. En esta ocasión todas las gráficas tenían el mismo término independiente, $\ln{I_0}$, por lo que en todas circulaba la misma corriente al iniciar el experimento. Sin embargo, dependiendo de la capacitancia del condensador, este se cargó más o menos rápido dando lugar a distintas pendientes. Verificamos que los condensadores con mayor capacitancia tardaron más tiempo en cargarse y por lo tanto el decaimiento exponencial de la intensidad fue más lento. Los resultados también se acercaron mucho a los teóricos, especialmente el de a, que casi era exactamente igual, aunque el de b también tuvo una relación más cercana que en el apartado anterior.
+
+  Finalmente, en la tercera experiencia varíamos V con C y R constantes. Las gráficas son paralelas, con distintos términos independientes $\ln{I_0}$ pero decayendo a la misma velocidad. Observamos que el circuito con una mayor diferencia de potencial fue el que tuvo la mayor intensidad inicial. Los parámetros a y b también se ajustaron perfectamente a los téoricos.
+
+  Concluimos pues que se cumplen las leyes que queríamos verificar sobre los condensadores, y que la práctica fue exitosa porque averiguamos factores sobre el funcionamiento de los circuitos RC de manera empírica, por ejemplo, cómo afectan los cambios de V, R y C a la velocidad de carga del condensador y a la intensidad incial del circuito.
 
 
 
