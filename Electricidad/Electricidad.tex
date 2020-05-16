@@ -1039,9 +1039,66 @@
   Concluimos pues que se cumplen las leyes que queríamos verificar sobre los condensadores, y que la práctica fue exitosa porque averiguamos factores sobre el funcionamiento de los circuitos RC de manera empírica, por ejemplo, cómo afectan los cambios de V, R y C a la velocidad de carga del condensador y a la intensidad incial del circuito.
 
 
+  \newpage
+  \part*{Apéndice}
+  \addcontentsline{toc}{part}{Apéndice}
 
+  \section*{Código y datos}
+  \addcontentsline{toc}{section}{Código y datos}
 
+  Todo el código y los datos utilizados para la creación de esta memoria se encuentran en un repositorio hospedado en GitHub. Puede accederse desde el siguiente enlace:
 
+  \url{https://github.com/josekoalas/andromeda/tree/master/Electricidad}
 
+  Dentro de la carpeta \code{Electricidad} pueden encontrarse los siguientes ficheros:
+
+  \begin{itemize}[label=$-$]
+    \item Electricidad.tex y Electricidad.pdf: Archivo LaTeX y pdf generado para esta memoria.
+    \item *.py: Archivos con código python para crear las gráficas en formato .pgf.
+    \item *.pgf: Las distintas gráficas en formato vectorial adecuado para su uso en LaTeX, de corriente alterna y corriente continua.
+    \item *.csv: Tablas con los datos de la práctica utilizadas tanto en LaTeX cómo en python.
+    \item *.png: Imágenes utilizadas.
+  \end{itemize}
+
+  En la carpeta \code{Base} se encuentran varios programas de \code{python} comunes a todas las memorias:
+
+  \begin{itemize}[label=$-$]
+    \item varias-medidas.py: Tratamiento de errores
+    \item reg-lin.py: Diferentes tipos de ajustes por mínimos cuadrados
+    \item mpl-config.py: Archivo para configurar los parámetros generales de \code{matplotlib} para que las gráficas tengan un estilo cohesivo y se exporten en .pgf.
+  \end{itemize}
+
+  \section*{Bibliografía}
+  \addcontentsline{toc}{section}{Bibliografía}
+
+  \subsection*{Facultad de física}
+
+  Amigo, Alfredo. \textit{Análisis de incertidumbres.} Apuntes de Técnicas Experimentales I, Facultad de Física, 2019-20.
+
+  \textit{Guión: Bobinas de Helmholtz} Apuntes de Técnicas Experimentales I, Facultad de Física, 2019-20.
+
+  \textit{Datos: Bobinas de Helmholtz} Apuntes de Técnicas Experimentales I, Facultad de Física, 2019-20.
+
+  \textit{Guión: Curva de Carga} Apuntes de Técnicas Experimentales I, Facultad de Física, 2019-20.
+
+  \textit{Datos: Curva de Carga} Apuntes de Técnicas Experimentales I, Facultad de Física, 2019-20.
+
+  Carballeira, Carlos. Campus Virtual. \textit{Videos explicativos: Anáisis de datos} \url{https://cv.usc.es/mod/resource/view.php?id=389413}, \url{https://cv.usc.es/mod/resource/view.php?id=389415}
+
+  Carballeira, Carlos. Campus Virtual. \textit{Video explicativo: Bobinas de Helmholtz} \url{https://cv.usc.es/mod/resource/view.php?id=383264}
+
+  Carballeira, Carlos. Campus Virtual. \textit{Videos explicativos: Curva de Carga} \url{https://cv.usc.es/mod/resource/view.php?id=3894364}, \url{https://cv.usc.es/mod/resource/view.php?id=389433}
+
+  \subsection*{Otras fuentes}
+
+  Zakiea. \textit{Imágen Bobinas Helmholtz} \url{https://www.cleanpng.com/png-helmholtz-coil-comsol-multiphysics-electromagnetic-1361138/}
+
+  \subsection*{LaTeX}
+
+  Eiras, Jorge. \textit{Edición de textos de carácter científico con LaTeX.} \url{https://cv.usc.es/course/view.php?id=18484}
+
+  Redaelli, Massimo. \textit{CircuiTikZ.} \url{http://texdoc.net/texmf-dist/doc/latex/circuitikz/circuitikzmanual.pdf}
+
+  Sturm, Thomas. \textit{The csvsimple package.} \url{https://osl.ugr.es/CTAN/macros/latex/contrib/csvsimple/csvsimple.pdf}
 
 \end{document}

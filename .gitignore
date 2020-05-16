@@ -19,6 +19,7 @@ __pycache__
 
 ##Avoid DNI
 MemoriaDNI.*
+*DNI.*
 
 ## Intermediate documents:
 *.dvi
