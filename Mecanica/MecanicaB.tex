@@ -853,7 +853,7 @@
     T_{9cm}: \quad (\bar{x}, s_C(\bar{x}), \phi) \quad = \quad (3,2592; 0,0030; 9) \\
     T_{12cm}: \quad (\bar{x}, s_C(\bar{x}), \phi) \quad = \quad (3,7573; 0,0026; 8) \;
   \end{gather*}
-  \textit{(Para $T_{12cm}$ eliminamos un valor por salir fuera del intervalo de confianza, 3,788, y volvemos a calcular los parámetros corresponientes.)}
+  \textit{(Para $T_{12cm}$ eliminamos un valor por salir del intervalo de confianza, 3,788, y volvemos a calcular los parámetros corresponientes.)}
 
   \subsubsection{Momento de inercia experimental}
 
@@ -928,7 +928,143 @@
     s = 2,7 \cdot 10^{-9} \qquad r = 0,9993
   \end{gather*}
 
-  Vemos que el ajuste es bastante razonable, y que el término a se ajuste muy bien al punto $I_0$, pese a que el término b difiere un poco de la masa. 
+  Vemos que el ajuste es bastante razonable, y que el término a se ajuste muy bien al punto $I_0$, pese a que el término b difiere un poco de la masa. Nos sorprende considerablemente que las incertidumbres de a y de b sean tan pequeñas, pero puede tener sentido ya que todos los datos se pudieron ver modificados de la misma manera por culpa de la constante del muelle que calculamos al principio, y por lo tanto mantener la forma de la recta (y así causar que la incertidumbre del ajuste sea muy pequeña).
+
+  \subsection{Cuerpo 2: Barra}
+
+  Para el segundo cuerpo tomaremos una barra con una longitud de $l = 0,060 \pm 0,001m$ y una masa de $m = 0,13172 \pm 0,00001 kg$. En esta ocasión llegaremos hasta 27 cm, de 3 en 3.
+
+  \subsubsection{Tabla de datos}
+
+  Aqui exponemos las medidas directas que tomamos del semiperiodo en el laboratorio para cada distancia, y a continuación la tabla con el periodo complet. Las incertidumbres son constantes y de $s(t) = 0,001s$ y $s(T) = 0,002s$.
+
+  \begin{figure}[H]
+    \centering
+    \textbf{Semiperiodo }$\mathbf{t_d(s)}$
+    \begin{table}[H]
+      \centering
+      \csvreader[
+        tabular=|c|c|c|c|c|c|c|c|c|c|,
+        table head=\hline 0cm & 3cm & 6cm & 9cm & 12cm & 15cm & 18cm & 21cm & 24cm & 27cm \\ \hline,
+        late after last line=\\\hline,
+        separator=semicolon
+        ]{MI3_Steiner_Barra.csv}
+        {}
+        {\csvcoli & \csvcolii & \csvcoliii & \csvcoliv & \csvcolv & \csvcolvi & \csvcolvii & \csvcolviii & \csvcolix & \csvcolx}
+    \end{table}
+  \end{figure}
+
+  \begin{figure}[H]
+    \centering
+    \textbf{Periodo }$\mathbf{T_d(s)}$
+    \begin{table}[H]
+      \centering
+      \csvreader[
+        tabular=|c|c|c|c|c|c|c|c|c|c|,
+        table head=\hline 0cm & 3cm & 6cm & 9cm & 12cm & 15cm & 18cm & 21cm & 24cm & 27cm \\ \hline,
+        late after last line=\\\hline,
+        separator=semicolon
+        ]{MI3_Steiner_Barra.csv}
+        {}
+        {\csvcolxi & \csvcolxii & \csvcolxiii & \csvcolxiv & \csvcolxv & \csvcolxvi & \csvcolxvii & \csvcolxviii & \csvcolxix & \csvcolxx}
+    \end{table}
+  \end{figure}
+
+  \subsubsection{Tratamiento de datos}
+
+  Utilizamos una vez más los pasos descritos en \ref{s:tratamientodatos} para tratar los errores de las tablas y dar con los valores adecuados para cada distancia. Los resultados son los siguientes:
+  \begin{gather*}
+    T_{0cm}: \quad (\bar{x}, s_C(\bar{x}), \phi) \quad = \quad ( 2,4817; 0,0020; 9) \\
+    T_{3cm}: \quad (\bar{x}, s_C(\bar{x}), \phi) \quad = \quad ( 2,5619; 0,0020; 9) \\
+    T_{6cm}: \quad (\bar{x}, s_C(\bar{x}), \phi) \quad = \quad ( 2,6933; 0,0021; 9) \\
+    T_{9cm}: \quad (\bar{x}, s_C(\bar{x}), \phi) \quad = \quad ( 2,8979; 0,0020; 8) \\
+    T_{12cm}: \quad (\bar{x}, s_C(\bar{x}), \phi) \quad = \quad ( 3,1575; 0,0025; 9) \\
+    T_{15cm}: \quad (\bar{x}, s_C(\bar{x}), \phi) \quad = \quad ( 3,4517; 0,0021; 9) \\
+    T_{18cm}: \quad (\bar{x}, s_C(\bar{x}), \phi) \quad = \quad ( 3,8051; 0,0021; 8) \\
+    T_{21cm}: \quad (\bar{x}, s_C(\bar{x}), \phi) \quad = \quad ( 4,1755; 0,0022; 9) \\
+    T_{24cm}: \quad (\bar{x}, s_C(\bar{x}), \phi) \quad = \quad ( 4,5897; 0,0022; 8) \\
+    T_{27cm}: \quad (\bar{x}, s_C(\bar{x}), \phi) \quad = \quad ( 4,9852; 0,0032; 9) \\
+  \end{gather*}
+  \textit{(Valores eliminados: $T_{9cm}$ - 2,976; $T_{18cm}$ - 3,818; $T_{24cm}$ - 4,606)}
+
+  \subsubsection{Momento de inercia experimental}
+
+  Con los datos que abamos de obtener, calcularemos momento de inercia experimental y su incertidumbre utilizando las formulas \ref{ec:periodoinercia} y \ref{ec:sinexp}. Obtenemos:
+  \begin{gather*}
+    I_{0cm} = 3,381 \cdot 10^{-3} \pm 7,5 \cdot 10^{-5} kg \cdot m^2 \\
+    I_{3cm} = 3,603 \cdot 10^{-3} \pm 8,0 \cdot 10^{-5} kg \cdot m^2 \\
+    I_{6cm} = 3,982 \cdot 10^{-3} \pm 8,8 \cdot 10^{-5} kg \cdot m^2 \\
+    I_{9cm} = 4,61 \cdot 10^{-3} \pm 1,0 \cdot 10^{-4} kg \cdot m^2 \\
+    I_{12cm} = 5,47 \cdot 10^{-3} \pm 1,2 \cdot 10^{-4} kg \cdot m^2 \\
+    I_{15cm} = 6,54 \cdot 10^{-3} \pm 1,5 \cdot 10^{-4} kg \cdot m^2 \\
+    I_{18cm} = 7,95 \cdot 10^{-3} \pm 1,8 \cdot 10^{-4} kg \cdot m^2 \\
+    I_{21cm} = 9,57 \cdot 10^{-3} \pm 2,1 \cdot 10^{-4} kg \cdot m^2 \\
+    I_{24cm} = 1,156 \cdot 10^{-2} \pm 2,6 \cdot 10^{-4} kg \cdot m^2 \\
+    I_{27cm} = 1,364 \cdot 10^{-2} \pm 3,0 \cdot 10^{-4} kg \cdot m^2
+  \end{gather*}
+
+  \newpage
+  \subsubsection{Momento de inercia teórico (Steiner)}
+
+  Debemos verificar si se cumple el teorema de Steiner. Para ello calcularemos el momento de inercia teórico en el centro de masas y aplicaremos el teorema para calcular los puntos alejados. Así podremos comparar resultados teóricos y experimentales. Utilizando \ref{ec:minerciateo} y \ref{ec:sminerciateo} calculamos $I_0$:
+  \begin{equation*}
+    I_{0cm} = 3,952 \cdot 10^{-3} \pm 1,3 \cdot 10^{-5} kg \cdot m^2
+  \end{equation*}
+
+  Ahora calculamos los momentos de inercia y su incertidumbre aplicando el teorema de Steiner (\ref{ec:steiner} y \ref{ec:ssteiner}) para cada una de las distancias.
+  \begin{gather*}
+    I_{3cm} = 4,070 \cdot 10^{-3} \pm 1,5 \cdot 10^{-5} kg \cdot m^2 \\
+    I_{6cm} = 4,426 \cdot 10^{-3} \pm 2,1 \cdot 10^{-5} kg \cdot m^2 \\
+    I_{9cm} = 5,019 \cdot 10^{-3} \pm 2,7 \cdot 10^{-5} kg \cdot m^2 \\
+    I_{12cm} = 5,848 \cdot 10^{-3} \pm 3,4 \cdot 10^{-5} kg \cdot m^2 \\
+    I_{15cm} = 6,915 \cdot 10^{-3} \pm 4,2 \cdot 10^{-5} kg \cdot m^2 \\
+    I_{18cm} = 8,219 \cdot 10^{-3} \pm 4,9 \cdot 10^{-5} kg \cdot m^2 \\
+    I_{21cm} = 9,760 \cdot 10^{-3} \pm 5,7 \cdot 10^{-5} kg \cdot m^2 \\
+    I_{24cm} = 1,1539 \cdot 10^{-2} \pm 6,5 \cdot 10^{-5} kg \cdot m^2 \\
+    I_{27cm} = 1,3554 \cdot 10^{-2} \pm 7,2 \cdot 10^{-5} kg \cdot m^2
+  \end{gather*}
+
+  De nuevo vuelven a diferir con los resultados experimentales, pero en esta ocasión en menor medida, y se aprecia mejor el claro patrón que siguen.
+
+  \subsubsection{Representación gráfica}
+
+  Crearemos una gráfica como la del apartado anterior representando el momento de inercia frente a la distancia de ese eje al cuadrado. Primero pondremos los datos a representar junto a su incertidumbre en la tabla a continuación.
+
+  \begin{figure}[H]
+    \begin{table}[H]
+      \centering
+      \csvreader[
+        tabular=|c|c|,
+        table head=\hline $I \pm s(I) (kg \cdot m^2)$ & $d^2 \pm s(d^2) (m^2)$ \\ \hline,
+        late after last line=\\\hline,
+        separator=semicolon
+        ]{MI3_Steiner_Barra_ID2.csv}
+        {}
+        {$\csvcoli \pm \csvcoliii$ & $\csvcolii \pm \csvcoliv$}
+    \end{table}
+    \caption{Momento de inercia (I) frente a la distancia al cuadrado (d)}
+  \end{figure}
+
+  Ahora utilizaremos un ajuste por mínimos cuadrados simple con término indepediente (equivalente a $I_0$). Obviaremos que las incertidumbres de $I$ varían ya que lo hacen en una medida muy pequeña, y que $s(d^2)$ no sea del todo despreciable frente a $s(I)$ ya que ese tratamiento excede el nivel de este curso. Obtenemos la siguiente gráfica:
+
+  \begin{figure}[H]
+    %\centering
+    \hspace{3.2em} \input{MI3_Steiner_Barra.pgf}
+    \caption{Momento de inercia (I) frente a la distancia del centro de masas al cuadrado ($d^2$)}
+  \end{figure}
+
+
+  Además aquí podemos ver sus parámetros de ajuste:
+  \begin{gather*}
+    a = 3,4407711 \cdot 10^{-3} \pm 4,8 \cdot 10^{-10} kg \cdot m^2 \qquad b = 1,3996645 \pm 1,4 \cdot 10^{-8} kg \\
+    s = 1,0 \cdot 10^{-9} \qquad r = 0,99992
+  \end{gather*}
+
+  En este caso vemos que a y b se ajustan mucho mejor a $I_0$ y a la masa del objeto. El coeficiente de regresión lineal también apunta a un ajuste más acertado, quizá por la cantidad de distancias añadidas.
+
+
+
+
 
 
 \end{document}

@@ -131,4 +131,4 @@ print("It = {:.2u}\n---".format(Itu))
 #Llamar Funciones
 I = m_inercia_exp(d)
 m_inercia_steiner(M, sM, L, sL, It, sIt, dist)
-#graph(dist, I)
+#graph(dist, I, "Barra")
